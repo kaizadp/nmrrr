@@ -1,0 +1,7 @@
+group	start	stop	description
+aliphatic1	0.3	1.3	aliphatic methyl and methylene
+aliphatic2	1.3	2.2	aliphatic methyl and methylene near O and N
+oalkyl	2.9	4.1	O-alkyl, mainly from carbs and lignin
+alphah	4.1	4.8	alpha-H from proteins
+aromatic	6.2	7.8	aromatic, from lignin and proteins
+amide	7.8	8.4	amide from proteins

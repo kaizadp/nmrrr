@@ -1,0 +1,5 @@
+group	start	stop	description
+aliphatic	0.6	1.6	aliphatic methyl and methylene
+unsaturated	1.6	3.2	unsaturated functional groups, including ketone, benzylic, and allylic_bearing protons
+unsat, heteroatom	3.2	4.5	unsaturated, heteroatomic compounds, including O_bearing carbohydrates, ethers, and alcohols
+conjugated double bond	6.5	8.5	aromatic, amide, phenolic
