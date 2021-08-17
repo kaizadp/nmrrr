@@ -16,4 +16,5 @@ Imports:
     dplyr,
     magrittr,
     stats,
-    utils
+    utils,
+    stringr
