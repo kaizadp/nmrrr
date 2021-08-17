@@ -56,3 +56,56 @@ set_bins = function(BINSET){
 }
 
 
+#
+
+# II. IMPORT SPECTRA DATA -------------------------------------------------
+
+#' Import and process NMR spectral data
+#'
+#' @description Use this function to import multiple spectra files, combine them,
+#' and then process/clean the data.
+#'
+#' @param
+#' SPECTRA_FILES path/directory where the spectra files are saved
+#'
+#' @return The output will be a dataframe with columns describing
+#'   the group name (sometimes abbreviated), start and stop boundaries, and a longer, more complete description of the group.
+#'
+#' @examples
+#'
+#' @references
+
+
+#' @importFrom dplyr mutate
+#' @importFrom dplyr filter
+#' @importFrom dplyr select
+#' @importFrom dplyr arrange
+#' @importFrom stringr str_remove
+#' @importFrom magrittr %>%
+#' @importFrom utils read.table
+
+import_nmr_spectra_data = function(SPECTRA_FILES){
+  # import and combine spectra data files
+  filePaths_spectra <- list.files(path = SPECTRA_FILES,pattern = "*.csv", full.names = TRUE)
+
+  if(length(filePaths_spectra) == 0){
+    stop("no .csv files found!")
+  }
+  spectra_dat <- do.call(rbind, lapply(filePaths_spectra, function(path) {
+    # the files are tab-delimited, so read.csv will not work. import using read.table
+    # there is no header. so create new column names
+    # then add a new column `source` to denote the file name
+    df <- read.table(path, header=FALSE, col.names = c("ppm", "intensity"))
+    df[["source"]] <- rep(path, nrow(df))
+    df}))
+
+  # clean the spectral data
+  spectra_dat %>%
+    mutate(source = str_remove(source, paste0(SPECTRA_FILES, "/"))) %>%
+    mutate(source = str_remove(source, ".csv")) %>%
+    mutate(source = as.character(source)) %>%
+    arrange(source, ppm) %>%
+    force()
+}
+
+#
