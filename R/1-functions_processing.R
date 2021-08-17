@@ -28,6 +28,13 @@
 #' with Successive Layering on Clay Mineral Surfaces.”
 #' Soil Systems. https://doi.org/10.3390/soils2010008.
 
+#' @importFrom dplyr arrange
+#' @importFrom dplyr row_number
+#' @importFrom dplyr mutate
+#' @importFrom magrittr %>%
+#' @importFrom stats start
+#' @importFrom utils read.delim
+
 set_bins = function(BINSET){
   filePath_bins <- list.files(path = "bins", pattern = BINSET, full.names = TRUE)
 
