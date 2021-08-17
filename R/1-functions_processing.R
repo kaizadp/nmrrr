@@ -41,13 +41,18 @@ set_bins = function(BINSET){
   if(length(filePath_bins) > 1){
     stop("too many options!")
   }
+  if(length(filePath_bins) == 0 ){
+    stop("option not available")
+  }
 
-#  read.delim(filePath_bins, header = TRUE) %>%
-#    dplyr::arrange(start) %>%
-#    dplyr::mutate(number = row_number())
+  #  read.delim(filePath_bins, header = TRUE) %>%
+  #    dplyr::arrange(start) %>%
+  #    dplyr::mutate(number = row_number())
 
   a = read.delim(filePath_bins, header = TRUE)
   b = dplyr::arrange(a, start)
   c = dplyr::mutate(b, number = dplyr::row_number())
-  return(c)
+  c
 }
+
+

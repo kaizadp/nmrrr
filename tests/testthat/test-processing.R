@@ -2,6 +2,7 @@
 
 test_that("binsets work",{
   expect_error(set_bins("Clem"), "too many options!")
+  expect_error(set_bins("aaa"), "option not available")
 
   clem_old <- read.csv("compdata/Clemente2012_bins.csv")
   clem_new <- set_bins("Clemente2012")
