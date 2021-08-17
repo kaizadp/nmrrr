@@ -20,7 +20,6 @@ The NMR spectrum can be split into several bins, based on chemical shift (ppm).
   Binsets are specific to nuclei and solvents.
 }
 \examples{
-binset = set_bins("Clemente2012")
 
 }
 \references{
