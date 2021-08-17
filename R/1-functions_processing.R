@@ -109,3 +109,48 @@ import_nmr_spectra_data = function(SPECTRA_FILES){
 }
 
 #
+# III. ASSIGN BINS --------------------------------------------------------
+
+#' Assign compound classes using the chosen binset
+#'
+#' @description Use this function to import multiple spectra files, combine them,
+#' and then process/clean the data.
+#'
+#' @param dat Input dataframe. This could be spectral data, or peak picked data. Must include a `ppm` column for compound class assignment.
+#' @param BINSET Choose the binset you want. Options include: "Clemente2012", "Lynch2019", "Hertkorn2013_MeOD", "Mitchell2018"
+#'
+#' @return The output will be a dataframe with columns describing
+#'   the group name (sometimes abbreviated), start and stop boundaries, and a longer, more complete description of the group.
+#'
+#' @examples
+#'
+#' @references
+#' JS Clemente et al. 2012. “Comparison of Nuclear Magnetic Resonance Methods for the Analysis of Organic Matter
+#' Composition from Soil Density and Particle Fractions.”
+#' Environmental Chemistry. https://doi.org/10.1071/EN11096.
+#'
+#' LM Lynch et al. 2019. “Dissolved Organic Matter Chemistry and Transport along an Arctic Tundra Hillslope.”
+#' Global Biogeochemical Cycles. https://doi.org/10.1029/2018GB006030.
+#'
+#' P Mitchell et al. 2018.
+#' “Nuclear Magnetic Resonance Analysis of Changes in Dissolved Organic Matter Composition
+#' with Successive Layering on Clay Mineral Surfaces.”
+#' Soil Systems. https://doi.org/10.3390/soils2010008.
+
+
+#' @importFrom dplyr mutate
+#' @importFrom dplyr filter
+#' @importFrom dplyr select
+#' @importFrom magrittr %>%
+#' @importFrom utils read.table
+#'
+assign_compound_classes = function(dat, BINSET){
+  # load binsets
+  bins_dat = set_bins(BINSET) %>% dplyr::select(group, start, stop)
+
+  # assign bins to each point
+  subset(merge(dat, bins_dat),
+         start <= ppm & ppm <= stop) %>%
+    dplyr::select(-start, -stop)
+}
+

@@ -31,3 +31,13 @@ test_that("import-spectra works",{
   expect_equal(spectra_test, spectra_old, ignore_attr = TRUE)
 })
 
+test_that("binset-assignment works",{
+
+  spectra_binsets_old = read.csv("compdata/spectra_binset_test.csv") %>% mutate(source = as.character(source))
+
+  spectra_test = import_nmr_spectra_data(SPECTRA_FILES = "compdata/spectra")
+  spectra_binsets_new = assign_compound_classes(dat = spectra_test, BINSET = "Clemente")
+
+  expect_equal(dim(spectra_binsets_new), dim(spectra_binsets_old))
+  expect_equal(names(spectra_binsets_new), names(spectra_binsets_old))
+})
