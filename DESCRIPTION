@@ -17,4 +17,6 @@ Imports:
     magrittr,
     stats,
     utils,
-    stringr
+    stringr,
+    tidyr,
+    DescTools
