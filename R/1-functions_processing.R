@@ -158,6 +158,33 @@ assign_compound_classes = function(dat, BINSET){
 
 # IV. PROCESS PEAKS -------------------------------------------------------
 
+
+#' Process picked peaks data
+#'
+#' @description Use this function to process data of peaks picked with NMR software.
+#'
+#' @param PEAKS_FILES file path for peaks data (input). All the peaks files are saved as individual .csv files
+#' @param METHOD format of input data, depending on how the data were exported. "multiple columns": use when data are in split-column format, obtained by pasting "peaks table" in MNova.
+#' "single column": use when data are in single-column format, exported from MNova as "peaks script".
+#' @param BINSET Choose the binset you want. Options include: "Clemente2012", "Lynch2019", "Hertkorn2013_MeOD", "Mitchell2018"
+#'
+#' @return The output will be a dataframe with columns describing
+#'   sample ID, ppm, intensity, area, group name.
+#'
+#' @examples
+#'
+
+#' @importFrom dplyr mutate
+#' @importFrom dplyr filter
+#' @importFrom dplyr select
+#' @importFrom dplyr left_join
+#' @importFrom dplyr bind_rows
+#' @importFrom stringr str_remove
+#' @importFrom magrittr %>%
+#' @importFrom utils read.table
+#'
+#'
+
 process_peaks = function(PEAKS_FILES, METHOD, BINSET){
   # import and process picked peaks data
   # data are typically saved as multiple files
