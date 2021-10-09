@@ -104,7 +104,8 @@ import_nmr_spectra_data = function(SPECTRA_FILES){
     mutate(source = str_remove(source, paste0(SPECTRA_FILES, "/"))) %>%
     mutate(source = str_remove(source, ".csv")) %>%
     mutate(source = as.character(source)) %>%
-    arrange(source, ppm) %>%
+    rename(sampleID = source) %>%
+    arrange(sampleID, ppm) %>%
     force()
 }
 
@@ -179,6 +180,7 @@ assign_compound_classes = function(dat, BINSET){
 #' @importFrom dplyr select
 #' @importFrom dplyr left_join
 #' @importFrom dplyr bind_rows
+#' @importFrom dplyr rename
 #' @importFrom stringr str_remove
 #' @importFrom magrittr %>%
 #' @importFrom utils read.table
@@ -263,6 +265,7 @@ process_peaks = function(PEAKS_FILES, METHOD, BINSET){
       # filter(!Flags == "Weak") %>%
       mutate(source = str_remove(source, paste0(PEAKS_FILES, "/"))) %>%
       mutate(source = str_remove(source, ".csv")) %>%
+      rename(sampleID = source) %>%
       force()
 
     bins_dat2 =
