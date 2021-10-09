@@ -21,11 +21,11 @@ test_that("import-spectra works",{
   spectra_test = import_nmr_spectra_data(SPECTRA_FILES = "compdata/spectra")
 
   expect_type(spectra_test, "list")
-  expect_type(spectra_test$source, "character")
-  expect_named(spectra_test, c("ppm", "intensity", "source"))
+  expect_type(spectra_test$sampleID, "character")
+  expect_named(spectra_test, c("ppm", "intensity", "sampleID"))
   # ^^ modify this so we can test the presence of "ppm" and "intensity", in any order.
 
-  spectra_old = read.csv("compdata/spectra_processed_test.csv") %>% mutate(source = as.character(source))
+  spectra_old = read.csv("compdata/spectra_processed_test.csv") %>% mutate(sampleID = as.character(sampleID))
 
   expect_equal(dim(spectra_test), dim(spectra_old))
   expect_equal(spectra_test, spectra_old, ignore_attr = TRUE)
@@ -33,7 +33,7 @@ test_that("import-spectra works",{
 
 test_that("binset-assignment works",{
 
-  spectra_binsets_old = read.csv("compdata/spectra_binset_test.csv") %>% mutate(source = as.character(source))
+  spectra_binsets_old = read.csv("compdata/spectra_binset_test.csv") %>% mutate(sampleID = as.character(sampleID))
 
   spectra_test = import_nmr_spectra_data(SPECTRA_FILES = "compdata/spectra")
   spectra_binsets_new = assign_compound_classes(dat = spectra_test, BINSET = "Clemente")
