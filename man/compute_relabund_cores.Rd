@@ -2,12 +2,12 @@
 % Please edit documentation in R/1-functions_relabund.R
 \name{compute_relabund_cores}
 \alias{compute_relabund_cores}
-\title{Assign compound classes using the chosen binset}
+\title{Compute relative abundance for each sample}
 \usage{
-compute_relabund_cores(SPECTRA_WITH_BINS, METHOD)
+compute_relabund_cores(DAT, METHOD)
 }
 \arguments{
-\item{SPECTRA_WITH_BINS}{Processed spectral data, output from `import_nmr_spectra_data` and `assign_compound_classes`}
+\item{DAT}{Processed spectral data, output from (a) `import_nmr_spectra_data` and `assign_compound_classes`; or (b) process_peaks}
 
 \item{METHOD}{Choose the method for calculating relative abundance. Options include (a) "AUC", integrating the spectral region within each bin;
 (b) "peaks", adding areas of peaks if a peak-picked file is provided.}
