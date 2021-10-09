@@ -3,7 +3,7 @@
 
 # I. Compute relative abundance per sample --------------------------------
 
-#' Assign compound classes using the chosen binset
+#' Compute relative abundance for each sample
 #'
 #' @description Use this function to compute relative abundance of compound classes for each sample.
 #'
@@ -33,8 +33,8 @@ compute_relabund_cores = function(SPECTRA_WITH_BINS, METHOD){
 if(METHOD == "AUC"){
   relabund_temp1 =
     SPECTRA_WITH_BINS %>%
-    mutate(source = as.character(source)) %>%
-    group_by(source, group) %>%
+    mutate(sampleID = as.character(sampleID)) %>%
+    group_by(sampleID, group) %>%
     dplyr::summarise(AUC = DescTools::AUC(x = ppm, y = intensity,
                                           from = min(ppm), to = max(ppm)),
                      method = "trapezoid") %>%
@@ -66,4 +66,37 @@ if(METHOD == "AUC"){
 
 # II. Compute relative abundance summary ----------------------------------
 
+#' Compute relative abundance summary by treatment
+#'
+#' @description Use this function to compute relative-abundance summaries for each treatment
+#'
+#' @param RELABUND_CORES Dataframe with relative abundance for each sample (sampleID)
+#' @param COREKEY Dataframe containing sample key
+#' @param TREATMENTS columns being used for grouping to summarize the data
+#'
+#' @return The output will be a dataframe with columns describing ...
+#'
+#' @examples
+#'
+#' @references
 
+#' @importFrom dplyr group_by
+#' @importFrom dplyr mutate
+#' @importFrom dplyr summarize
+#' @importFrom dplyr left_join
+#' @importFrom dplyr mutate_all
+#' @importFrom magrittr %>%
+#' @importFrom DescTools AUC
+
+
+compute_relabund_treatments = function(RELABUND_CORES, TREATMENTS, COREKEY){
+
+  corekey = read.csv(COREKEY) %>% mutate_all(as.character)
+
+  RELABUND_CORES %>%
+    left_join(corekey) %>%
+    group_by(!!!TREATMENTS, group) %>%
+    dplyr::summarize(relabund_mean = round(mean(relabund),2),
+                     relabund_se = round(sd(relabund, na.rm = T)/sqrt(n()), 2))
+
+}
