@@ -25,7 +25,7 @@ test_that("import-spectra works",{
   expect_named(spectra_test, c("ppm", "intensity", "sampleID"))
   # ^^ modify this so we can test the presence of "ppm" and "intensity", in any order.
 
-  spectra_old = read.csv("compdata/spectra_processed_test.csv") %>% mutate(sampleID = as.character(sampleID))
+  spectra_old = read.csv("compdata/spectra_processed_test2.csv") %>% mutate(sampleID = as.character(sampleID))
 
   expect_equal(dim(spectra_test), dim(spectra_old))
   expect_equal(spectra_test, spectra_old, ignore_attr = TRUE)
