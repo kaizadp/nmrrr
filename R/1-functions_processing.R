@@ -187,13 +187,11 @@ assign_compound_classes = function(dat, BINSET){
 #'
 #'
 
-process_peaks = function(PEAKS_FILES, METHOD, BINSET){
+process_peaks = function(PEAKS_FILES, METHOD){
   # import and process picked peaks data
   # data are typically saved as multiple files
   # import and compile
 
-  ## first, set the bins
-  bins_dat = set_bins(BINSET)
 
   ## then, set the file path for the peaks data
   filePaths_peaks <- list.files(path = PEAKS_FILES,pattern = "*.csv", full.names = TRUE)
@@ -250,33 +248,35 @@ process_peaks = function(PEAKS_FILES, METHOD, BINSET){
         df}))
 
     } else {
-      stop("choose correct method. options are `multiple columns` and `single column`")
-    }
-
   }
   # process the dataset
-  process_peaks_data = function(peaks_rawdat){
 
-    processed =
-      peaks_rawdat %>%
-      filter(ppm >= 0 & ppm <= 10) %>%
-      filter(Intensity > 0) %>%
-      filter(!is.na(ppm)) %>%
-      # filter(!Flags == "Weak") %>%
-      mutate(source = str_remove(source, paste0(PEAKS_FILES, "/"))) %>%
-      mutate(source = str_remove(source, ".csv")) %>%
-      rename(sampleID = source) %>%
-      force()
 
-    bins_dat2 =
-      bins_dat %>%
-      dplyr::select(group, start, stop)
+}
 
-    # merge the peaks data with the  bins
-    subset(merge(processed, bins_dat2), start <= ppm & ppm <= stop) %>%
-      dplyr::select(-start, -stop)
-  }
 
-  process_peaks_data(peaks_rawdat)
+process_peaks_data = function(peaks_rawdat, BINSET){
 
+  ## first, set the bins
+  bins_dat = set_bins(BINSET)
+
+
+  processed =
+    peaks_rawdat %>%
+    filter(ppm >= 0 & ppm <= 10) %>%
+    filter(Intensity > 0) %>%
+    filter(!is.na(ppm)) %>%
+    # filter(!Flags == "Weak") %>%
+    mutate(source = str_remove(source, paste0(PEAKS_FILES, "/"))) %>%
+    mutate(source = str_remove(source, ".csv")) %>%
+    rename(sampleID = source) %>%
+    force()
+
+  bins_dat2 =
+    bins_dat %>%
+    dplyr::select(group, start, stop)
+
+  # merge the peaks data with the  bins
+  subset(merge(processed, bins_dat2), start <= ppm & ppm <= stop) %>%
+    dplyr::select(-start, -stop)
 }
