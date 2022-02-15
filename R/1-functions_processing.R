@@ -248,7 +248,22 @@ process_peaks = function(PEAKS_FILES, METHOD){
         df}))
 
     } else {
-  }
+      if(METHOD == "topspin"){
+        ## if peaks data are provided in topspin format
+        peaks_rawdat <- do.call(rbind, lapply(filePaths_peaks, function(path) {
+          # the files are tab-delimited, so read.csv will not work. import using read.table
+          # there is no header. so create new column names
+          # then add a new column `source` to denote the file name
+          df <- read.csv(path,
+                           col.names = c("peak", "ppm", "Intensity", "Annotation"))
+          df[["source"]] <- rep(path, nrow(df))
+          df}))
+
+    } else {
+      stop("choose correct method. options are `multiple columns` and `single column` and `topspin`")
+    }
+
+  }}
   # process the dataset
 
 
