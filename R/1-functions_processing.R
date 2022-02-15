@@ -264,8 +264,11 @@ process_peaks = function(PEAKS_FILES, METHOD){
     }
 
   }}
-  # process the dataset
+  # clean the source column
 
+  peaks_rawdat %>%
+    mutate(source = str_remove(source, paste0(PEAKS_FILES, "/"))) %>%
+    mutate(source = str_remove(source, ".csv"))
 
 }
 
@@ -282,8 +285,6 @@ process_peaks_data = function(peaks_rawdat, BINSET){
     filter(Intensity > 0) %>%
     filter(!is.na(ppm)) %>%
     # filter(!Flags == "Weak") %>%
-    mutate(source = str_remove(source, paste0(PEAKS_FILES, "/"))) %>%
-    mutate(source = str_remove(source, ".csv")) %>%
     rename(sampleID = source) %>%
     force()
 
