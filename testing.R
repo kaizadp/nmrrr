@@ -11,6 +11,9 @@ spectra_processed_bins = assign_compound_classes(spectra_processed, BINSET = "Cl
 # 2. process peaks
 peaks_processed_mult = process_peaks(PEAKS_FILES = "inst/extdata/peaks", METHOD = "multiple columns", BINSET = "Clemente")
 peaks_processed_sing = process_peaks(PEAKS_FILES = "inst/extdata/peaks2", METHOD = "single column", BINSET = "Hertkorn")
+peaks_processed_topspin = process_peaks(PEAKS_FILES = "inst/extdata/peaks_topspin", METHOD = "topspin")
+peaks_processed_topspin2 = assign_compound_classes(peaks_processed_topspin, BINSET = "Clemente")
+
 
 
 # 3. compute relabund - by sample
