@@ -1,3 +1,6 @@
+# update package descriptions
+roxygen2::roxygenise()
+
 
 #
 # TESTING NMRRR WORKFLOW --------------------------------------------------
@@ -42,3 +45,10 @@ relabund_summary_peaks_mult %>%
 
 
 
+# misc testing ----
+# a. joining bins
+spectra1 = read.csv("inst/extdata/spectra_topspin/ascii-spec_W300_HB2_Topspin_Spectra.csv",
+             header=FALSE, col.names = c("x", "intensity", "y", "ppm"))
+spectra1_bins = assign_compound_classes(spectra1, BINSET = "Clemente")
+spectra1_bins %>% ggplot(aes(x = ppm, y = intensity))+ geom_point()
+## this keeps only a subset of the data, we need even the non-matches!!!
