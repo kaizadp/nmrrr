@@ -267,32 +267,15 @@ process_peaks = function(PEAKS_FILES, METHOD){
   # clean the source column
 
   peaks_rawdat %>%
-    mutate(source = str_remove(source, paste0(PEAKS_FILES, "/"))) %>%
-    mutate(source = str_remove(source, ".csv"))
-
-}
-
-
-process_peaks_data = function(peaks_rawdat, BINSET){
-
-  ## first, set the bins
-  bins_dat = set_bins(BINSET)
-
-
-  processed =
-    peaks_rawdat %>%
     filter(ppm >= 0 & ppm <= 10) %>%
     filter(Intensity > 0) %>%
     filter(!is.na(ppm)) %>%
     # filter(!Flags == "Weak") %>%
+    mutate(source = str_remove(source, paste0(PEAKS_FILES, "/"))) %>%
+    mutate(source = str_remove(source, ".csv")) %>%
     rename(sampleID = source) %>%
     force()
 
-  bins_dat2 =
-    bins_dat %>%
-    dplyr::select(group, start, stop)
 
-  # merge the peaks data with the  bins
-  subset(merge(processed, bins_dat2), start <= ppm & ppm <= stop) %>%
-    dplyr::select(-start, -stop)
 }
+
