@@ -19,4 +19,5 @@ Imports:
     utils,
     stringr,
     tidyr,
-    DescTools
+    DescTools,
+    rcmdcheck
