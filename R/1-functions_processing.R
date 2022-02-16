@@ -84,20 +84,39 @@ set_bins = function(BINSET){
 #' @importFrom magrittr %>%
 #' @importFrom utils read.table
 
-import_nmr_spectra_data = function(SPECTRA_FILES){
+import_nmr_spectra_data = function(SPECTRA_FILES, METHOD){
   # import and combine spectra data files
   filePaths_spectra <- list.files(path = SPECTRA_FILES,pattern = "*.csv", full.names = TRUE)
 
   if(length(filePaths_spectra) == 0){
     stop("no .csv files found!")
+  } else {
+    if(METHOD == "mnova"){
+
+      spectra_dat <- do.call(rbind, lapply(filePaths_spectra, function(path) {
+        # the files are tab-delimited, so read.csv will not work. import using read.table
+        # there is no header. so create new column names
+        # then add a new column `source` to denote the file name
+        df <- read.csv(path, header=FALSE, col.names = c("ppm", "intensity"))
+        df[["source"]] <- rep(path, nrow(df))
+        df}))
+
+    } else {
+      if(METHOD == "topspin"){
+
+        spectra_dat <- do.call(rbind, lapply(filePaths_spectra, function(path) {
+          # the files are tab-delimited, so read.csv will not work. import using read.table
+          # there is no header. so create new column names
+          # then add a new column `source` to denote the file name
+          df <- read.csv(path, header=FALSE, fill = TRUE, col.names = c("x", "intensity", "y", "ppm"))
+          df[["source"]] <- rep(path, nrow(df))
+          df}))
+
+      } else {
+        stop("appropriate methods are mnova and topspin")
+      }
+    }
   }
-  spectra_dat <- do.call(rbind, lapply(filePaths_spectra, function(path) {
-    # the files are tab-delimited, so read.csv will not work. import using read.table
-    # there is no header. so create new column names
-    # then add a new column `source` to denote the file name
-    df <- read.table(path, header=FALSE, col.names = c("ppm", "intensity"))
-    df[["source"]] <- rep(path, nrow(df))
-    df}))
 
   # clean the spectral data
   spectra_dat %>%
