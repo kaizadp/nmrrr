@@ -8,15 +8,15 @@ library(tidyverse)
 
 # 1. process spectra
 #spectra_processed = import_nmr_spectra_data(SPECTRA_FILES = "inst/extdata/spectra") #old code
-spectra_processed = import_nmr_spectra_data(SPECTRA_FILES = "inst/extdata/spectra", METHOD = "mnova") %>% filter(ppm >= 0 & ppm <= 10)
+spectra_processed = import_nmr_spectra_data(SPECTRA_FILES = "inst/extdata/spectra_mnova", METHOD = "mnova") %>% filter(ppm >= 0 & ppm <= 10)
 spectra_processed_topspin = import_nmr_spectra_data(SPECTRA_FILES = "inst/extdata/spectra_topspin", METHOD = "topspin")
 
 spectra_processed_bins = assign_compound_classes(spectra_processed, BINSET = "Clemente")
 
 
 # 2. process peaks
-peaks_processed_mult = process_peaks(PEAKS_FILES = "inst/extdata/peaks", METHOD = "multiple columns", BINSET = "Clemente")
-peaks_processed_sing = process_peaks(PEAKS_FILES = "inst/extdata/peaks2", METHOD = "single column", BINSET = "Hertkorn")
+peaks_processed_mult = process_peaks(PEAKS_FILES = "inst/extdata/peaks_mnova_multiple", METHOD = "multiple columns", BINSET = "Clemente")
+peaks_processed_sing = process_peaks(PEAKS_FILES = "inst/extdata/peaks_mnova_single", METHOD = "single column", BINSET = "Hertkorn")
 peaks_processed_topspin = process_peaks(PEAKS_FILES = "inst/extdata/peaks_topspin", METHOD = "topspin")
 peaks_processed_topspin2 = assign_compound_classes(peaks_processed_topspin, BINSET = "Clemente")
 
