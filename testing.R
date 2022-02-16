@@ -4,7 +4,10 @@
 library(tidyverse)
 
 # 1. process spectra
-spectra_processed = import_nmr_spectra_data(SPECTRA_FILES = "inst/extdata/spectra")
+#spectra_processed = import_nmr_spectra_data(SPECTRA_FILES = "inst/extdata/spectra") #old code
+spectra_processed = import_nmr_spectra_data(SPECTRA_FILES = "inst/extdata/spectra", METHOD = "mnova") %>% filter(ppm >= 0 & ppm <= 10)
+spectra_processed_topspin = import_nmr_spectra_data(SPECTRA_FILES = "inst/extdata/spectra_topspin", METHOD = "topspin")
+
 spectra_processed_bins = assign_compound_classes(spectra_processed, BINSET = "Clemente")
 
 
@@ -36,3 +39,6 @@ relabund_summary_auc %>%
 relabund_summary_peaks_mult %>%
   ggplot(aes(x = treatment, y = relabund_mean, fill = group))+
   geom_bar(position = "stack", stat = "identity")
+
+
+
