@@ -4,7 +4,7 @@
 \alias{process_peaks}
 \title{Process picked peaks data}
 \usage{
-process_peaks(PEAKS_FILES, METHOD, BINSET)
+process_peaks(PEAKS_FILES, METHOD)
 }
 \arguments{
 \item{PEAKS_FILES}{file path for peaks data (input). All the peaks files are saved as individual .csv files}

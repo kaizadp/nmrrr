@@ -4,7 +4,7 @@
 \alias{import_nmr_spectra_data}
 \title{Import and process NMR spectral data}
 \usage{
-import_nmr_spectra_data(SPECTRA_FILES)
+import_nmr_spectra_data(SPECTRA_FILES, METHOD)
 }
 \arguments{
 \item{SPECTRA_FILES}{path/directory where the spectra files are saved}
