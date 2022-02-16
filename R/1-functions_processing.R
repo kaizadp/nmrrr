@@ -97,7 +97,7 @@ import_nmr_spectra_data = function(SPECTRA_FILES, METHOD){
         # the files are tab-delimited, so read.csv will not work. import using read.table
         # there is no header. so create new column names
         # then add a new column `source` to denote the file name
-        df <- read.csv(path, header=FALSE, col.names = c("ppm", "intensity"))
+        df <- read.table(path, header=FALSE, col.names = c("ppm", "intensity"))
         df[["source"]] <- rep(path, nrow(df))
         df}))
 
