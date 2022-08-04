@@ -176,6 +176,22 @@ assign_compound_classes = function(dat, BINSET){
 
 
 
+assign_compound_classes_v2 = function(dat, BINSET){
+  # load binsets
+  bins = set_bins(BINSET) %>% dplyr::select(group, start, stop) %>% arrange(start, stop)
+  #bins <- readr::read_tsv("bins/Clemente2012.txt")
+
+  # identify gaps between bins
+  gaps <- c(head(bins$stop, -1) != bins$start[-1], TRUE)
+  # create new gap bins
+  gapbins <- tibble(group = NA_character_, start = bins$stop[gaps])
+  newbins <- rbind(bins[c("group", "start")], gapbins) %>% arrange(start)
+
+  dat$group = cut(dat$ppm, newbins$start, labels = head(newbins$group, -1), right = FALSE)
+  dat
+
+}
+
 # IV. PROCESS PEAKS -------------------------------------------------------
 
 
