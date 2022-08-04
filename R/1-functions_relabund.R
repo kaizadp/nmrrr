@@ -13,9 +13,7 @@
 #'
 #' @return The output will be a dataframe with columns describing ...
 #'
-#' @examples
 #'
-#' @references
 
 #' @importFrom dplyr group_by
 #' @importFrom dplyr mutate
@@ -100,9 +98,7 @@ compute_relabund_cores = function(DAT, METHOD){
 #'
 #' @return The output will be a dataframe with columns describing ...
 #'
-#' @examples
 #'
-#' @references
 
 #' @importFrom dplyr group_by
 #' @importFrom dplyr mutate

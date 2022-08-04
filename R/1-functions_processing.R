@@ -13,7 +13,6 @@
 #' @return The output will be a dataframe with columns describing
 #'   the group name (sometimes abbreviated), start and stop boundaries, and a longer, more complete description of the group.
 #'
-#' @examples
 #'
 #' @references
 #' JS Clemente et al. 2012. “Comparison of Nuclear Magnetic Resonance Methods for the Analysis of Organic Matter
@@ -71,10 +70,7 @@ set_bins = function(BINSET){
 #' @return The output will be a dataframe with columns describing
 #'   the group name (sometimes abbreviated), start and stop boundaries, and a longer, more complete description of the group.
 #'
-#' @examples
 #'
-#' @references
-
 
 #' @importFrom dplyr mutate
 #' @importFrom dplyr filter
@@ -142,8 +138,6 @@ import_nmr_spectra_data = function(SPECTRA_FILES, METHOD){
 #' @return The output will be a dataframe with columns describing
 #'   the group name (sometimes abbreviated), start and stop boundaries, and a longer, more complete description of the group.
 #'
-#' @examples
-#'
 #' @references
 #' JS Clemente et al. 2012. “Comparison of Nuclear Magnetic Resonance Methods for the Analysis of Organic Matter
 #' Composition from Soil Density and Particle Fractions.”
@@ -208,7 +202,6 @@ assign_compound_classes_v2 = function(dat, BINSET){
 #' @return The output will be a dataframe with columns describing
 #'   sample ID, ppm, intensity, area, group name.
 #'
-#' @examples
 #'
 
 #' @importFrom dplyr mutate
