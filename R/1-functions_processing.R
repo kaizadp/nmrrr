@@ -186,9 +186,10 @@ assign_compound_classes_v2 = function(dat, BINSET){
   # create new gap bins
   gapbins <- tibble(group = NA_character_, start = bins$stop[gaps])
   newbins <- rbind(bins[c("group", "start")], gapbins) %>% arrange(start)
+  newbins[is.na(newbins)]<- "NANA"
 
   dat$group = cut(dat$ppm, newbins$start, labels = head(newbins$group, -1), right = FALSE)
-  dat
+  dat %>% filter(group != "NANA")
 
 }
 
