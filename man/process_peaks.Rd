@@ -21,6 +21,3 @@ The output will be a dataframe with columns describing
 \description{
 Use this function to process data of peaks picked with NMR software.
 }
-\examples{
-
-}

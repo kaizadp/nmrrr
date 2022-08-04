@@ -18,9 +18,3 @@ The output will be a dataframe with columns describing ...
 \description{
 Use this function to compute relative abundance of compound classes for each sample.
 }
-\examples{
-
-}
-\references{
-
-}

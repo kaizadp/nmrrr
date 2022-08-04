@@ -17,9 +17,3 @@ The output will be a dataframe with columns describing
 Use this function to import multiple spectra files, combine them,
 and then process/clean the data.
 }
-\examples{
-
-}
-\references{
-
-}

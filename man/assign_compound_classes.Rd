@@ -19,9 +19,6 @@ The output will be a dataframe with columns describing
 Use this function to import multiple spectra files, combine them,
 and then process/clean the data.
 }
-\examples{
-
-}
 \references{
 JS Clemente et al. 2012. “Comparison of Nuclear Magnetic Resonance Methods for the Analysis of Organic Matter
 Composition from Soil Density and Particle Fractions.”

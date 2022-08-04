@@ -19,9 +19,3 @@ The output will be a dataframe with columns describing ...
 \description{
 Use this function to compute relative-abundance summaries for each treatment
 }
-\examples{
-
-}
-\references{
-
-}

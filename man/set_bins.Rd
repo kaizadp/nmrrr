@@ -19,9 +19,6 @@ The NMR spectrum can be split into several bins, based on chemical shift (ppm).
   Choose a binset to group the peaks.
   Binsets are specific to nuclei and solvents.
 }
-\examples{
-
-}
 \references{
 JS Clemente et al. 2012. “Comparison of Nuclear Magnetic Resonance Methods for the Analysis of Organic Matter
 Composition from Soil Density and Particle Fractions.”
