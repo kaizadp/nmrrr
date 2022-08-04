@@ -66,6 +66,7 @@ compute_relabund_cores = function(DAT, METHOD){
         dplyr::mutate(total = sum(area),
                       relabund = round((area/total)*100,2)) %>%
         dplyr::select(sampleID, group, relabund) %>%
+        filter(!is.na(group)) %>%
         replace(is.na(.), 0)
 
       rel_abund_wide1 =
