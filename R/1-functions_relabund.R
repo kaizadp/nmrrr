@@ -38,6 +38,7 @@ compute_relabund_cores = function(DAT, METHOD){
       dplyr::summarise(AUC = DescTools::AUC(x = ppm, y = intensity,
                                             from = min(ppm), to = max(ppm)),
                        method = "trapezoid") %>%
+      mutate(AUC = replace_na(AUC, 0)) %>%
       mutate(total = sum(AUC),
              relabund = (AUC/total)*100)
 
