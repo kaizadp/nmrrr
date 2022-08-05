@@ -51,6 +51,15 @@ hyst_relabund_summary_peaks_mult = compute_relabund_treatments(RELABUND_CORES = 
 
 
 # 1. process spectra (?)
+tempest_spectra_processed = import_nmr_spectra_data(SPECTRA_FILES = "inst/extdata/amp_tempest/spectra", METHOD = "mnova") %>% filter(ppm >= 0 & ppm <= 10)
+tempest_spectra_processed_bins = assign_compound_classes_v2(tempest_spectra_processed, BINSET = "Hertkorn") %>% filter(!is.na(group))
+
+# spectra graphs (not functions yet)
+# tempest_spectra_processed_bins %>%
+#   filter(!is.na(group)) %>% filter(group != "NA") %>%
+#   ggplot(aes(x = ppm, y = intensity, color = group))+ geom_line()+ facet_wrap(~sampleID) +
+#   ylim()
+#   scale_x_reverse()
 
 
 # 2. process peaks
@@ -72,10 +81,10 @@ tempest_relabund_cores_peaks_sing = compute_relabund_cores(DAT = tempest_peaks_p
 ## spectra and peaks files
 
 # 1. process spectra
-meb_spectra_processed_topspin = import_nmr_spectra_data(SPECTRA_FILES = "inst/extdata/meb_incubation/spectra_topspin", METHOD = "topspin")
+meb_spectra_processed_topspin = import_nmr_spectra_data(SPECTRA_FILES = "inst/extdata/meb_burn/spectra_topspin", METHOD = "topspin")
 
 # 2. process peaks
-meb_peaks_processed_topspin = process_peaks(PEAKS_FILES = "inst/extdata/meb_incubation/peaks_topspin", METHOD = "topspin")
+meb_peaks_processed_topspin = process_peaks(PEAKS_FILES = "inst/extdata/meb_burn/peaks_topspin", METHOD = "topspin")
 meb_peaks_processed_topspin_bins = assign_compound_classes_v2(meb_peaks_processed_topspin, BINSET = "Clemente")
 
 
@@ -85,6 +94,8 @@ meb_relabund_cores_auc = compute_relabund_cores(DAT = meb_peaks_processed_topspi
 meb_relabund_cores_peaks_mult = compute_relabund_cores(DAT = meb_peaks_processed_topspin_bins, METHOD = "peaks")
 
 # 4. compute relabund - summary by treatment
+meb_relabund_summary_auc = compute_relabund_treatments(RELABUND_CORES = meb_relabund_cores_auc, TREATMENTS = quos(burn_severity), COREKEY = "inst/extdata/meb_burn/corekey_burn_MEB.csv")
+meb_relabund_summary_peaks_mult = compute_relabund_treatments(RELABUND_CORES = meb_relabund_cores_peaks_mult, TREATMENTS = quos(burn_severity), COREKEY = "inst/extdata/meb_burn/corekey_burn_MEB.csv")
 
 
 
