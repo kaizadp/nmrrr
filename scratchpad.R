@@ -91,7 +91,7 @@ meb_peaks_processed_topspin_bins = assign_compound_classes_v2(meb_peaks_processe
 # 3. compute relabund - by sample
 meb_relabund_cores_auc = compute_relabund_cores(DAT = meb_peaks_processed_topspin_bins %>% rename(intensity = Intensity), METHOD = "AUC")
 ### `meb_relabund_cores_peaks_mult` does not work for topspin data because there is no "area" column
-meb_relabund_cores_peaks_mult = compute_relabund_cores(DAT = meb_peaks_processed_topspin_bins, METHOD = "peaks")
+meb_relabund_cores_peaks_mult = compute_relabund_cores(DAT = meb_peaks_processed_topspin_bins %>% rename(Area = Intensity), METHOD = "peaks")
 
 # 4. compute relabund - summary by treatment
 meb_relabund_summary_auc = compute_relabund_treatments(RELABUND_CORES = meb_relabund_cores_auc, TREATMENTS = quos(burn_severity), COREKEY = "inst/extdata/meb_burn/corekey_burn_MEB.csv")
