@@ -20,22 +20,32 @@ hyst_spectra_processed = import_nmr_spectra_data(SPECTRA_FILES = "inst/extdata/k
 hyst_spectra_processed_bins = assign_compound_classes_v2(hyst_spectra_processed, BINSET = "Clemente") %>% filter(!is.na(group))
 # hyst_spectra_processed_bins2 = assign_compound_classes(spectra_processed, BINSET = "Clemente")
 
-# spectra graphs (not functions yet)
-hyst_spectra_processed_bins %>%
-  filter(!is.na(group)) %>% filter(group != "NA") %>%
-  ggplot(aes(x = ppm, y = intensity, color = group))+ geom_line()+ facet_wrap(~sampleID) + ylim(0, 5)+
-  scale_x_reverse()
+# spectra graphs
 
+## hyst_spectra_processed_bins %>%
+##   filter(!is.na(group)) %>% filter(group != "NA") %>%
+##   ggplot(aes(x = ppm, y = intensity, color = group))+ geom_line()+ facet_wrap(~sampleID) + ylim(0, 5)+
+##   scale_x_reverse()
 
-gg_spectra(dat = hyst_spectra_processed,
+corekey = read.csv(COREKEY) %>% mutate_all(as.character)
+hyst_spectra_processed_bins_corekey = hyst_spectra_processed_bins %>% left_join(corekey)
+
+gg_spectra(dat = hyst_spectra_processed_bins_corekey,
            BINSET = "Clemente",
            LABEL_POSITION = 5,
            aes(x = ppm, y = intensity, group = sampleID, color = sampleID),
            STAGGER = 0.5) +
-  labs(subtitle = paste("binset:", BINSET))+
+  labs(subtitle = "binset: Clemente et al. 2012")+
   ylim(0, 5.5)
 
-
+gg_spectra(dat = hyst_spectra_processed_bins_corekey,
+           BINSET = "Clemente",
+           LABEL_POSITION = 5,
+           aes(x = ppm, y = intensity, group = sampleID, color = sampleID),
+           STAGGER = 0.5) +
+  labs(subtitle = "binset: Clemente et al. 2012")+
+  ylim(0, 5.5)+
+  facet_wrap(~treatment)
 
 
 
