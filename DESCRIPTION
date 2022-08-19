@@ -1,23 +1,31 @@
 Package: nmrrr
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Process and Analyze NMR Data
 Version: 0.1.0
-Author: Kaizad Patel <kaizad.patel@pnnl.gov>
-Maintainer: Kaizad Patel <kaizad.patel@pnnl.gov>
-Description: Batch processing and analysis of NMR results.
+Authors@R: 
+    c(person("Kaizad", "Patel",
+      email = "kaizad.patel@pnnl.gov", 
+      role = c("aut", "cre"),
+      comment = c(ORCID = "0000-0001-6437-7809")),
+    person("Ben", "Bond-Lamberty",
+      email = "bondlamberty@pnnl.gov", 
+      role = c("ctb"),
+      comment = c(ORCID = "0000-0001-9525-4633")))
+Description: Batch processing and analysis of nuclear magnetic resonance
+    (NMR) data.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 7.2.1
+Imports: 
+    DescTools,
+    dplyr (>= 1.0),
+    ggplot2,
+    magrittr,
+    stats,
+    stringr,
+    tidyr,
+    utils
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
-RoxygenNote: 7.2.1
-Imports: 
-    dplyr,
-    magrittr,
-    stats,
-    utils,
-    stringr,
-    tidyr,
-    DescTools,
-    rcmdcheck
