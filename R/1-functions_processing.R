@@ -34,13 +34,13 @@
 #' @importFrom stats start
 #' @importFrom utils read.delim
 
-set_bins = function(BINSET){
+set_bins <- function(BINSET) {
   filePath_bins <- list.files(path = "bins", pattern = BINSET, full.names = TRUE)
 
-  if(length(filePath_bins) > 1){
+  if (length(filePath_bins) > 1) {
     stop("too many options!")
   }
-  if(length(filePath_bins) == 0 ){
+  if (length(filePath_bins) == 0) {
     stop("option not available")
   }
 
@@ -48,9 +48,9 @@ set_bins = function(BINSET){
   #    dplyr::arrange(start) %>%
   #    dplyr::mutate(number = row_number())
 
-  a = read.delim(filePath_bins, header = TRUE)
-  b = dplyr::arrange(a, start)
-  c = dplyr::mutate(b, number = dplyr::row_number())
+  a <- read.delim(filePath_bins, header = TRUE)
+  b <- dplyr::arrange(a, start)
+  c <- dplyr::mutate(b, number = dplyr::row_number())
   c
 }
 
@@ -61,53 +61,43 @@ set_bins = function(BINSET){
 
 #' Import and process NMR spectral data
 #'
-#' @description Use this function to import multiple spectra files, combine them,
-#' and then process/clean the data.
+#' @description Imports multiple spectra files and then combines and cleans the data.
 #'
 #' @param
 #' SPECTRA_FILES path/directory where the spectra files are saved
-#'
 #' @return The output will be a dataframe with columns describing
 #'   the group name (sometimes abbreviated), start and stop boundaries, and a longer, more complete description of the group.
 #'
-#'
-
-#' @importFrom dplyr mutate
-#' @importFrom dplyr filter
-#' @importFrom dplyr select
-#' @importFrom dplyr arrange
+#' @importFrom dplyr mutate filter select arrange
 #' @importFrom stringr str_remove
 #' @importFrom magrittr %>%
 #' @importFrom utils read.table
-
-import_nmr_spectra_data = function(SPECTRA_FILES, METHOD){
+import_nmr_spectra_data <- function(SPECTRA_FILES, METHOD) {
   # import and combine spectra data files
-  filePaths_spectra <- list.files(path = SPECTRA_FILES,pattern = "*.csv", full.names = TRUE)
+  filePaths_spectra <- list.files(path = SPECTRA_FILES, pattern = "*.csv", full.names = TRUE)
 
-  if(length(filePaths_spectra) == 0){
+  if (length(filePaths_spectra) == 0) {
     stop("no .csv files found!")
   } else {
-    if(METHOD == "mnova"){
-
+    if (METHOD == "mnova") {
       spectra_dat <- do.call(rbind, lapply(filePaths_spectra, function(path) {
         # the files are tab-delimited, so read.csv will not work. import using read.table
         # there is no header. so create new column names
         # then add a new column `source` to denote the file name
-        df <- read.table(path, header=FALSE, col.names = c("ppm", "intensity"))
+        df <- read.table(path, header = FALSE, col.names = c("ppm", "intensity"))
         df[["source"]] <- rep(path, nrow(df))
-        df}))
-
+        df
+      }))
     } else {
-      if(METHOD == "topspin"){
-
+      if (METHOD == "topspin") {
         spectra_dat <- do.call(rbind, lapply(filePaths_spectra, function(path) {
           # the files are tab-delimited, so read.csv will not work. import using read.table
           # there is no header. so create new column names
           # then add a new column `source` to denote the file name
-          df <- read.csv(path, header=FALSE, fill = TRUE, col.names = c("x", "intensity", "y", "ppm"))
+          df <- read.csv(path, header = FALSE, fill = TRUE, col.names = c("x", "intensity", "y", "ppm"))
           df[["source"]] <- rep(path, nrow(df))
-          df}))
-
+          df
+        }))
       } else {
         stop("appropriate methods are mnova and topspin")
       }
@@ -151,40 +141,40 @@ import_nmr_spectra_data = function(SPECTRA_FILES, METHOD){
 #' with Successive Layering on Clay Mineral Surfaces.”
 #' Soil Systems. https://doi.org/10.3390/soils2010008.
 
-
-#' @importFrom dplyr mutate
-#' @importFrom dplyr filter
-#' @importFrom dplyr select
+#' @importFrom dplyr mutate filter select
 #' @importFrom magrittr %>%
 #' @importFrom utils read.table
 #'
-assign_compound_classes = function(dat, BINSET){
+assign_compound_classes <- function(dat, BINSET) {
   # load binsets
-  bins_dat = set_bins(BINSET) %>% dplyr::select(group, start, stop)
+  bins_dat <- set_bins(BINSET) %>% dplyr::select(group, start, stop)
 
   # assign bins to each point
-  subset(merge(dat, bins_dat),
-         start <= ppm & ppm <= stop) %>%
+  subset(
+    merge(dat, bins_dat),
+    start <= ppm & ppm <= stop
+  ) %>%
     dplyr::select(-start, -stop)
 }
 
 
 
-assign_compound_classes_v2 = function(dat, BINSET){
+assign_compound_classes_v2 <- function(dat, BINSET) {
   # load binsets
-  bins = set_bins(BINSET) %>% dplyr::select(group, start, stop) %>% arrange(start, stop)
-  #bins <- readr::read_tsv("bins/Clemente2012.txt")
+  bins <- set_bins(BINSET) %>%
+    dplyr::select(group, start, stop) %>%
+    arrange(start, stop)
+  # bins <- readr::read_tsv("bins/Clemente2012.txt")
 
   # identify gaps between bins
   gaps <- c(head(bins$stop, -1) != bins$start[-1], TRUE)
   # create new gap bins
   gapbins <- tibble(group = NA_character_, start = bins$stop[gaps])
   newbins <- rbind(bins[c("group", "start")], gapbins) %>% arrange(start)
-  newbins[is.na(newbins)]<- "NANA"
+  newbins[is.na(newbins)] <- "NANA"
 
-  dat$group = cut(dat$ppm, newbins$start, labels = head(newbins$group, -1), right = FALSE)
+  dat$group <- cut(dat$ppm, newbins$start, labels = head(newbins$group, -1), right = FALSE)
   dat %>% filter(group != "NANA")
-
 }
 
 # IV. PROCESS PEAKS -------------------------------------------------------
@@ -216,33 +206,33 @@ assign_compound_classes_v2 = function(dat, BINSET){
 #'
 #'
 
-process_peaks = function(PEAKS_FILES, METHOD){
+process_peaks <- function(PEAKS_FILES, METHOD) {
   # import and process picked peaks data
   # data are typically saved as multiple files
   # import and compile
 
 
   ## then, set the file path for the peaks data
-  filePaths_peaks <- list.files(path = PEAKS_FILES,pattern = "*.csv", full.names = TRUE)
+  filePaths_peaks <- list.files(path = PEAKS_FILES, pattern = "*.csv", full.names = TRUE)
 
-  if(METHOD == "multiple columns"){
+  if (METHOD == "multiple columns") {
     ## if peaks data are provided in split-column format
     peaks_rawdat <- do.call(bind_rows, lapply(filePaths_peaks, function(path) {
       # this function will import all the data files and combine for all samples
       # first, we run the function to clean a single file
       # the input data are spread across multiple columns, so use this function to align columns
 
-      align_columns = function(path){
+      align_columns <- function(path) {
         # Step 1. import file.
         # check.names=FALSE because columns have duplicate names, and we want to leave as is
         df <- read.csv(path, stringsAsFactors = FALSE, check.names = FALSE)
 
         # Step 2. confirm that the data are in 9-column groups
         noname_cols <- which(names(df) == "")
-        if(!all(diff(noname_cols) == 9)) {
+        if (!all(diff(noname_cols) == 9)) {
           stop("Formatting problem: data don't appear to be in 9-column groups")
         }
-        names(df)[noname_cols] <- "Obs"  # give them a name
+        names(df)[noname_cols] <- "Obs" # give them a name
 
         # Step 3. Extract each group in turn and store temporarily in a list
         nmr_list <- lapply(noname_cols, function(x) df[x:(x + 8)])
@@ -260,39 +250,41 @@ process_peaks = function(PEAKS_FILES, METHOD){
       # now create an object from the function
       align_columns(path)
       # this will be repeated for each file in the input folder
-
     }))
-
   } else {
-    if(METHOD == "single column"){
+    if (METHOD == "single column") {
       ## if peaks data are provided in single-column format
       peaks_rawdat <- do.call(rbind, lapply(filePaths_peaks, function(path) {
         # the files are tab-delimited, so read.csv will not work. import using read.table
         # there is no header. so create new column names
         # then add a new column `source` to denote the file name
         df <- read.delim(path,
-                         col.names = c("ppm", "Intensity", "Width", "Area", "Type",
-                                       "Flags", "Impurity/Compound", "Annotation"))
+          col.names = c(
+            "ppm", "Intensity", "Width", "Area", "Type",
+            "Flags", "Impurity/Compound", "Annotation"
+          )
+        )
         df[["source"]] <- rep(path, nrow(df))
-        df}))
-
+        df
+      }))
     } else {
-      if(METHOD == "topspin"){
+      if (METHOD == "topspin") {
         ## if peaks data are provided in topspin format
         peaks_rawdat <- do.call(rbind, lapply(filePaths_peaks, function(path) {
           # the files are tab-delimited, so read.csv will not work. import using read.table
           # there is no header. so create new column names
           # then add a new column `source` to denote the file name
           df <- read.csv(path,
-                           col.names = c("peak", "ppm", "Intensity", "Annotation"))
+            col.names = c("peak", "ppm", "Intensity", "Annotation")
+          )
           df[["source"]] <- rep(path, nrow(df))
-          df}))
-
-    } else {
-      stop("choose correct method. options are `multiple columns` and `single column` and `topspin`")
+          df
+        }))
+      } else {
+        stop("choose correct method. options are `multiple columns` and `single column` and `topspin`")
+      }
     }
-
-  }}
+  }
   # clean the source column
 
   peaks_rawdat %>%
@@ -304,7 +296,4 @@ process_peaks = function(PEAKS_FILES, METHOD){
     mutate(source = str_remove(source, ".csv")) %>%
     rename(sampleID = source) %>%
     force()
-
-
 }
-

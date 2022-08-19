@@ -14,6 +14,5 @@ The output will be a dataframe with columns describing
   the group name (sometimes abbreviated), start and stop boundaries, and a longer, more complete description of the group.
 }
 \description{
-Use this function to import multiple spectra files, combine them,
-and then process/clean the data.
+Imports multiple spectra files and then combines and cleans the data.
 }
