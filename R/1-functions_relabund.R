@@ -13,20 +13,9 @@
 #'
 #' @return The output will be a dataframe with columns describing ...
 #'
-#'
-
-#' @importFrom dplyr group_by
-#' @importFrom dplyr mutate
-#' @importFrom dplyr summarise
-#' @importFrom dplyr filter
-#' @importFrom dplyr select
-#' @importFrom tidyr pivot_wider
-#' @importFrom tidyr pivot_longer
-#' @importFrom tidyr replace_na
-#' @importFrom magrittr %>%
+#' @importFrom dplyr group_by mutate summarise filter select %>%
+#' @importFrom tidyr pivot_wider pivot_longer replace_na
 #' @importFrom DescTools AUC
-#'
-
 compute_relabund_cores <- function(DAT, METHOD) {
   if (METHOD == "AUC") {
     relabund_temp1 <-
@@ -104,17 +93,10 @@ compute_relabund_cores <- function(DAT, METHOD) {
 #'
 #' @return The output will be a dataframe with columns describing ...
 #'
-#'
-
-#' @importFrom dplyr group_by
-#' @importFrom dplyr mutate
-#' @importFrom dplyr summarize
-#' @importFrom dplyr left_join
-#' @importFrom dplyr mutate_all
-#' @importFrom magrittr %>%
+#' @importFrom dplyr group_by mutate summarize left_join mutate_all %>%
 #' @importFrom DescTools AUC
-
-
+#' @importFrom stats sd
+#' @importFrom utils read.csv
 compute_relabund_treatments <- function(RELABUND_CORES, TREATMENTS, COREKEY) {
   corekey <- read.csv(COREKEY) %>% mutate_all(as.character)
 
