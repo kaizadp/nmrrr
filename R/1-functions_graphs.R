@@ -4,7 +4,8 @@
 
 #' Compute relative abundance for each sample
 #'
-#' @description Use this function to compute relative abundance of compound classes for each sample.
+#' @description Compute relative abundance of compound classes for each sample.
+#' This function will create a plot of NMR spectra, with line-brackets denoting binned regions
 #'
 #' @param dat Processed spectral data, output from (a) `import_nmr_spectra_data` and `assign_compound_classes`; or (b) process_peaks
 #' @param BINSET spectral binning
@@ -14,9 +15,6 @@
 #'
 #' @return The output will be a dataframe with columns describing ...
 #'
-#'
-
-
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 geom_segment
 #' @importFrom ggplot2 geom_text
@@ -25,18 +23,9 @@
 #' @importFrom ggplot2 xlab
 #' @importFrom ggplot2 ylab
 #' @importFrom ggplot2 theme_classic
-#' @importFrom magrittr %>%
-#' @importFrom dplyr distinct
-#' @importFrom dplyr filter
-#' @importFrom dplyr mutate
-#' @importFrom dplyr select
-#' @importFrom dplyr left_join
-#' @importFrom dplyr rename
-#' @importFrom tidyr drop_na
-#' @importFrom tidyr replace_na
-#'
-
-## This function will create a plot of NMR spectra, with line-brackets denoting binned regions
+#' @importFrom dplyr %>% distinct filter mutate select left_join rename
+#' @importFrom tidyr drop_na replace_na
+#' @importFrom utils head
 gg_spectra = function(dat, BINSET, LABEL_POSITION, mapping, STAGGER){
 
   bins_dat = set_bins(BINSET)

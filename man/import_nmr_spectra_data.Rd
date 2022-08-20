@@ -11,7 +11,8 @@ import_nmr_spectra_data(SPECTRA_FILES, METHOD)
 }
 \value{
 The output will be a dataframe with columns describing
-  the group name (sometimes abbreviated), start and stop boundaries, and a longer, more complete description of the group.
+the group name (sometimes abbreviated), start and stop boundaries, and a
+longer, more complete description of the group.
 }
 \description{
 Use this function to import multiple spectra files, combine them,
