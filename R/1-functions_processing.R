@@ -31,9 +31,7 @@
 #' @importFrom dplyr row_number
 #' @importFrom dplyr mutate
 #' @importFrom magrittr %>%
-#' @importFrom stats start
 #' @importFrom utils read.delim
-
 set_bins = function(BINSET){
   filePath_bins <- list.files(path = "bins", pattern = BINSET, full.names = TRUE)
 

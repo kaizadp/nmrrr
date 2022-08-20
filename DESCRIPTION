@@ -22,7 +22,6 @@ Imports:
     dplyr (>= 1.0),
     ggplot2,
     magrittr,
-    stats,
     tidyr,
     utils
 Suggests: 
