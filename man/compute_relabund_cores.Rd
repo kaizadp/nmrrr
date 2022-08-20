@@ -7,14 +7,16 @@
 compute_relabund_cores(DAT, METHOD)
 }
 \arguments{
-\item{DAT}{Processed spectral data, output from (a) `import_nmr_spectra_data` and `assign_compound_classes`; or (b) process_peaks}
+\item{DAT}{Processed spectral data, output from (a) `import_nmr_spectra_data`
+and `assign_compound_classes`; or (b) process_peaks}
 
-\item{METHOD}{Choose the method for calculating relative abundance. Options include (a) "AUC", integrating the spectral region within each bin;
+\item{METHOD}{Choose the method for calculating relative abundance.
+Options include (a) "AUC", integrating the spectral region within each bin;
 (b) "peaks", adding areas of peaks if a peak-picked file is provided.}
 }
 \value{
-The output will be a dataframe with columns describing ...
+A dataframe with columns describing ...
 }
 \description{
-Use this function to compute relative abundance of compound classes for each sample.
+Compute relative abundance of compound classes for each sample.
 }

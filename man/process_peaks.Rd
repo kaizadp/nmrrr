@@ -13,7 +13,7 @@ saved as individual .csv files}
 \item{METHOD}{KP_TODO}
 }
 \value{
-The output will be a dataframe with columns describing
+A dataframe with columns describing
   sample ID, ppm, intensity, area, group name.
 }
 \description{
