@@ -76,7 +76,6 @@ set_bins = function(BINSET){
 #' @importFrom dplyr filter
 #' @importFrom dplyr select
 #' @importFrom dplyr arrange
-#' @importFrom stringr str_remove
 #' @importFrom magrittr %>%
 #' @importFrom utils read.table
 
@@ -116,9 +115,9 @@ import_nmr_spectra_data = function(SPECTRA_FILES, METHOD){
 
   # clean the spectral data
   spectra_dat %>%
-    mutate(source = str_remove(source, paste0(SPECTRA_FILES, "/"))) %>%
-    mutate(source = str_remove(source, ".csv")) %>%
-    mutate(source = as.character(source)) %>%
+    mutate(source = as.character(source),
+           source = gsub(paste0(SPECTRA_FILES, "/"), "", source, fixed = TRUE),
+           source = gsub(".csv", "", source, fixed = TRUE)) %>%
     rename(sampleID = source) %>%
     arrange(sampleID, ppm) %>%
     force()
@@ -202,20 +201,9 @@ assign_compound_classes_v2 = function(dat, BINSET){
 #' @return The output will be a dataframe with columns describing
 #'   sample ID, ppm, intensity, area, group name.
 #'
-#'
-
-#' @importFrom dplyr mutate
-#' @importFrom dplyr filter
-#' @importFrom dplyr select
-#' @importFrom dplyr left_join
-#' @importFrom dplyr bind_rows
-#' @importFrom dplyr rename
-#' @importFrom stringr str_remove
+#' @importFrom dplyr mutate filter select left_join bind_rows rename
 #' @importFrom magrittr %>%
 #' @importFrom utils read.table
-#'
-#'
-
 process_peaks = function(PEAKS_FILES, METHOD){
   # import and process picked peaks data
   # data are typically saved as multiple files
@@ -300,8 +288,8 @@ process_peaks = function(PEAKS_FILES, METHOD){
     filter(Intensity > 0) %>%
     filter(!is.na(ppm)) %>%
     # filter(!Flags == "Weak") %>%
-    mutate(source = str_remove(source, paste0(PEAKS_FILES, "/"))) %>%
-    mutate(source = str_remove(source, ".csv")) %>%
+    mutate(source = gsub(paste0(PEAKS_FILES, "/"), "", source, fixed = TRUE),
+           source = gsub(".csv", "", source, fixed = TRUE)) %>%
     rename(sampleID = source) %>%
     force()
 

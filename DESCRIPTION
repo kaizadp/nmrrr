@@ -23,7 +23,6 @@ Imports:
     ggplot2,
     magrittr,
     stats,
-    stringr,
     tidyr,
     utils
 Suggests: 
