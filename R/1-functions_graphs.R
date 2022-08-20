@@ -32,20 +32,20 @@ gg_spectra <- function(dat, BINSET, LABEL_POSITION, mapping, STAGGER) {
     ggplot() +
     # stagger bracketing lines for odd vs. even rows
     geom_segment(
-      data = bins_dat %>% dplyr::filter(row_number() %% 2 == 0),
+      data = bins_dat %>% filter(row_number() %% 2 == 0),
       aes(x = start, xend = stop, y = LABEL_POSITION, yend = LABEL_POSITION), color = "black"
     ) +
     geom_segment(
-      data = bins_dat %>% dplyr::filter(row_number() %% 2 == 1),
+      data = bins_dat %>% filter(row_number() %% 2 == 1),
       aes(x = start, xend = stop, y = LABEL_POSITION - 0.2, yend = LABEL_POSITION - 0.2), color = "black"
     ) +
     # stagger numbering like the lines
     geom_text(
-      data = bins_dat %>% dplyr::filter(row_number() %% 2 == 0),
+      data = bins_dat %>% filter(row_number() %% 2 == 0),
       aes(x = (start + stop) / 2, y = LABEL_POSITION + 0.1, label = number)
     ) +
     geom_text(
-      data = bins_dat %>% dplyr::filter(row_number() %% 2 == 1),
+      data = bins_dat %>% filter(row_number() %% 2 == 1),
       aes(x = (start + stop) / 2, y = LABEL_POSITION - 0.1, label = number)
     ) +
     scale_x_reverse(limits = c(10, 0)) +
@@ -64,14 +64,14 @@ gg_spectra <- function(dat, BINSET, LABEL_POSITION, mapping, STAGGER) {
     mutate(newsource = sampleID != c(NA, head(sampleID, -1))) %>%
     drop_na() %>%
     mutate(y_factor = cumsum(newsource) / stagger_factor) %>%
-    dplyr::select(sampleID, y_factor)
+    select(sampleID, y_factor)
 
   spectra_new <-
     dat %>%
     left_join(dat_y_stagger) %>%
     replace_na(list(y_factor = 0)) %>%
     mutate(intensity_new = intensity + y_factor) %>%
-    dplyr::select(-intensity) %>%
+    select(-intensity) %>%
     rename(intensity = intensity_new)
 
   # combined plot ----

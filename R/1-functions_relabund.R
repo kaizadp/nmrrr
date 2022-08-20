@@ -28,7 +28,7 @@ compute_relabund_cores <- function(DAT, METHOD) {
       DAT %>%
       mutate(sampleID = as.character(sampleID)) %>%
       group_by(sampleID, group) %>%
-      dplyr::summarise(
+      summarise(
         AUC = DescTools::AUC(
           x = ppm, y = intensity,
           from = min(ppm), to = max(ppm)
@@ -43,7 +43,7 @@ compute_relabund_cores <- function(DAT, METHOD) {
 
     relabund_temp2_wide <-
       relabund_temp1 %>%
-      dplyr::select(-AUC, -method, -total) %>%
+      select(-AUC, -method, -total) %>%
       pivot_wider(names_from = "group", values_from = "relabund")
 
     relabund_cores <-
@@ -60,13 +60,13 @@ compute_relabund_cores <- function(DAT, METHOD) {
       rel_abund_cores1 <-
         DAT %>%
         group_by(sampleID, group) %>%
-        dplyr::summarize(area = sum(Area)) %>%
+        summarize(area = sum(Area)) %>%
         group_by(sampleID) %>%
-        dplyr::mutate(
+        mutate(
           total = sum(area),
           relabund = round((area / total) * 100, 2)
         ) %>%
-        dplyr::select(sampleID, group, relabund) %>%
+        select(sampleID, group, relabund) %>%
         filter(!is.na(group)) %>%
         replace(is.na(.), 0)
 

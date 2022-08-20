@@ -41,14 +41,9 @@ set_bins <- function(BINSET) {
     stop("option not available")
   }
 
-  #  read.delim(filePath_bins, header = TRUE) %>%
-  #    dplyr::arrange(start) %>%
-  #    dplyr::mutate(number = row_number())
-
-  a <- read.delim(filePath_bins, header = TRUE)
-  b <- dplyr::arrange(a, start)
-  c <- dplyr::mutate(b, number = dplyr::row_number())
-  c
+  read.delim(filePath_bins, header = TRUE) %>%
+    arrange(start) %>%
+    mutate(number = row_number())
 }
 
 
@@ -157,7 +152,7 @@ assign_compound_classes <- function(dat, BINSET) {
     merge(dat, bins_dat),
     start <= ppm & ppm <= stop
   ) %>%
-    dplyr::select(-start, -stop)
+    select(-start, -stop)
 }
 
 
@@ -168,7 +163,7 @@ assign_compound_classes_v2 <- function(dat, BINSET) {
 
   # load binsets
   bins <- set_bins(BINSET) %>%
-    dplyr::select(group, start, stop) %>%
+    select(group, start, stop) %>%
     arrange(start, stop)
   # bins <- readr::read_tsv("bins/Clemente2012.txt")
 
@@ -239,7 +234,7 @@ process_peaks <- function(PEAKS_FILES, METHOD) {
 
         # Step 4. Finally, bind everything into a single data frame
         # This uses dplyr but we could also use base R: do.call("rbind", nmr_list)
-        nmr_dat <- dplyr::bind_rows(nmr_list)
+        nmr_dat <- bind_rows(nmr_list)
 
         # Step 5. Create a new column that includes source sample name
         nmr_dat[["source"]] <- rep(path, nrow(df))
