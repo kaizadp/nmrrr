@@ -23,8 +23,7 @@ test_that("import-spectra works", {
 
   expect_type(spectra_test, "list")
   expect_type(spectra_test$sampleID, "character")
-  expect_named(spectra_test, c("ppm", "intensity", "sampleID"))
-  # ^^ modify this so we can test the presence of "ppm" and "intensity", in any order.
+  expect_identical(sort(names(spectra_test)), sort(c("ppm", "intensity", "sampleID")))
 
   spectra_old <- read.csv("compdata/spectra_processed_test2.csv")
   spectra_old$sampleID <- as.character(spectra_old$sampleID)
