@@ -8,10 +8,12 @@ import_nmr_spectra_data(SPECTRA_FILES, METHOD)
 }
 \arguments{
 \item{SPECTRA_FILES}{path/directory where the spectra files are saved}
+
+\item{METHOD}{KP_TODO}
 }
 \value{
 The output will be a dataframe with columns describing
-  the group name (sometimes abbreviated), start and stop boundaries, and a 
+  the group name (sometimes abbreviated), start and stop boundaries, and a
   longer, more complete description of the group.
 }
 \description{

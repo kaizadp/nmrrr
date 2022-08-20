@@ -29,6 +29,9 @@
 #' @importFrom dplyr arrange row_number mutate %>%
 #' @importFrom utils read.delim
 set_bins <- function(BINSET) {
+  # Quiet R CMD CHECK notes
+  start <- NULL
+
   filePath_bins <- list.files(path = "bins", pattern = BINSET, full.names = TRUE)
 
   if (length(filePath_bins) > 1) {
@@ -59,13 +62,17 @@ set_bins <- function(BINSET) {
 #'
 #' @param
 #' SPECTRA_FILES path/directory where the spectra files are saved
+#' @param METHOD KP_TODO
 #' @return The output will be a dataframe with columns describing
-#'   the group name (sometimes abbreviated), start and stop boundaries, and a 
+#'   the group name (sometimes abbreviated), start and stop boundaries, and a
 #'   longer, more complete description of the group.
 #'
 #' @importFrom dplyr mutate filter select arrange %>%
 #' @importFrom utils read.table
 import_nmr_spectra_data <- function(SPECTRA_FILES, METHOD) {
+  # Quiet R CMD CHECK notes
+  sampleID <- ppm <- NULL
+
   # import and combine spectra data files
   filePaths_spectra <- list.files(path = SPECTRA_FILES, pattern = "*.csv", full.names = TRUE)
 
@@ -136,8 +143,11 @@ import_nmr_spectra_data <- function(SPECTRA_FILES, METHOD) {
 #' @importFrom dplyr mutate filter select %>%
 #' @importFrom utils read.table
 assign_compound_classes <- function(dat, BINSET) {
+  # Quiet R CMD CHECK notes
+  group <- start <- ppm <- NULL
+
   # load binsets
-  bins_dat <- set_bins(BINSET) %>% dplyr::select(group, start, stop)
+  bins_dat <- set_bins(BINSET) %>% select(group, start, stop)
 
   # assign bins to each point
   subset(
@@ -150,6 +160,9 @@ assign_compound_classes <- function(dat, BINSET) {
 
 
 assign_compound_classes_v2 <- function(dat, BINSET) {
+  # Quiet R CMD CHECK notes
+  group <- start <- NULL
+
   # load binsets
   bins <- set_bins(BINSET) %>%
     dplyr::select(group, start, stop) %>%
@@ -159,7 +172,7 @@ assign_compound_classes_v2 <- function(dat, BINSET) {
   # identify gaps between bins
   gaps <- c(utils::head(bins$stop, -1) != bins$start[-1], TRUE)
   # create new gap bins
-  gapbins <- tibble(group = NA_character_, start = bins$stop[gaps])
+  gapbins <- dplyr::tibble(group = NA_character_, start = bins$stop[gaps])
   newbins <- rbind(bins[c("group", "start")], gapbins) %>% arrange(start)
   newbins[is.na(newbins)] <- "NANA"
 
@@ -174,10 +187,13 @@ assign_compound_classes_v2 <- function(dat, BINSET) {
 #'
 #' @description Use this function to process data of peaks picked with NMR software.
 #'
-#' @param PEAKS_FILES file path for peaks data (input). All the peaks files are saved as individual .csv files
-#' @param METHOD format of input data, depending on how the data were exported. "multiple columns": use when data are in split-column format, obtained by pasting "peaks table" in MNova.
-#' "single column": use when data are in single-column format, exported from MNova as "peaks script".
-#' @param BINSET Choose the binset you want. Options include: "Clemente2012", "Lynch2019", "Hertkorn2013_MeOD", "Mitchell2018"
+#' @param PEAKS_FILES file path for peaks data (input). All the peaks files are
+#' saved as individual .csv files
+#' @param METHOD format of input data, depending on how the data were exported.
+#' "multiple columns": use when data are in split-column format, obtained by
+#' pasting "peaks table" in MNova. "single column": use when data are in
+#' single-column format, exported from MNova as "peaks script".
+#' @param METHOD KP_TODO
 #'
 #' @return The output will be a dataframe with columns describing
 #'   sample ID, ppm, intensity, area, group name.
@@ -186,6 +202,9 @@ assign_compound_classes_v2 <- function(dat, BINSET) {
 #' @importFrom utils read.table
 #' @importFrom utils read.csv
 process_peaks <- function(PEAKS_FILES, METHOD) {
+  # Quiet R CMD CHECK notes
+  ppm <- Intensity <- NULL
+
   # import and process picked peaks data
   # data are typically saved as multiple files
   # import and compile

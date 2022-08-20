@@ -17,6 +17,10 @@
 #' @importFrom tidyr pivot_wider pivot_longer replace_na
 #' @importFrom DescTools AUC
 compute_relabund_cores <- function(DAT, METHOD) {
+  # Quiet R CMD CHECK notes
+  sampleID <- group <- ppm <- intensity <- total <- method <-
+    where <- relabund <- Area <- area <- . <- NULL
+
   if (METHOD == "AUC") {
     relabund_temp1 <-
       DAT %>%
@@ -94,17 +98,19 @@ compute_relabund_cores <- function(DAT, METHOD) {
 #' @return The output will be a dataframe with columns describing ...
 #'
 #' @importFrom dplyr group_by mutate summarize left_join mutate_all %>%
-#' @importFrom DescTools AUC
 #' @importFrom stats sd
 #' @importFrom utils read.csv
 compute_relabund_treatments <- function(RELABUND_CORES, TREATMENTS, COREKEY) {
+  # Quiet R CMD CHECK notes
+  group <- relabund <- n <- NULL
+
   corekey <- read.csv(COREKEY) %>% mutate_all(as.character)
 
   RELABUND_CORES %>%
     left_join(corekey) %>%
     group_by(!!!TREATMENTS, group) %>%
-    dplyr::summarize(
+    summarize(
       relabund_mean = round(mean(relabund), 2),
-      relabund_se = round(sd(relabund, na.rm = T) / sqrt(n()), 2)
+      relabund_se = round(sd(relabund, na.rm = TRUE) / sqrt(n()), 2)
     )
 }

@@ -7,12 +7,10 @@
 process_peaks(PEAKS_FILES, METHOD)
 }
 \arguments{
-\item{PEAKS_FILES}{file path for peaks data (input). All the peaks files are saved as individual .csv files}
+\item{PEAKS_FILES}{file path for peaks data (input). All the peaks files are
+saved as individual .csv files}
 
-\item{METHOD}{format of input data, depending on how the data were exported. "multiple columns": use when data are in split-column format, obtained by pasting "peaks table" in MNova.
-"single column": use when data are in single-column format, exported from MNova as "peaks script".}
-
-\item{BINSET}{Choose the binset you want. Options include: "Clemente2012", "Lynch2019", "Hertkorn2013_MeOD", "Mitchell2018"}
+\item{METHOD}{KP_TODO}
 }
 \value{
 The output will be a dataframe with columns describing
