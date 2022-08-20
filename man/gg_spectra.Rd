@@ -21,5 +21,6 @@ gg_spectra(dat, BINSET, LABEL_POSITION, mapping, STAGGER)
 The output will be a dataframe with columns describing ...
 }
 \description{
-Use this function to compute relative abundance of compound classes for each sample.
+Compute relative abundance of compound classes for each sample.
+This function will create a plot of NMR spectra, with line-brackets denoting binned regions
 }

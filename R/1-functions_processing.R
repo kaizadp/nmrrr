@@ -26,14 +26,8 @@
 #' “Nuclear Magnetic Resonance Analysis of Changes in Dissolved Organic Matter Composition
 #' with Successive Layering on Clay Mineral Surfaces.”
 #' Soil Systems. https://doi.org/10.3390/soils2010008.
-
-#' @importFrom dplyr arrange
-#' @importFrom dplyr row_number
-#' @importFrom dplyr mutate
-#' @importFrom magrittr %>%
-#' @importFrom stats start
+#' @importFrom dplyr arrange row_number mutate %>%
 #' @importFrom utils read.delim
-
 set_bins = function(BINSET){
   filePath_bins <- list.files(path = "bins", pattern = BINSET, full.names = TRUE)
 
@@ -68,18 +62,11 @@ set_bins = function(BINSET){
 #' SPECTRA_FILES path/directory where the spectra files are saved
 #'
 #' @return The output will be a dataframe with columns describing
-#'   the group name (sometimes abbreviated), start and stop boundaries, and a longer, more complete description of the group.
+#' the group name (sometimes abbreviated), start and stop boundaries, and a
+#' longer, more complete description of the group.
 #'
-#'
-
-#' @importFrom dplyr mutate
-#' @importFrom dplyr filter
-#' @importFrom dplyr select
-#' @importFrom dplyr arrange
-#' @importFrom stringr str_remove
-#' @importFrom magrittr %>%
+#' @importFrom dplyr mutate filter select arrange %>%
 #' @importFrom utils read.table
-
 import_nmr_spectra_data = function(SPECTRA_FILES, METHOD){
   # import and combine spectra data files
   filePaths_spectra <- list.files(path = SPECTRA_FILES,pattern = "*.csv", full.names = TRUE)
@@ -116,9 +103,9 @@ import_nmr_spectra_data = function(SPECTRA_FILES, METHOD){
 
   # clean the spectral data
   spectra_dat %>%
-    mutate(source = str_remove(source, paste0(SPECTRA_FILES, "/"))) %>%
-    mutate(source = str_remove(source, ".csv")) %>%
-    mutate(source = as.character(source)) %>%
+    mutate(source = as.character(source),
+           source = gsub(paste0(SPECTRA_FILES, "/"), "", source, fixed = TRUE),
+           source = gsub(".csv", "", source, fixed = TRUE)) %>%
     rename(sampleID = source) %>%
     arrange(sampleID, ppm) %>%
     force()
@@ -150,14 +137,8 @@ import_nmr_spectra_data = function(SPECTRA_FILES, METHOD){
 #' “Nuclear Magnetic Resonance Analysis of Changes in Dissolved Organic Matter Composition
 #' with Successive Layering on Clay Mineral Surfaces.”
 #' Soil Systems. https://doi.org/10.3390/soils2010008.
-
-
-#' @importFrom dplyr mutate
-#' @importFrom dplyr filter
-#' @importFrom dplyr select
-#' @importFrom magrittr %>%
+#' @importFrom dplyr mutate filter select %>%
 #' @importFrom utils read.table
-#'
 assign_compound_classes = function(dat, BINSET){
   # load binsets
   bins_dat = set_bins(BINSET) %>% dplyr::select(group, start, stop)
@@ -176,7 +157,7 @@ assign_compound_classes_v2 = function(dat, BINSET){
   #bins <- readr::read_tsv("bins/Clemente2012.txt")
 
   # identify gaps between bins
-  gaps <- c(head(bins$stop, -1) != bins$start[-1], TRUE)
+  gaps <- c(utils::head(bins$stop, -1) != bins$start[-1], TRUE)
   # create new gap bins
   gapbins <- tibble(group = NA_character_, start = bins$stop[gaps])
   newbins <- rbind(bins[c("group", "start")], gapbins) %>% arrange(start)
@@ -202,25 +183,13 @@ assign_compound_classes_v2 = function(dat, BINSET){
 #' @return The output will be a dataframe with columns describing
 #'   sample ID, ppm, intensity, area, group name.
 #'
-#'
-
-#' @importFrom dplyr mutate
-#' @importFrom dplyr filter
-#' @importFrom dplyr select
-#' @importFrom dplyr left_join
-#' @importFrom dplyr bind_rows
-#' @importFrom dplyr rename
-#' @importFrom stringr str_remove
-#' @importFrom magrittr %>%
+#' @importFrom dplyr mutate filter select left_join bind_rows rename %>%
 #' @importFrom utils read.table
-#'
-#'
-
+#' @importFrom utils read.csv
 process_peaks = function(PEAKS_FILES, METHOD){
   # import and process picked peaks data
   # data are typically saved as multiple files
   # import and compile
-
 
   ## then, set the file path for the peaks data
   filePaths_peaks <- list.files(path = PEAKS_FILES,pattern = "*.csv", full.names = TRUE)
@@ -300,8 +269,8 @@ process_peaks = function(PEAKS_FILES, METHOD){
     filter(Intensity > 0) %>%
     filter(!is.na(ppm)) %>%
     # filter(!Flags == "Weak") %>%
-    mutate(source = str_remove(source, paste0(PEAKS_FILES, "/"))) %>%
-    mutate(source = str_remove(source, ".csv")) %>%
+    mutate(source = gsub(paste0(PEAKS_FILES, "/"), "", source, fixed = TRUE),
+           source = gsub(".csv", "", source, fixed = TRUE)) %>%
     rename(sampleID = source) %>%
     force()
 
