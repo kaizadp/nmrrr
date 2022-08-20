@@ -16,60 +16,66 @@
 #' @importFrom dplyr group_by mutate summarise filter select %>%
 #' @importFrom tidyr pivot_wider pivot_longer replace_na
 #' @importFrom DescTools AUC
-compute_relabund_cores = function(DAT, METHOD){
-  if(METHOD == "AUC"){
-    relabund_temp1 =
+compute_relabund_cores <- function(DAT, METHOD) {
+  if (METHOD == "AUC") {
+    relabund_temp1 <-
       DAT %>%
       mutate(sampleID = as.character(sampleID)) %>%
       group_by(sampleID, group) %>%
-      dplyr::summarise(AUC = DescTools::AUC(x = ppm, y = intensity,
-                                            from = min(ppm), to = max(ppm)),
-                       method = "trapezoid") %>%
+      dplyr::summarise(
+        AUC = DescTools::AUC(
+          x = ppm, y = intensity,
+          from = min(ppm), to = max(ppm)
+        ),
+        method = "trapezoid"
+      ) %>%
       mutate(AUC = replace_na(AUC, 0)) %>%
-      mutate(total = sum(AUC),
-             relabund = (AUC/total)*100)
+      mutate(
+        total = sum(AUC),
+        relabund = (AUC / total) * 100
+      )
 
-    relabund_temp2_wide =
+    relabund_temp2_wide <-
       relabund_temp1 %>%
       dplyr::select(-AUC, -method, -total) %>%
       pivot_wider(names_from = "group", values_from = "relabund")
 
-    relabund_cores =
+    relabund_cores <-
       relabund_temp2_wide %>%
       pivot_longer(where(is.numeric), values_to = "relabund", names_to = "group") %>%
       replace_na(list(relabund = 0)) %>%
       mutate(relabund = round(relabund, 3))
 
     relabund_cores
-
   } else {
-    if(METHOD == "peaks"){
-#      stop("peaks data needed")
+    if (METHOD == "peaks") {
+      #      stop("peaks data needed")
 
-      rel_abund_cores1 =
+      rel_abund_cores1 <-
         DAT %>%
         group_by(sampleID, group) %>%
         dplyr::summarize(area = sum(Area)) %>%
         group_by(sampleID) %>%
-        dplyr::mutate(total = sum(area),
-                      relabund = round((area/total)*100,2)) %>%
+        dplyr::mutate(
+          total = sum(area),
+          relabund = round((area / total) * 100, 2)
+        ) %>%
         dplyr::select(sampleID, group, relabund) %>%
         filter(!is.na(group)) %>%
         replace(is.na(.), 0)
 
-      rel_abund_wide1 =
+      rel_abund_wide1 <-
         rel_abund_cores1 %>%
         pivot_wider(names_from = "group", values_from = "relabund")
 
-      rel_abund_cores =
+      rel_abund_cores <-
         rel_abund_wide1 %>%
         pivot_longer(where(is.numeric), values_to = "relabund", names_to = "group") %>%
         replace_na(list(relabund = 0))
 
       rel_abund_cores
-
     } else {
-      stop ("choose correct method: `AUC` or `peaks` ")
+      stop("choose correct method: `AUC` or `peaks` ")
     }
   }
 }
@@ -91,14 +97,14 @@ compute_relabund_cores = function(DAT, METHOD){
 #' @importFrom DescTools AUC
 #' @importFrom stats sd
 #' @importFrom utils read.csv
-compute_relabund_treatments = function(RELABUND_CORES, TREATMENTS, COREKEY){
-
-  corekey = read.csv(COREKEY) %>% mutate_all(as.character)
+compute_relabund_treatments <- function(RELABUND_CORES, TREATMENTS, COREKEY) {
+  corekey <- read.csv(COREKEY) %>% mutate_all(as.character)
 
   RELABUND_CORES %>%
     left_join(corekey) %>%
     group_by(!!!TREATMENTS, group) %>%
-    dplyr::summarize(relabund_mean = round(mean(relabund),2),
-                     relabund_se = round(sd(relabund, na.rm = T)/sqrt(n()), 2))
-
+    dplyr::summarize(
+      relabund_mean = round(mean(relabund), 2),
+      relabund_se = round(sd(relabund, na.rm = T) / sqrt(n()), 2)
+    )
 }
