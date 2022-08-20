@@ -8,10 +8,10 @@ assign_compound_classes(dat, BINSET)
 }
 \arguments{
 \item{dat}{Input dataframe. This could be spectral data, or peak picked data.
-Must include a `ppm` column for compound class assignment.}
+Must include a `ppm` column for compound class assignment}
 
-\item{BINSET}{Choose the binset you want. Options include: "Clemente2012",
-"Lynch2019", "Hertkorn2013_MeOD", "Mitchell2018"}
+\item{A}{binset; e.g. \code{\link{bins_Clemente2012}},
+\code{\link{bins_Hertkorn2013}}, etc., or a similarly-structured data frame}
 }
 \value{
 A dataframe with columns describing the group name
@@ -21,17 +21,4 @@ complete description of the group.
 \description{
 Use this function to import multiple spectra files, combine them,
 and then process/clean the data.
-}
-\references{
-JS Clemente et al. 2012. “Comparison of Nuclear Magnetic Resonance Methods
-for the Analysis of Organic Matter Composition from Soil Density and Particle
-Fractions.” Environmental Chemistry. https://doi.org/10.1071/EN11096.
-
-LM Lynch et al. 2019. “Dissolved Organic Matter Chemistry and Transport
-along an Arctic Tundra Hillslope.” Global Biogeochemical Cycles.
-https://doi.org/10.1029/2018GB006030.
-
-P Mitchell et al. 2018. “Nuclear Magnetic Resonance Analysis of Changes in
-Dissolved Organic Matter Composition with Successive Layering on Clay
-Mineral Surfaces.” Soil Systems. https://doi.org/10.3390/soils2010008.
 }

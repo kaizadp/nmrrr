@@ -4,12 +4,12 @@
 \alias{import_nmr_spectra_data}
 \title{Import and process NMR spectral data}
 \usage{
-import_nmr_spectra_data(SPECTRA_FILES, METHOD, pattern = "*.csv$")
+import_nmr_spectra_data(path, method, pattern = "*.csv$")
 }
 \arguments{
-\item{SPECTRA_FILES}{path/directory where the spectra files are saved}
+\item{path}{Directory where the spectra files are saved}
 
-\item{METHOD}{KP_TODO}
+\item{method}{KP_TODO}
 
 \item{pattern}{Filename pattern (by default "*.csv$")}
 }

@@ -1,21 +1,18 @@
 
-test_that("import-spectra works", {
+test_that("import_nmr_spectra_data works", {
   # Handles empty directory
-  expect_error(import_nmr_spectra_data(SPECTRA_FILES = "./",
-                                       METHOD = "mnova"),
+  expect_error(import_nmr_spectra_data(path = "./", method = "mnova"),
     regexp = "No files found!"
   )
 
   # Handles bad method
   sdir <- "compdata/spectra"
-  expect_error(import_nmr_spectra_data(SPECTRA_FILES = sdir,
-                                       METHOD = "not_a_valid_method"),
+  expect_error(import_nmr_spectra_data(path = sdir, method = "not_valid"),
                regexp = "Appropriate methods are"
   )
 
   # Imports data in expected format
-  spectra_test <- import_nmr_spectra_data(SPECTRA_FILES = sdir,
-                                          METHOD = "mnova")
+  spectra_test <- import_nmr_spectra_data(path = sdir, method = "mnova")
 
   expect_s3_class(spectra_test, "data.frame")
   expect_identical(sort(names(spectra_test)),
@@ -25,12 +22,10 @@ test_that("import-spectra works", {
   expect_type(spectra_test$sampleID, "character")
 })
 
-test_that("binset-assignment works", {
-  spectra_binsets_old <- read.csv("compdata/spectra_binset_test.csv")
-  spectra_binsets_old$sampleID <- as.character(spectra_binsets_old$sampleID)
+test_that("assign_compound_classes works", {
 
-  spectra_test <- import_nmr_spectra_data(SPECTRA_FILES = "compdata/spectra",
-                                          METHOD = "mnova")
+  spectra_test <- import_nmr_spectra_data(path = "compdata/spectra",
+                                          method = "mnova")
   spectra_binsets_new <- assign_compound_classes(dat = spectra_test,
                                                  BINSET = bins_Clemente2012)
 
