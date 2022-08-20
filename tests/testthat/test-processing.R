@@ -12,24 +12,29 @@ test_that("binsets work", {
 })
 
 test_that("import-spectra works", {
-  # files in correct format
-  expect_error(import_nmr_spectra_data(SPECTRA_FILES = "compdata/spectra-error",
+  # Handles empty directory
+  expect_error(import_nmr_spectra_data(SPECTRA_FILES = "./",
                                        METHOD = "mnova"),
-    regexp = "no .csv files found!"
+    regexp = "No files found!"
   )
 
-  spectra_test <- import_nmr_spectra_data(SPECTRA_FILES = "compdata/spectra",
+  # Handles bad method
+  sdir <- "compdata/spectra"
+  expect_error(import_nmr_spectra_data(SPECTRA_FILES = sdir,
+                                       METHOD = "not_a_valid_method"),
+               regexp = "Appropriate methods are"
+  )
+
+  # Imports data in expected format
+  spectra_test <- import_nmr_spectra_data(SPECTRA_FILES = sdir,
                                           METHOD = "mnova")
 
-  expect_type(spectra_test, "list")
+  expect_s3_class(spectra_test, "data.frame")
+  expect_identical(sort(names(spectra_test)),
+                   sort(c("ppm", "intensity", "sampleID")))
+  expect_type(spectra_test$ppm, "double")
+  expect_type(spectra_test$intensity, "double")
   expect_type(spectra_test$sampleID, "character")
-  expect_identical(sort(names(spectra_test)), sort(c("ppm", "intensity", "sampleID")))
-
-  spectra_old <- read.csv("compdata/spectra_processed_test2.csv")
-  spectra_old$sampleID <- as.character(spectra_old$sampleID)
-
-  expect_equal(dim(spectra_test), dim(spectra_old))
-  expect_equal(spectra_test, spectra_old, ignore_attr = TRUE)
 })
 
 test_that("binset-assignment works", {
