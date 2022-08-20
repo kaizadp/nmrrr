@@ -1,57 +1,4 @@
 
-# I. NMR BINS -------------------------------------------------------------
-
-#' Choose a bin set to group and integrate the NMR peaks
-#'
-#' @description The NMR spectrum can be split into several bins, based on
-#' chemical shift (ppm). Choose a binset to group the peaks.
-#' Binsets are specific to nuclei and solvents.
-#'
-#' @param BINSET Choose the binset you want.
-#'   Options include: "Clemente2012", "Lynch2019", "Hertkorn2013_MeOD", "Mitchell2018"
-#'
-#' @return A dataframe with columns describing the group name (sometimes
-#' abbreviated), start and stop boundaries, and a longer, more complete
-#' description of the group.
-#'
-#' @references
-#' JS Clemente et al. 2012. “Comparison of Nuclear Magnetic Resonance Methods
-#' for the Analysis of Organic Matter Composition from Soil Density and
-#' Particle Fractions.” Environmental Chemistry. https://doi.org/10.1071/EN11096.
-#'
-#' LM Lynch et al. 2019. “Dissolved Organic Matter Chemistry and Transport
-#' along an Arctic Tundra Hillslope.” Global Biogeochemical Cycles.
-#' https://doi.org/10.1029/2018GB006030.
-#'
-#' P Mitchell et al. 2018. “Nuclear Magnetic Resonance Analysis of Changes
-#' in Dissolved Organic Matter Composition with Successive Layering on Clay
-#' Mineral Surfaces.” Soil Systems. https://doi.org/10.3390/soils2010008.
-#' @importFrom dplyr arrange row_number mutate %>%
-#' @importFrom utils read.delim
-#' @export
-set_bins <- function(BINSET) {
-  # Quiet R CMD CHECK notes
-  start <- NULL
-
-  filePath_bins <- list.files(path = "bins", pattern = BINSET, full.names = TRUE)
-
-  if (length(filePath_bins) > 1) {
-    stop("too many options!")
-  }
-  if (length(filePath_bins) == 0) {
-    stop("option not available")
-  }
-
-  read.delim(filePath_bins, header = TRUE) %>%
-    arrange(start) %>%
-    mutate(number = row_number())
-}
-
-
-#
-
-# II. IMPORT SPECTRA DATA -------------------------------------------------
-
 #' Import and process NMR spectral data
 #'
 #' @description Imports multiple spectra files and then combines and cleans the data.
@@ -148,7 +95,7 @@ assign_compound_classes <- function(dat, BINSET) {
   group <- start <- ppm <- NULL
 
   # load binsets
-  bins_dat <- set_bins(BINSET) %>% select(group, start, stop)
+  bins_dat <- BINSET %>% select(group, start, stop)
 
   # assign bins to each point
   subset(
@@ -165,10 +112,9 @@ assign_compound_classes_v2 <- function(dat, BINSET) {
   group <- start <- NULL
 
   # load binsets
-  bins <- set_bins(BINSET) %>%
+  bins <- BINSET %>%
     select(group, start, stop) %>%
     arrange(start, stop)
-  # bins <- readr::read_tsv("bins/Clemente2012.txt")
 
   # identify gaps between bins
   gaps <- c(utils::head(bins$stop, -1) != bins$start[-1], TRUE)
@@ -201,11 +147,11 @@ assign_compound_classes_v2 <- function(dat, BINSET) {
 #'
 #' @importFrom dplyr mutate filter select left_join bind_rows rename %>%
 #' @importFrom utils read.table
-#' @importFrom utils read.csv
+#' @importFrom utils read.csv read.delim
 #' @export
 process_peaks <- function(PEAKS_FILES, METHOD) {
   # Quiet R CMD CHECK notes
-  ppm <- Intensity <- NULL
+  ppm <- Intensity <- row_number <- NULL
 
   # import and process picked peaks data
   # data are typically saved as multiple files

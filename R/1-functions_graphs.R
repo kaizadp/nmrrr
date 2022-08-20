@@ -24,9 +24,9 @@
 gg_spectra <- function(dat, BINSET, LABEL_POSITION, mapping, STAGGER) {
   # Quiet R CMD CHECK notes
   start <- number <- sampleID <- newsource <- y_factor <-
-    intensity <- intensity_new <- NULL
+    intensity <- intensity_new <- row_number <- NULL
 
-  bins_dat <- set_bins(BINSET)
+  bins_dat <- BINSET
 
   # create spectra-base plot ----
   spectra_base <-
