@@ -82,7 +82,7 @@ import_nmr_spectra_data <- function(SPECTRA_FILES, METHOD) {
         # there is no header. so create new column names
         # then add a new column `source` to denote the file name
         df <- read.table(path, header = FALSE, col.names = c("ppm", "intensity"))
-        df[["source"]] <- rep(path, nrow(df))
+        df[["source"]] <- path
         df
       }))
     } else {
@@ -92,7 +92,7 @@ import_nmr_spectra_data <- function(SPECTRA_FILES, METHOD) {
           # there is no header. so create new column names
           # then add a new column `source` to denote the file name
           df <- read.csv(path, header = FALSE, fill = TRUE, col.names = c("x", "intensity", "y", "ppm"))
-          df[["source"]] <- rep(path, nrow(df))
+          df[["source"]] <- path
           df
         }))
       } else {
@@ -216,7 +216,7 @@ process_peaks <- function(PEAKS_FILES, METHOD) {
 
   if (METHOD == "multiple columns") {
     ## if peaks data are provided in split-column format
-    peaks_rawdat <- do.call(bind_rows, lapply(filePaths_peaks, function(path) {
+    peaks_rawdat <- bind_rows(lapply(filePaths_peaks, function(path) {
       # this function will import all the data files and combine for all samples
       # first, we run the function to clean a single file
       # the input data are spread across multiple columns, so use this function to align columns
@@ -253,7 +253,7 @@ process_peaks <- function(PEAKS_FILES, METHOD) {
   } else {
     if (METHOD == "single column") {
       ## if peaks data are provided in single-column format
-      peaks_rawdat <- do.call(rbind, lapply(filePaths_peaks, function(path) {
+      peaks_rawdat <- bind_rows(lapply(filePaths_peaks, function(path) {
         # the files are tab-delimited, so read.csv will not work. import using read.table
         # there is no header. so create new column names
         # then add a new column `source` to denote the file name
@@ -263,24 +263,24 @@ process_peaks <- function(PEAKS_FILES, METHOD) {
             "Flags", "Impurity/Compound", "Annotation"
           )
         )
-        df[["source"]] <- rep(path, nrow(df))
+        df[["source"]] <- path
         df
       }))
     } else {
       if (METHOD == "topspin") {
         ## if peaks data are provided in topspin format
-        peaks_rawdat <- do.call(rbind, lapply(filePaths_peaks, function(path) {
+        peaks_rawdat <- bind_rows(lapply(filePaths_peaks, function(path) {
           # the files are tab-delimited, so read.csv will not work. import using read.table
           # there is no header. so create new column names
           # then add a new column `source` to denote the file name
           df <- read.csv(path,
             col.names = c("peak", "ppm", "Intensity", "Annotation")
           )
-          df[["source"]] <- rep(path, nrow(df))
+          df[["source"]] <- path
           df
         }))
       } else {
-        stop("choose correct method. options are `multiple columns` and `single column` and `topspin`")
+        stop("Available methods: `multiple columns`, `single column`, or `topspin`")
       }
     }
   }
