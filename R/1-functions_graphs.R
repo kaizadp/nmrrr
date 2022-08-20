@@ -20,6 +20,7 @@
 #' @importFrom dplyr %>% distinct filter mutate select left_join rename
 #' @importFrom tidyr drop_na replace_na
 #' @importFrom utils head
+#' @export
 gg_spectra <- function(dat, BINSET, LABEL_POSITION, mapping, STAGGER) {
   # Quiet R CMD CHECK notes
   start <- number <- sampleID <- newsource <- y_factor <-

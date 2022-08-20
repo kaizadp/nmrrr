@@ -18,6 +18,7 @@
 #' @importFrom dplyr group_by mutate summarise filter select %>%
 #' @importFrom tidyr pivot_wider pivot_longer replace_na
 #' @importFrom DescTools AUC
+#' @export
 compute_relabund_cores <- function(DAT, METHOD) {
   # Quiet R CMD CHECK notes
   sampleID <- group <- ppm <- intensity <- total <- method <-
@@ -102,6 +103,7 @@ compute_relabund_cores <- function(DAT, METHOD) {
 #' @importFrom dplyr group_by mutate summarize left_join mutate_all %>%
 #' @importFrom stats sd
 #' @importFrom utils read.csv
+#' @export
 compute_relabund_treatments <- function(RELABUND_CORES, TREATMENTS, COREKEY) {
   # Quiet R CMD CHECK notes
   group <- relabund <- n <- NULL

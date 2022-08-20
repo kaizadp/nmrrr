@@ -28,6 +28,7 @@
 #' Mineral Surfaces.” Soil Systems. https://doi.org/10.3390/soils2010008.
 #' @importFrom dplyr arrange row_number mutate %>%
 #' @importFrom utils read.delim
+#' @export
 set_bins <- function(BINSET) {
   # Quiet R CMD CHECK notes
   start <- NULL
@@ -64,6 +65,7 @@ set_bins <- function(BINSET) {
 #'
 #' @importFrom dplyr mutate filter select arrange %>%
 #' @importFrom utils read.table
+#' @export
 import_nmr_spectra_data <- function(SPECTRA_FILES, METHOD) {
   # Quiet R CMD CHECK notes
   sampleID <- ppm <- NULL
@@ -140,6 +142,7 @@ import_nmr_spectra_data <- function(SPECTRA_FILES, METHOD) {
 #' Mineral Surfaces.” Soil Systems. https://doi.org/10.3390/soils2010008.
 #' @importFrom dplyr mutate filter select %>%
 #' @importFrom utils read.table
+#' @export
 assign_compound_classes <- function(dat, BINSET) {
   # Quiet R CMD CHECK notes
   group <- start <- ppm <- NULL
@@ -199,6 +202,7 @@ assign_compound_classes_v2 <- function(dat, BINSET) {
 #' @importFrom dplyr mutate filter select left_join bind_rows rename %>%
 #' @importFrom utils read.table
 #' @importFrom utils read.csv
+#' @export
 process_peaks <- function(PEAKS_FILES, METHOD) {
   # Quiet R CMD CHECK notes
   ppm <- Intensity <- NULL
