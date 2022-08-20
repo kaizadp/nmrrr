@@ -21,6 +21,7 @@ Imports:
     DescTools,
     dplyr (>= 1.0),
     ggplot2,
+    stats,
     tidyr,
     utils
 Suggests: 

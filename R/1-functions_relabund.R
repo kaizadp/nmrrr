@@ -89,6 +89,8 @@ compute_relabund_cores = function(DAT, METHOD){
 #'
 #' @importFrom dplyr group_by mutate summarize left_join mutate_all %>%
 #' @importFrom DescTools AUC
+#' @importFrom stats sd
+#' @importFrom utils read.csv
 compute_relabund_treatments = function(RELABUND_CORES, TREATMENTS, COREKEY){
 
   corekey = read.csv(COREKEY) %>% mutate_all(as.character)

@@ -163,7 +163,7 @@ assign_compound_classes_v2 = function(dat, BINSET){
   newbins <- rbind(bins[c("group", "start")], gapbins) %>% arrange(start)
   newbins[is.na(newbins)]<- "NANA"
 
-  dat$group = cut(dat$ppm, newbins$start, labels = utils::head(newbins$group, -1), right = FALSE)
+  dat$group = cut(dat$ppm, newbins$start, labels = head(newbins$group, -1), right = FALSE)
   dat %>% filter(group != "NANA")
 
 }
@@ -185,6 +185,7 @@ assign_compound_classes_v2 = function(dat, BINSET){
 #'
 #' @importFrom dplyr mutate filter select left_join bind_rows rename %>%
 #' @importFrom utils read.table
+#' @importFrom utils read.csv
 process_peaks = function(PEAKS_FILES, METHOD){
   # import and process picked peaks data
   # data are typically saved as multiple files
