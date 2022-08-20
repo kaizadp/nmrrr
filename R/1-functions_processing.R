@@ -6,6 +6,7 @@
 #' @param
 #' SPECTRA_FILES path/directory where the spectra files are saved
 #' @param METHOD KP_TODO
+#' @param pattern Filename pattern (by default "*.csv$")
 #' @return A dataframe with columns describing the group name (sometimes
 #' abbreviated), start and stop boundaries, and a longer, more complete
 #' description of the group.
@@ -13,49 +14,41 @@
 #' @importFrom dplyr mutate filter select arrange %>%
 #' @importFrom utils read.table
 #' @export
-import_nmr_spectra_data <- function(SPECTRA_FILES, METHOD) {
+import_nmr_spectra_data <- function(SPECTRA_FILES, METHOD, pattern = "*.csv$") {
   # Quiet R CMD CHECK notes
   sampleID <- ppm <- NULL
 
   # import and combine spectra data files
-  filePaths_spectra <- list.files(path = SPECTRA_FILES, pattern = "*.csv", full.names = TRUE)
+  files <- list.files(path = SPECTRA_FILES, pattern = pattern, full.names = TRUE)
 
-  if (length(filePaths_spectra) == 0) {
-    stop("no .csv files found!")
+  if (length(files) == 0) {
+    stop("No files found!")
   } else {
     if (METHOD == "mnova") {
-      spectra_dat <- do.call(rbind, lapply(filePaths_spectra, function(path) {
-        # the files are tab-delimited, so read.csv will not work. import using read.table
-        # there is no header. so create new column names
-        # then add a new column `source` to denote the file name
-        df <- read.table(path, header = FALSE, col.names = c("ppm", "intensity"))
-        df[["source"]] <- path
+      spectra_dat <- do.call(rbind, lapply(files, function(filename) {
+        # these files are tab-delimited with no header
+        df <- read.table(filename, header = FALSE, col.names = c("ppm", "intensity"))
+        df$sampleID <- basename(filename)
         df
       }))
     } else {
       if (METHOD == "topspin") {
-        spectra_dat <- do.call(rbind, lapply(filePaths_spectra, function(path) {
-          # the files are tab-delimited, so read.csv will not work. import using read.table
-          # there is no header. so create new column names
-          # then add a new column `source` to denote the file name
-          df <- read.csv(path, header = FALSE, fill = TRUE, col.names = c("x", "intensity", "y", "ppm"))
-          df[["source"]] <- path
+        spectra_dat <- do.call(rbind, lapply(files, function(filename) {
+          # these files are tab-delimited with no header
+          df <- read.csv(filename, header = FALSE, fill = TRUE, col.names = c("x", "intensity", "y", "ppm"))
+          df$sampleID <- basename(filename)
           df
         }))
       } else {
-        stop("appropriate methods are mnova and topspin")
+        stop("Appropriate methods are 'mnova' and 'topspin'")
       }
     }
   }
 
   # clean the spectral data
   spectra_dat %>%
-    mutate(source = as.character(source),
-           source = gsub(paste0(SPECTRA_FILES, "/"), "", source, fixed = TRUE),
-           source = gsub(".csv", "", source, fixed = TRUE)) %>%
-    rename(sampleID = source) %>%
-    arrange(sampleID, ppm) %>%
-    force()
+    mutate(sampleID = gsub(".csv", "", sampleID, fixed = TRUE)) %>%
+    arrange(sampleID, ppm)
 }
 
 #
