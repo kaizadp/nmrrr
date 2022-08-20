@@ -15,18 +15,15 @@
 #'
 #' @return The output will be a dataframe with columns describing ...
 #'
-#' @importFrom ggplot2 ggplot
-#' @importFrom ggplot2 geom_segment
-#' @importFrom ggplot2 geom_text
-#' @importFrom ggplot2 geom_path
-#' @importFrom ggplot2 scale_x_reverse
-#' @importFrom ggplot2 xlab
-#' @importFrom ggplot2 ylab
-#' @importFrom ggplot2 theme_classic
+#' @import ggplot2
 #' @importFrom dplyr %>% distinct filter mutate select left_join rename
 #' @importFrom tidyr drop_na replace_na
 #' @importFrom utils head
 gg_spectra <- function(dat, BINSET, LABEL_POSITION, mapping, STAGGER) {
+  # Quiet R CMD CHECK notes
+  start <- number <- sampleID <- newsource <- y_factor <-
+    intensity <- intensity_new <- NULL
+
   bins_dat <- set_bins(BINSET)
 
   # create spectra-base plot ----
