@@ -4,16 +4,17 @@
 
 #' Compute relative abundance for each sample
 #'
-#' @description Compute relative abundance of compound classes for each sample.
-#' This function will create a plot of NMR spectra, with line-brackets denoting binned regions
+#' @description Compute relative abundance of compound classes for each sample
+#' and plot NMR spectra, with line-brackets denoting binned regions.
 #'
-#' @param dat Processed spectral data, output from (a) `import_nmr_spectra_data` and `assign_compound_classes`; or (b) process_peaks
+#' @param dat Processed spectral data, output from (a) `import_nmr_spectra_data`
+#' and `assign_compound_classes`; or (b) process_peaks
 #' @param BINSET spectral binning
 #' @param LABEL_POSITION y-axis position for bin labels
 #' @param mapping aes(x = , y = )
 #' @param STAGGER how much to stagger the labels?
 #'
-#' @return The output will be a dataframe with columns describing ...
+#' @return A dataframe with columns describing ... KP_TODO
 #'
 #' @import ggplot2
 #' @importFrom dplyr %>% distinct filter mutate select left_join rename

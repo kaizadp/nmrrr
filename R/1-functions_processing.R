@@ -3,29 +3,29 @@
 
 #' Choose a bin set to group and integrate the NMR peaks
 #'
-#' @description The NMR spectrum can be split into several bins, based on chemical shift (ppm).
-#'   Choose a binset to group the peaks.
-#'   Binsets are specific to nuclei and solvents.
+#' @description The NMR spectrum can be split into several bins, based on
+#' chemical shift (ppm). Choose a binset to group the peaks.
+#' Binsets are specific to nuclei and solvents.
 #'
 #' @param BINSET Choose the binset you want.
 #'   Options include: "Clemente2012", "Lynch2019", "Hertkorn2013_MeOD", "Mitchell2018"
 #'
-#' @return The output will be a dataframe with columns describing
-#'   the group name (sometimes abbreviated), start and stop boundaries, and a longer, more complete description of the group.
-#'
+#' @return A dataframe with columns describing the group name (sometimes
+#' abbreviated), start and stop boundaries, and a longer, more complete
+#' description of the group.
 #'
 #' @references
-#' JS Clemente et al. 2012. “Comparison of Nuclear Magnetic Resonance Methods for the Analysis of Organic Matter
-#' Composition from Soil Density and Particle Fractions.”
-#' Environmental Chemistry. https://doi.org/10.1071/EN11096.
+#' JS Clemente et al. 2012. “Comparison of Nuclear Magnetic Resonance Methods
+#' for the Analysis of Organic Matter Composition from Soil Density and
+#' Particle Fractions.” Environmental Chemistry. https://doi.org/10.1071/EN11096.
 #'
-#' LM Lynch et al. 2019. “Dissolved Organic Matter Chemistry and Transport along an Arctic Tundra Hillslope.”
-#' Global Biogeochemical Cycles. https://doi.org/10.1029/2018GB006030.
+#' LM Lynch et al. 2019. “Dissolved Organic Matter Chemistry and Transport
+#' along an Arctic Tundra Hillslope.” Global Biogeochemical Cycles.
+#' https://doi.org/10.1029/2018GB006030.
 #'
-#' P Mitchell et al. 2018.
-#' “Nuclear Magnetic Resonance Analysis of Changes in Dissolved Organic Matter Composition
-#' with Successive Layering on Clay Mineral Surfaces.”
-#' Soil Systems. https://doi.org/10.3390/soils2010008.
+#' P Mitchell et al. 2018. “Nuclear Magnetic Resonance Analysis of Changes
+#' in Dissolved Organic Matter Composition with Successive Layering on Clay
+#' Mineral Surfaces.” Soil Systems. https://doi.org/10.3390/soils2010008.
 #' @importFrom dplyr arrange row_number mutate %>%
 #' @importFrom utils read.delim
 set_bins <- function(BINSET) {
@@ -63,9 +63,9 @@ set_bins <- function(BINSET) {
 #' @param
 #' SPECTRA_FILES path/directory where the spectra files are saved
 #' @param METHOD KP_TODO
-#' @return The output will be a dataframe with columns describing
-#'   the group name (sometimes abbreviated), start and stop boundaries, and a
-#'   longer, more complete description of the group.
+#' @return A dataframe with columns describing the group name (sometimes
+#' abbreviated), start and stop boundaries, and a longer, more complete
+#' description of the group.
 #'
 #' @importFrom dplyr mutate filter select arrange %>%
 #' @importFrom utils read.table
@@ -122,24 +122,27 @@ import_nmr_spectra_data <- function(SPECTRA_FILES, METHOD) {
 #' @description Use this function to import multiple spectra files, combine them,
 #' and then process/clean the data.
 #'
-#' @param dat Input dataframe. This could be spectral data, or peak picked data. Must include a `ppm` column for compound class assignment.
-#' @param BINSET Choose the binset you want. Options include: "Clemente2012", "Lynch2019", "Hertkorn2013_MeOD", "Mitchell2018"
+#' @param dat Input dataframe. This could be spectral data, or peak picked data.
+#' Must include a `ppm` column for compound class assignment.
+#' @param BINSET Choose the binset you want. Options include: "Clemente2012",
+#' "Lynch2019", "Hertkorn2013_MeOD", "Mitchell2018"
 #'
-#' @return The output will be a dataframe with columns describing
-#'   the group name (sometimes abbreviated), start and stop boundaries, and a longer, more complete description of the group.
+#' @return A dataframe with columns describing the group name
+#' (sometimes abbreviated), start and stop boundaries, and a longer, more
+#' complete description of the group.
 #'
 #' @references
-#' JS Clemente et al. 2012. “Comparison of Nuclear Magnetic Resonance Methods for the Analysis of Organic Matter
-#' Composition from Soil Density and Particle Fractions.”
-#' Environmental Chemistry. https://doi.org/10.1071/EN11096.
+#' JS Clemente et al. 2012. “Comparison of Nuclear Magnetic Resonance Methods
+#' for the Analysis of Organic Matter Composition from Soil Density and Particle
+#' Fractions.” Environmental Chemistry. https://doi.org/10.1071/EN11096.
 #'
-#' LM Lynch et al. 2019. “Dissolved Organic Matter Chemistry and Transport along an Arctic Tundra Hillslope.”
-#' Global Biogeochemical Cycles. https://doi.org/10.1029/2018GB006030.
+#' LM Lynch et al. 2019. “Dissolved Organic Matter Chemistry and Transport
+#' along an Arctic Tundra Hillslope.” Global Biogeochemical Cycles.
+#' https://doi.org/10.1029/2018GB006030.
 #'
-#' P Mitchell et al. 2018.
-#' “Nuclear Magnetic Resonance Analysis of Changes in Dissolved Organic Matter Composition
-#' with Successive Layering on Clay Mineral Surfaces.”
-#' Soil Systems. https://doi.org/10.3390/soils2010008.
+#' P Mitchell et al. 2018. “Nuclear Magnetic Resonance Analysis of Changes in
+#' Dissolved Organic Matter Composition with Successive Layering on Clay
+#' Mineral Surfaces.” Soil Systems. https://doi.org/10.3390/soils2010008.
 #' @importFrom dplyr mutate filter select %>%
 #' @importFrom utils read.table
 assign_compound_classes <- function(dat, BINSET) {
@@ -195,7 +198,7 @@ assign_compound_classes_v2 <- function(dat, BINSET) {
 #' single-column format, exported from MNova as "peaks script".
 #' @param METHOD KP_TODO
 #'
-#' @return The output will be a dataframe with columns describing
+#' @return A dataframe with columns describing
 #'   sample ID, ppm, intensity, area, group name.
 #'
 #' @importFrom dplyr mutate filter select left_join bind_rows rename %>%

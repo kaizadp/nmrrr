@@ -7,7 +7,8 @@
 gg_spectra(dat, BINSET, LABEL_POSITION, mapping, STAGGER)
 }
 \arguments{
-\item{dat}{Processed spectral data, output from (a) `import_nmr_spectra_data` and `assign_compound_classes`; or (b) process_peaks}
+\item{dat}{Processed spectral data, output from (a) `import_nmr_spectra_data`
+and `assign_compound_classes`; or (b) process_peaks}
 
 \item{BINSET}{spectral binning}
 
@@ -18,9 +19,9 @@ gg_spectra(dat, BINSET, LABEL_POSITION, mapping, STAGGER)
 \item{STAGGER}{how much to stagger the labels?}
 }
 \value{
-The output will be a dataframe with columns describing ...
+A dataframe with columns describing ... KP_TODO
 }
 \description{
-Compute relative abundance of compound classes for each sample.
-This function will create a plot of NMR spectra, with line-brackets denoting binned regions
+Compute relative abundance of compound classes for each sample
+and plot NMR spectra, with line-brackets denoting binned regions.
 }

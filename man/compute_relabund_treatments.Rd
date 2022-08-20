@@ -14,8 +14,8 @@ compute_relabund_treatments(RELABUND_CORES, TREATMENTS, COREKEY)
 \item{COREKEY}{Dataframe containing sample key}
 }
 \value{
-The output will be a dataframe with columns describing ...
+A dataframe with columns describing ... KP_TODO
 }
 \description{
-Use this function to compute relative-abundance summaries for each treatment
+Compute relative-abundance summaries for each treatment.
 }

@@ -12,9 +12,9 @@ import_nmr_spectra_data(SPECTRA_FILES, METHOD)
 \item{METHOD}{KP_TODO}
 }
 \value{
-The output will be a dataframe with columns describing
-  the group name (sometimes abbreviated), start and stop boundaries, and a
-  longer, more complete description of the group.
+A dataframe with columns describing the group name (sometimes
+abbreviated), start and stop boundaries, and a longer, more complete
+description of the group.
 }
 \description{
 Imports multiple spectra files and then combines and cleans the data.
