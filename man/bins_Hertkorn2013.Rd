@@ -30,4 +30,8 @@ NMR grouping bins from  Hertkorn et al. (2013). KP_TODO
 The NMR spectrum can be split into several bins, based on
 chemical shift (ppm). Binsets are specific to nuclei and solvents.
 }
+\seealso{
+\code{\link{bins_Clemente2012}} \code{\link{bins_Lynch2019}}
+\code{\link{bins_Mitchell2018}}
+}
 \keyword{datasets}
