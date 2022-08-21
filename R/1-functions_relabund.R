@@ -16,7 +16,7 @@
 #' @return A dataframe with columns describing ... KP_TODO
 #'
 #' @importFrom dplyr group_by mutate summarise filter select %>%
-#' @importFrom tidyr pivot_wider pivot_longer complete
+#' @importFrom tidyr complete
 #' @importFrom DescTools AUC
 #' @export
 compute_relabund_cores <- function(dat, method) {
