@@ -3,122 +3,86 @@
 #'
 #' @description Imports multiple spectra files and then combines and cleans the data.
 #'
-#' @param
-#' SPECTRA_FILES path/directory where the spectra files are saved
-#' @param METHOD KP_TODO
-#' @param pattern Filename pattern (by default "*.csv$")
-#' @return A dataframe with columns describing the group name (sometimes
-#' abbreviated), start and stop boundaries, and a longer, more complete
-#' description of the group.
+#' @param path Directory where the spectra files are saved
+#' @param method KP_TODO
+#' @param pattern Filename pattern to search for (by default "*.csv$")
+#' @param quiet Print diagnostic messages? Logical
+#' @return The data from all files found, concatenated into a single
+#' data frame and sorted.
 #'
 #' @importFrom dplyr mutate filter select arrange %>%
 #' @importFrom utils read.table
 #' @export
-import_nmr_spectra_data <- function(SPECTRA_FILES, METHOD, pattern = "*.csv$") {
+import_nmr_spectra_data <- function(path, method,
+                                    pattern = "*.csv$", quiet = FALSE) {
   # Quiet R CMD CHECK notes
   sampleID <- ppm <- NULL
 
   # import and combine spectra data files
-  files <- list.files(path = SPECTRA_FILES, pattern = pattern, full.names = TRUE)
+  files <- list.files(path = path, pattern = pattern, full.names = TRUE)
+  if(!quiet) message("Found ", length(files), " files")
 
   if (length(files) == 0) {
     stop("No files found!")
+  } else if (method == "mnova") {
+    spectra_dat <- lapply(files, function(f) {
+      # these files are tab-delimited with no header
+      df <- read.table(f, header = FALSE, col.names = c("ppm", "intensity"))
+      df$sampleID <- basename(f)
+      df
+    })
+  } else if (method == "topspin") {
+    spectra_dat <- lapply(files, function(f) {
+      # these files are tab-delimited with no header
+      df <- read.csv(f, header = FALSE, fill = TRUE, col.names = c("x", "intensity", "y", "ppm"))
+      df$sampleID <- basename(f)
+      df
+    })
   } else {
-    if (METHOD == "mnova") {
-      spectra_dat <- do.call(rbind, lapply(files, function(filename) {
-        # these files are tab-delimited with no header
-        df <- read.table(filename, header = FALSE, col.names = c("ppm", "intensity"))
-        df$sampleID <- basename(filename)
-        df
-      }))
-    } else {
-      if (METHOD == "topspin") {
-        spectra_dat <- do.call(rbind, lapply(files, function(filename) {
-          # these files are tab-delimited with no header
-          df <- read.csv(filename, header = FALSE, fill = TRUE, col.names = c("x", "intensity", "y", "ppm"))
-          df$sampleID <- basename(filename)
-          df
-        }))
-      } else {
-        stop("Appropriate methods are 'mnova' and 'topspin'")
-      }
-    }
+    stop("Appropriate methods are 'mnova' and 'topspin'")
   }
 
   # clean the spectral data
   spectra_dat %>%
+    bind_rows() %>%
     mutate(sampleID = gsub(".csv", "", sampleID, fixed = TRUE)) %>%
     arrange(sampleID, ppm)
 }
 
-#
-# III. ASSIGN BINS --------------------------------------------------------
 
 #' Assign compound classes using the chosen binset
 #'
-#' @description Use this function to import multiple spectra files, combine them,
-#' and then process/clean the data.
+#' @description Assign group (bin name) to each row of the data based on
+#' the \code{ppm} column.
 #'
 #' @param dat Input dataframe. This could be spectral data, or peak picked data.
-#' Must include a `ppm` column for compound class assignment.
-#' @param BINSET Choose the binset you want. Options include: "Clemente2012",
-#' "Lynch2019", "Hertkorn2013_MeOD", "Mitchell2018"
+#' Must include a `ppm` column for compound class assignment
+#' @param binset A binset; e.g. \code{\link{bins_Clemente2012}},
+#' \code{\link{bins_Hertkorn2013}}, etc., or a similarly-structured data frame
 #'
-#' @return A dataframe with columns describing the group name
-#' (sometimes abbreviated), start and stop boundaries, and a longer, more
-#' complete description of the group.
-#'
-#' @references
-#' JS Clemente et al. 2012. “Comparison of Nuclear Magnetic Resonance Methods
-#' for the Analysis of Organic Matter Composition from Soil Density and Particle
-#' Fractions.” Environmental Chemistry. https://doi.org/10.1071/EN11096.
-#'
-#' LM Lynch et al. 2019. “Dissolved Organic Matter Chemistry and Transport
-#' along an Arctic Tundra Hillslope.” Global Biogeochemical Cycles.
-#' https://doi.org/10.1029/2018GB006030.
-#'
-#' P Mitchell et al. 2018. “Nuclear Magnetic Resonance Analysis of Changes in
-#' Dissolved Organic Matter Composition with Successive Layering on Clay
-#' Mineral Surfaces.” Soil Systems. https://doi.org/10.3390/soils2010008.
-#' @importFrom dplyr mutate filter select %>%
-#' @importFrom utils read.table
+#' @return The input dataframe with a new \code{group} column whose entries
+#' are drawn from the binset. Entries will be \code{NA} if a \code{ppm}
+#' value does not fall into any group.
 #' @export
-assign_compound_classes <- function(dat, BINSET) {
-  # Quiet R CMD CHECK notes
-  group <- start <- ppm <- NULL
+assign_compound_classes <- function(dat, binset) {
 
-  # load binsets
-  bins_dat <- BINSET %>% select(group, start, stop)
+  # Assign group (bin name) to each row of the data based on 'ppm'
+  # We were previously merging and filtering to do this, which worked,
+  # but is slow and memory-intensive; this is 3x as fast and efficient
 
-  # assign bins to each point
-  subset(
-    merge(dat, bins_dat),
-    start <= ppm & ppm <= stop
-  ) %>%
-    select(-start, -stop)
+  # Helper function that finds which binset row matches a value
+  # Specifically, start <= x (ppm) <= stop
+  match_bins <- function(x, binset) {
+    y <- which(x >= binset$start & x <= binset$stop)
+    if(length(y) == 1) return(y) else return(NA_integer_)
+  }
+
+  # For each row, call match_bins above
+  bin_vals <- sapply(dat$ppm, match_bins, binset = binset)
+  dat$group <- binset$group[bin_vals]
+  dat
 }
 
-
-
-assign_compound_classes_v2 <- function(dat, BINSET) {
-  # Quiet R CMD CHECK notes
-  group <- start <- NULL
-
-  # load binsets
-  bins <- BINSET %>%
-    select(group, start, stop) %>%
-    arrange(start, stop)
-
-  # identify gaps between bins
-  gaps <- c(utils::head(bins$stop, -1) != bins$start[-1], TRUE)
-  # create new gap bins
-  gapbins <- dplyr::tibble(group = NA_character_, start = bins$stop[gaps])
-  newbins <- rbind(bins[c("group", "start")], gapbins) %>% arrange(start)
-  newbins[is.na(newbins)] <- "NANA"
-
-  dat$group <- cut(dat$ppm, newbins$start, labels = head(newbins$group, -1), right = FALSE)
-  dat %>% filter(group != "NANA")
-}
 
 # IV. PROCESS PEAKS -------------------------------------------------------
 
@@ -197,10 +161,10 @@ process_peaks <- function(PEAKS_FILES, METHOD) {
         # there is no header. so create new column names
         # then add a new column `source` to denote the file name
         df <- read.delim(path,
-          col.names = c(
-            "ppm", "Intensity", "Width", "Area", "Type",
-            "Flags", "Impurity/Compound", "Annotation"
-          )
+                         col.names = c(
+                           "ppm", "Intensity", "Width", "Area", "Type",
+                           "Flags", "Impurity/Compound", "Annotation"
+                         )
         )
         df[["source"]] <- path
         df
@@ -213,7 +177,7 @@ process_peaks <- function(PEAKS_FILES, METHOD) {
           # there is no header. so create new column names
           # then add a new column `source` to denote the file name
           df <- read.csv(path,
-            col.names = c("peak", "ppm", "Intensity", "Annotation")
+                         col.names = c("peak", "ppm", "Intensity", "Annotation")
           )
           df[["source"]] <- path
           df
