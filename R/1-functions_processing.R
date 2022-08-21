@@ -24,7 +24,9 @@ import_nmr_spectra_data <- function(path, method,
 
   if (length(files) == 0) {
     stop("No files found!")
-  } else if (method == "mnova") {
+  }
+
+  if (method == "mnova") {
     spectra_dat <- lapply(files, function(f) {
       # these files are tab-delimited with no header
       df <- read.table(f, header = FALSE, col.names = c("ppm", "intensity"))
@@ -112,6 +114,10 @@ process_peaks <- function(path, method, pattern = "*.csv$", quiet = FALSE) {
   files <- list.files(path = path, pattern = pattern, full.names = TRUE)
   if(!quiet) message("Found ", length(files), " files")
 
+  if (length(files) == 0) {
+    stop("No files found!")
+  }
+
   if (METHOD == "multiple columns") {
     # Peaks data are provided in split-column format
     peaks_rawdat <- lapply(files, function(f) {
@@ -180,8 +186,7 @@ process_peaks <- function(path, method, pattern = "*.csv$", quiet = FALSE) {
     }
   }
 
-  # clean the source column
-
+  # Combine, filter, and clean the sampleID column
   peaks_rawdat %>%
     bind_rows() %>%
     filter(ppm >= 0 & ppm <= 10) %>%
