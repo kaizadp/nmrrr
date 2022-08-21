@@ -24,7 +24,9 @@ import_nmr_spectra_data <- function(path, method,
 
   if (length(files) == 0) {
     stop("No files found!")
-  } else if (method == "mnova") {
+  }
+
+  if (method == "mnova") {
     spectra_dat <- lapply(files, function(f) {
       # these files are tab-delimited with no header
       df <- read.table(f, header = FALSE, col.names = c("ppm", "intensity"))
@@ -84,21 +86,18 @@ assign_compound_classes <- function(dat, binset) {
 }
 
 
-# IV. PROCESS PEAKS -------------------------------------------------------
-
-
 #' Process picked peaks data
 #'
-#' @description Use this function to process data of peaks picked with NMR software.
+#' @description Process data of peaks picked with NMR software.
 #'
-#' @param PEAKS_FILES file path for peaks data (input). All the peaks files are
-#' saved as individual .csv files
-#' @param METHOD format of input data, depending on how the data were exported.
-#' "multiple columns": use when data are in split-column format, obtained by
-#' pasting "peaks table" in MNova. "single column": use when data are in
+#' @param path Directory where the peaks data are saved
+#' @param method Format of input data, depending on how the data were exported.
+#' "multiple columns": data are in split-column format, obtained by
+#' pasting "peaks table" in MNova. "single column": data are in
 #' single-column format, exported from MNova as "peaks script".
-#' @param METHOD KP_TODO
-#'
+#' @param pattern Filename pattern to search for (by default "*.csv$")
+#' @param quiet Print diagnostic messages? Logical
+
 #' @return A dataframe with columns describing
 #'   sample ID, ppm, intensity, area, group name.
 #'
@@ -106,32 +105,36 @@ assign_compound_classes <- function(dat, binset) {
 #' @importFrom utils read.table
 #' @importFrom utils read.csv read.delim
 #' @export
-process_peaks <- function(PEAKS_FILES, METHOD) {
+process_peaks <- function(path, method, pattern = "*.csv$", quiet = FALSE) {
   # Quiet R CMD CHECK notes
-  ppm <- Intensity <- row_number <- NULL
+  ppm <- Intensity <- row_number <- sampleID <- NULL
 
-  # import and process picked peaks data
-  # data are typically saved as multiple files
-  # import and compile
+  # Import and process picked peaks data; typically saved as multiple files
 
-  ## then, set the file path for the peaks data
-  filePaths_peaks <- list.files(path = PEAKS_FILES, pattern = "*.csv", full.names = TRUE)
+  files <- list.files(path = path, pattern = pattern, full.names = TRUE)
+  if(!quiet) message("Found ", length(files), " files")
 
-  if (METHOD == "multiple columns") {
-    ## if peaks data are provided in split-column format
-    peaks_rawdat <- bind_rows(lapply(filePaths_peaks, function(path) {
-      # this function will import all the data files and combine for all samples
-      # first, we run the function to clean a single file
-      # the input data are spread across multiple columns, so use this function to align columns
+  if (length(files) == 0) {
+    stop("No files found!")
+  }
 
-      align_columns <- function(path) {
-        # Step 1. import file.
-        # check.names=FALSE because columns have duplicate names, and we want to leave as is
-        df <- read.csv(path, stringsAsFactors = FALSE, check.names = FALSE)
+  if (method == "multiple columns") {
+    # Peaks data are provided in split-column format
+    peaks_rawdat <- lapply(files, function(f) {
+      # This function will import all the data files and combine for all samples
+
+      align_columns <- function(f) {
+        # The input data are spread across multiple columns
+        # Step 1. import file; check.names=FALSE because columns have
+        # duplicate names, and we want to leave as is
+        df <- read.csv(f,
+                       stringsAsFactors = FALSE,
+                       check.names = FALSE,
+                       colClasses = c(Annotation = "character"))
 
         # Step 2. confirm that the data are in 9-column groups
         noname_cols <- which(names(df) == "")
-        if (!all(diff(noname_cols) == 9)) {
+        if (ncol(df) < 9 || !all(diff(noname_cols) == 9)) {
           stop("Formatting problem: data don't appear to be in 9-column groups")
         }
         names(df)[noname_cols] <- "Obs" # give them a name
@@ -144,58 +147,58 @@ process_peaks <- function(PEAKS_FILES, METHOD) {
         nmr_dat <- bind_rows(nmr_list)
 
         # Step 5. Create a new column that includes source sample name
-        nmr_dat[["source"]] <- rep(path, nrow(df))
-
+        nmr_dat[["sampleID"]] <- basename(f)
+        nmr_dat[["Impurity/Compound"]] <- as.character( nmr_dat[["Impurity/Compound"]] )
         nmr_dat
       }
 
       # now create an object from the function
-      align_columns(path)
+      align_columns(f)
       # this will be repeated for each file in the input folder
-    }))
+    })
   } else {
-    if (METHOD == "single column") {
-      ## if peaks data are provided in single-column format
-      peaks_rawdat <- bind_rows(lapply(filePaths_peaks, function(path) {
-        # the files are tab-delimited, so read.csv will not work. import using read.table
-        # there is no header. so create new column names
-        # then add a new column `source` to denote the file name
-        df <- read.delim(path,
+    if (method == "single column") {
+      peaks_rawdat <- lapply(files, function(f) {
+        # The files are tab-delimited, so import using read.table
+        # There is no header, so create new column names
+        df <- read.delim(f,
+                         stringsAsFactors = FALSE,
+                         check.names = FALSE,
+                         header = FALSE,
                          col.names = c(
-                           "ppm", "Intensity", "Width", "Area", "Type",
-                           "Flags", "Impurity/Compound", "Annotation"
+                           "ppm", "Intensity", "Width", "Area",
+                           "Impurity/Compound", "Annotation", "junk1", "junk2"
                          )
         )
-        df[["source"]] <- path
+        df[["sampleID"]] <- basename(f)
+        df[["junk1"]] <- df[["junk2"]] <- NULL
         df
-      }))
+      })
     } else {
-      if (METHOD == "topspin") {
-        ## if peaks data are provided in topspin format
-        peaks_rawdat <- bind_rows(lapply(filePaths_peaks, function(path) {
-          # the files are tab-delimited, so read.csv will not work. import using read.table
-          # there is no header. so create new column names
-          # then add a new column `source` to denote the file name
-          df <- read.csv(path,
-                         col.names = c("peak", "ppm", "Intensity", "Annotation")
+      if (method == "topspin") {
+        peaks_rawdat <- lapply(files, function(f) {
+          # Files are comma-delimited, with a header
+          df <- read.csv(f,
+                         stringsAsFactors = FALSE,
+                         header = TRUE,
+                         col.names = c("peak", "ppm", "Intensity", "Annotation"),
+                         colClasses = c(Annotation = "character")
           )
-          df[["source"]] <- path
+          df[["sampleID"]] <- basename(f)
           df
-        }))
+        })
       } else {
-        stop("Available methods: `multiple columns`, `single column`, or `topspin`")
+        stop("Available methods: 'multiple columns', 'single column', or 'topspin'")
       }
     }
   }
-  # clean the source column
 
+  # Combine, filter, and clean the sampleID column
   peaks_rawdat %>%
+    bind_rows() %>%
     filter(ppm >= 0 & ppm <= 10) %>%
     filter(Intensity > 0) %>%
     filter(!is.na(ppm)) %>%
     # filter(!Flags == "Weak") %>%
-    mutate(source = gsub(paste0(PEAKS_FILES, "/"), "", source, fixed = TRUE),
-           source = gsub(".csv", "", source, fixed = TRUE)) %>%
-    rename(sampleID = source) %>%
-    force()
+    mutate(sampleID = gsub(".csv", "", sampleID, fixed = TRUE))
 }
