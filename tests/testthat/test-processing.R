@@ -8,7 +8,7 @@ test_that("import_nmr_spectra_data works", {
   # Handles bad method
   sdir <- "compdata/spectra"
   expect_error(import_nmr_spectra_data(path = sdir, method = "not_valid", quiet = TRUE),
-               regexp = "Appropriate methods are"
+               regexp = "Available methods"
   )
 
   # Respects quiet parameter

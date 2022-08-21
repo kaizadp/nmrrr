@@ -7,82 +7,53 @@
 #'
 #' @description Compute relative abundance of compound classes for each sample.
 #'
-#' @param DAT Processed spectral data, output from (a) `import_nmr_spectra_data`
+#' @param dat Processed spectral data, output from (a) `import_nmr_spectra_data`
 #' and `assign_compound_classes`; or (b) process_peaks
-#' @param METHOD Choose the method for calculating relative abundance.
+#' @param method Choose the method for calculating relative abundance.
 #' Options include (a) "AUC", integrating the spectral region within each bin;
 #' (b) "peaks", adding areas of peaks if a peak-picked file is provided.
 #'
-#' @return A dataframe with columns describing ...
+#' @return A dataframe with columns describing ... KP_TODO
 #'
 #' @importFrom dplyr group_by mutate summarise filter select %>%
-#' @importFrom tidyr pivot_wider pivot_longer replace_na
+#' @importFrom tidyr pivot_wider pivot_longer complete
 #' @importFrom DescTools AUC
 #' @export
-compute_relabund_cores <- function(DAT, METHOD) {
+compute_relabund_cores <- function(dat, method) {
   # Quiet R CMD CHECK notes
-  sampleID <- group <- ppm <- intensity <- total <- method <-
+  sampleID <- group <- ppm <- intensity <- total <-
     where <- relabund <- Area <- area <- . <- NULL
 
-  if (METHOD == "AUC") {
-    relabund_temp1 <-
-      DAT %>%
-      mutate(sampleID = as.character(sampleID)) %>%
+  if (method == "AUC") {
+    dat %>%
       group_by(sampleID, group) %>%
       summarise(
-        AUC = DescTools::AUC(
-          x = ppm, y = intensity,
-          from = min(ppm), to = max(ppm)
-        ),
-        method = "trapezoid"
+        AUC = AUC(x = ppm, y = intensity, from = min(ppm), to = max(ppm)),
+        .groups = "drop_last"
       ) %>%
-      mutate(AUC = replace_na(AUC, 0)) %>%
-      mutate(
-        total = sum(AUC),
-        relabund = (AUC / total) * 100
-      )
-
-    relabund_temp2_wide <-
-      relabund_temp1 %>%
-      select(-AUC, -method, -total) %>%
-      pivot_wider(names_from = "group", values_from = "relabund")
-
-    relabund_cores <-
-      relabund_temp2_wide %>%
-      pivot_longer(where(is.numeric), values_to = "relabund", names_to = "group") %>%
-      replace_na(list(relabund = 0)) %>%
-      mutate(relabund = round(relabund, 3))
-
-    relabund_cores
+      mutate(AUC = replace_na(AUC, 0),
+             relabund = (AUC / sum(AUC)) * 100) %>%
+      select(-AUC) %>%
+      # Fill in any missing ID x group combinations with zeroes
+      complete(sampleID, group, fill = list(relabund = 0))
   } else {
-    if (METHOD == "peaks") {
-      #      stop("peaks data needed")
+    if (method == "peaks") {
+      if(!"Area" %in% colnames(dat)) {
+        stop("No 'Area' column; peaks data needed")
+      }
 
-      rel_abund_cores1 <-
-        DAT %>%
+      dat %>%
         group_by(sampleID, group) %>%
-        summarize(area = sum(Area)) %>%
-        group_by(sampleID) %>%
-        mutate(
-          total = sum(area),
-          relabund = round((area / total) * 100, 2)
-        ) %>%
+        summarize(area = sum(Area), .groups = "drop_last") %>%
+        mutate(relabund = area / sum(area) * 100) %>%
         select(sampleID, group, relabund) %>%
-        filter(!is.na(group)) %>%
-        replace(is.na(.), 0)
-
-      rel_abund_wide1 <-
-        rel_abund_cores1 %>%
-        pivot_wider(names_from = "group", values_from = "relabund")
-
-      rel_abund_cores <-
-        rel_abund_wide1 %>%
-        pivot_longer(where(is.numeric), values_to = "relabund", names_to = "group") %>%
-        replace_na(list(relabund = 0))
-
-      rel_abund_cores
+        # KP_TODO: let user decide about filtering out NA groups?
+        #filter(!is.na(group)) %>%
+        replace_na(list(relabund = 0)) %>%
+        # Fill in any missing ID x group combinations with zeroes
+        complete(sampleID, group, fill = list(relabund = 0))
     } else {
-      stop("choose correct method: `AUC` or `peaks` ")
+      stop("Available methods: 'AUC' or 'peaks'")
     }
   }
 }
