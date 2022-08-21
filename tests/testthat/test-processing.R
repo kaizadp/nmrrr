@@ -77,7 +77,7 @@ test_that("process_peaks works", {
   expect_type(topspin_test$Annotation, "character")
   expect_type(topspin_test$sampleID, "character")
   expect_identical(length(unique(topspin_test$sampleID)),
-                   length(list.files(topspin_dir)))
+                   length(list.files(topspin_dir, pattern = "*.csv")))
 
   # mnova multiple: detects bad format
   expect_error(process_peaks(path = topspin_dir,
@@ -102,10 +102,10 @@ test_that("process_peaks works", {
   expect_type(multiple_test$Annotation, "character")
   expect_type(multiple_test$sampleID, "character")
   expect_identical(length(unique(multiple_test$sampleID)),
-                   length(list.files(multiple_dir)))
+                   length(list.files(multiple_dir, pattern = "*.csv")))
 
   # single: expected data format
-  single_dir <- "compdata/peaks_single"
+  single_dir <- "compdata/peaks_mnova_single"
   single_test <- process_peaks(path = single_dir,
                                  method = "single column", quiet = TRUE)
   expect_identical(sort(names(single_test)),
@@ -119,5 +119,5 @@ test_that("process_peaks works", {
   expect_type(single_test$Annotation, "character")
   expect_type(single_test$sampleID, "character")
   expect_identical(length(unique(single_test$sampleID)),
-                   length(list.files(single_dir)))
+                   length(list.files(single_dir, pattern = "*.csv")))
 })
