@@ -11,14 +11,13 @@ import_nmr_spectra_data(path, method, pattern = "*.csv$", quiet = FALSE)
 
 \item{method}{KP_TODO}
 
-\item{pattern}{Filename pattern (by default "*.csv$")}
+\item{pattern}{Filename pattern to search for (by default "*.csv$")}
 
 \item{quiet}{Print diagnostic messages? Logical}
 }
 \value{
-A dataframe with columns describing the group name (sometimes
-abbreviated), start and stop boundaries, and a longer, more complete
-description of the group.
+The data from all files found, concatenated into a single
+data frame and sorted.
 }
 \description{
 Imports multiple spectra files and then combines and cleans the data.

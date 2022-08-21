@@ -5,11 +5,10 @@
 #'
 #' @param path Directory where the spectra files are saved
 #' @param method KP_TODO
-#' @param pattern Filename pattern (by default "*.csv$")
+#' @param pattern Filename pattern to search for (by default "*.csv$")
 #' @param quiet Print diagnostic messages? Logical
-#' @return A dataframe with columns describing the group name (sometimes
-#' abbreviated), start and stop boundaries, and a longer, more complete
-#' description of the group.
+#' @return The data from all files found, concatenated into a single
+#' data frame and sorted.
 #'
 #' @importFrom dplyr mutate filter select arrange %>%
 #' @importFrom utils read.table
@@ -50,8 +49,6 @@ import_nmr_spectra_data <- function(path, method,
     arrange(sampleID, ppm)
 }
 
-#
-# III. ASSIGN BINS --------------------------------------------------------
 
 #' Assign compound classes using the chosen binset
 #'
@@ -70,8 +67,8 @@ import_nmr_spectra_data <- function(path, method,
 assign_compound_classes <- function(dat, binset) {
 
   # Assign group (bin name) to each row of the data based on 'ppm'
-  # We were previously merging and filtering to do this, which works,
-  # but is slow and memory-intensive
+  # We were previously merging and filtering to do this, which worked,
+  # but is slow and memory-intensive; this is 3x as fast and efficient
 
   # Helper function that finds which binset row matches a value
   # Specifically, start <= x (ppm) <= stop
