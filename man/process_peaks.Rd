@@ -4,18 +4,24 @@
 \alias{process_peaks}
 \title{Process picked peaks data}
 \usage{
-process_peaks(PEAKS_FILES, METHOD)
+process_peaks(path, method, pattern = "*.csv$", quiet = FALSE)
 }
 \arguments{
-\item{PEAKS_FILES}{file path for peaks data (input). All the peaks files are
-saved as individual .csv files}
+\item{path}{Directory where the peaks data are saved}
 
-\item{METHOD}{KP_TODO}
+\item{method}{Format of input data, depending on how the data were exported.
+"multiple columns": data are in split-column format, obtained by
+pasting "peaks table" in MNova. "single column": data are in
+single-column format, exported from MNova as "peaks script".}
+
+\item{pattern}{Filename pattern to search for (by default "*.csv$")}
+
+\item{quiet}{Print diagnostic messages? Logical}
 }
 \value{
 A dataframe with columns describing
   sample ID, ppm, intensity, area, group name.
 }
 \description{
-Use this function to process data of peaks picked with NMR software.
+Process data of peaks picked with NMR software.
 }
