@@ -107,7 +107,7 @@ assign_compound_classes <- function(dat, binset) {
 #' @export
 process_peaks <- function(path, method, pattern = "*.csv$", quiet = FALSE) {
   # Quiet R CMD CHECK notes
-  ppm <- Intensity <- row_number <- NULL
+  ppm <- Intensity <- row_number <- sampleID <- NULL
 
   # Import and process picked peaks data; typically saved as multiple files
 
@@ -118,20 +118,23 @@ process_peaks <- function(path, method, pattern = "*.csv$", quiet = FALSE) {
     stop("No files found!")
   }
 
-  if (METHOD == "multiple columns") {
+  if (method == "multiple columns") {
     # Peaks data are provided in split-column format
     peaks_rawdat <- lapply(files, function(f) {
       # This function will import all the data files and combine for all samples
 
       align_columns <- function(f) {
-        # the input data are spread across multiple columns
-        # Step 1. import file.
-        # check.names=FALSE because columns have duplicate names, and we want to leave as is
-        df <- read.csv(f, stringsAsFactors = FALSE, check.names = FALSE)
+        # The input data are spread across multiple columns
+        # Step 1. import file; check.names=FALSE because columns have
+        # duplicate names, and we want to leave as is
+        df <- read.csv(f,
+                       stringsAsFactors = FALSE,
+                       check.names = FALSE,
+                       colClasses = c(Annotation = "character"))
 
         # Step 2. confirm that the data are in 9-column groups
         noname_cols <- which(names(df) == "")
-        if (!all(diff(noname_cols) == 9)) {
+        if (ncol(df) < 9 || !all(diff(noname_cols) == 9)) {
           stop("Formatting problem: data don't appear to be in 9-column groups")
         }
         names(df)[noname_cols] <- "Obs" # give them a name
@@ -145,6 +148,7 @@ process_peaks <- function(path, method, pattern = "*.csv$", quiet = FALSE) {
 
         # Step 5. Create a new column that includes source sample name
         nmr_dat[["sampleID"]] <- basename(f)
+        nmr_dat[["Impurity/Compound"]] <- as.character( nmr_dat[["Impurity/Compound"]] )
         nmr_dat
       }
 
@@ -153,29 +157,32 @@ process_peaks <- function(path, method, pattern = "*.csv$", quiet = FALSE) {
       # this will be repeated for each file in the input folder
     })
   } else {
-    if (METHOD == "single column") {
+    if (method == "single column") {
       peaks_rawdat <- lapply(files, function(f) {
         # The files are tab-delimited, so import using read.table
         # There is no header, so create new column names
-        df <- read.delim(path,
+        df <- read.delim(f,
                          stringsAsFactors = FALSE,
+                         check.names = FALSE,
+                         header = FALSE,
                          col.names = c(
-                           "ppm", "Intensity", "Width", "Area", "Type",
-                           "Flags", "Impurity/Compound", "Annotation"
+                           "ppm", "Intensity", "Width", "Area",
+                           "Impurity/Compound", "Annotation", "junk1", "junk2"
                          )
         )
         df[["sampleID"]] <- basename(f)
+        df[["junk1"]] <- df[["junk2"]] <- NULL
         df
       })
     } else {
-      if (METHOD == "topspin") {
+      if (method == "topspin") {
         peaks_rawdat <- lapply(files, function(f) {
-          # the files are tab-delimited, so read.csv will not work. import using read.table
-          # there is no header. so create new column names
-          # then add a new column `source` to denote the file name
-          df <- read.csv(path,
+          # Files are comma-delimited, with a header
+          df <- read.csv(f,
                          stringsAsFactors = FALSE,
-                         col.names = c("peak", "ppm", "Intensity", "Annotation")
+                         header = TRUE,
+                         col.names = c("peak", "ppm", "Intensity", "Annotation"),
+                         colClasses = c(Annotation = "character")
           )
           df[["sampleID"]] <- basename(f)
           df
