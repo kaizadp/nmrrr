@@ -6,6 +6,7 @@
 #' @param path Directory where the spectra files are saved
 #' @param method KP_TODO
 #' @param pattern Filename pattern (by default "*.csv$")
+#' @param quiet Print diagnostic messages? Logical
 #' @return A dataframe with columns describing the group name (sometimes
 #' abbreviated), start and stop boundaries, and a longer, more complete
 #' description of the group.
@@ -13,13 +14,14 @@
 #' @importFrom dplyr mutate filter select arrange %>%
 #' @importFrom utils read.table
 #' @export
-import_nmr_spectra_data <- function(path, method, pattern = "*.csv$") {
+import_nmr_spectra_data <- function(path, method,
+                                    pattern = "*.csv$", quiet = FALSE) {
   # Quiet R CMD CHECK notes
   sampleID <- ppm <- NULL
 
   # import and combine spectra data files
   files <- list.files(path = path, pattern = pattern, full.names = TRUE)
-  message("Found ", length(files), " files")
+  if(!quiet) message("Found ", length(files), " files")
 
   if (length(files) == 0) {
     stop("No files found!")

@@ -1,19 +1,24 @@
 
 test_that("import_nmr_spectra_data works", {
   # Handles empty directory
-  expect_error(import_nmr_spectra_data(path = "./", method = "mnova"),
-    regexp = "No files found!"
+  expect_error(import_nmr_spectra_data(path = "./", method = "mnova", quiet = TRUE),
+               regexp = "No files found!"
   )
 
   # Handles bad method
   sdir <- "compdata/spectra"
-  expect_error(import_nmr_spectra_data(path = sdir, method = "not_valid"),
+  expect_error(import_nmr_spectra_data(path = sdir, method = "not_valid", quiet = TRUE),
                regexp = "Appropriate methods are"
   )
 
-  # Imports data in expected format
-  spectra_test <- import_nmr_spectra_data(path = sdir, method = "mnova")
+  # Respects quiet parameter
+  expect_message(import_nmr_spectra_data(path = sdir, method = "mnova", quiet = FALSE),
+                 regexp = "Found")
+  expect_silent({
+    spectra_test <- import_nmr_spectra_data(path = sdir, method = "mnova", quiet = TRUE)
+  })
 
+  # Imports data in expected format
   expect_s3_class(spectra_test, "data.frame")
   expect_identical(sort(names(spectra_test)),
                    sort(c("ppm", "intensity", "sampleID")))
@@ -25,10 +30,14 @@ test_that("import_nmr_spectra_data works", {
 test_that("assign_compound_classes works", {
 
   spectra_test <- import_nmr_spectra_data(path = "compdata/spectra",
-                                          method = "mnova")
+                                          method = "mnova", quiet = TRUE)
   spectra_binsets_new <- assign_compound_classes(dat = spectra_test,
                                                  binset = bins_Clemente2012)
 
-  expect_equal(dim(spectra_binsets_new), dim(spectra_binsets_old))
-  expect_equal(names(spectra_binsets_new), names(spectra_binsets_old))
+  # 'group' character column added
+  expect_identical(nrow(spectra_test), nrow(spectra_binsets_new))
+  expect_type(spectra_binsets_new$group, "character")
+  # ...and its entries are all from the binset
+  g <- na.omit(spectra_binsets_new$group)
+  expect_true(all(unique(g) %in% bins_Clemente2012$group))
 })

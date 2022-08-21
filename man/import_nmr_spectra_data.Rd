@@ -4,7 +4,7 @@
 \alias{import_nmr_spectra_data}
 \title{Import and process NMR spectral data}
 \usage{
-import_nmr_spectra_data(path, method, pattern = "*.csv$")
+import_nmr_spectra_data(path, method, pattern = "*.csv$", quiet = FALSE)
 }
 \arguments{
 \item{path}{Directory where the spectra files are saved}
@@ -12,6 +12,8 @@ import_nmr_spectra_data(path, method, pattern = "*.csv$")
 \item{method}{KP_TODO}
 
 \item{pattern}{Filename pattern (by default "*.csv$")}
+
+\item{quiet}{Print diagnostic messages? Logical}
 }
 \value{
 A dataframe with columns describing the group name (sometimes
