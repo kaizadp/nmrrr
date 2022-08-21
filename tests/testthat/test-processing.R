@@ -27,7 +27,7 @@ test_that("assign_compound_classes works", {
   spectra_test <- import_nmr_spectra_data(path = "compdata/spectra",
                                           method = "mnova")
   spectra_binsets_new <- assign_compound_classes(dat = spectra_test,
-                                                 BINSET = bins_Clemente2012)
+                                                 binset = bins_Clemente2012)
 
   expect_equal(dim(spectra_binsets_new), dim(spectra_binsets_old))
   expect_equal(names(spectra_binsets_new), names(spectra_binsets_old))

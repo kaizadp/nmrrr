@@ -4,13 +4,13 @@
 \alias{assign_compound_classes}
 \title{Assign compound classes using the chosen binset}
 \usage{
-assign_compound_classes(dat, BINSET)
+assign_compound_classes(dat, binset)
 }
 \arguments{
 \item{dat}{Input dataframe. This could be spectral data, or peak picked data.
 Must include a `ppm` column for compound class assignment}
 
-\item{A}{binset; e.g. \code{\link{bins_Clemente2012}},
+\item{binset}{A binset; e.g. \code{\link{bins_Clemente2012}},
 \code{\link{bins_Hertkorn2013}}, etc., or a similarly-structured data frame}
 }
 \value{

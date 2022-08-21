@@ -58,7 +58,7 @@ import_nmr_spectra_data <- function(path, method, pattern = "*.csv$") {
 #'
 #' @param dat Input dataframe. This could be spectral data, or peak picked data.
 #' Must include a `ppm` column for compound class assignment
-#' @param A binset; e.g. \code{\link{bins_Clemente2012}},
+#' @param binset A binset; e.g. \code{\link{bins_Clemente2012}},
 #' \code{\link{bins_Hertkorn2013}}, etc., or a similarly-structured data frame
 #'
 #' @return A dataframe with columns describing the group name
@@ -68,9 +68,11 @@ import_nmr_spectra_data <- function(path, method, pattern = "*.csv$") {
 #' @importFrom dplyr mutate filter select %>%
 #' @importFrom utils read.table
 #' @export
-assign_compound_classes <- function(dat, BINSET) {
+assign_compound_classes <- function(dat, binset) {
 
   # Assign group (bin name) to each row of the data based on 'ppm'
+  # We were previously merging and filtering to do this, which works,
+  # but is slow and memory-intensive
 
   # Helper function that finds which binset row matches a value
   # Specifically, start <= x (ppm) <= stop
@@ -80,9 +82,8 @@ assign_compound_classes <- function(dat, BINSET) {
   }
 
   # For each row, call match_bins above
-  bin_vals <- sapply(dat$ppm, match_bins, binset = BINSET)
-  dat$group <- BINSET$group[bin_vals]
-
+  bin_vals <- sapply(dat$ppm, match_bins, binset = binset)
+  dat$group <- binset$group[bin_vals]
   dat
 }
 
