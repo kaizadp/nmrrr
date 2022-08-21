@@ -14,11 +14,11 @@ Must include a `ppm` column for compound class assignment}
 \code{\link{bins_Hertkorn2013}}, etc., or a similarly-structured data frame}
 }
 \value{
-A dataframe with columns describing the group name
-(sometimes abbreviated), start and stop boundaries, and a longer, more
-complete description of the group.
+The input dataframe with a new \code{group} column whose entries
+are drawn from the binset. Entries will be \code{NA} if a \code{ppm}
+value does not fall into any group.
 }
 \description{
-Use this function to import multiple spectra files, combine them,
-and then process/clean the data.
+Assign group (bin name) to each row of the data based on
+the \code{ppm} column.
 }

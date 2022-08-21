@@ -55,20 +55,17 @@ import_nmr_spectra_data <- function(path, method,
 
 #' Assign compound classes using the chosen binset
 #'
-#' @description Use this function to import multiple spectra files, combine them,
-#' and then process/clean the data.
+#' @description Assign group (bin name) to each row of the data based on
+#' the \code{ppm} column.
 #'
 #' @param dat Input dataframe. This could be spectral data, or peak picked data.
 #' Must include a `ppm` column for compound class assignment
 #' @param binset A binset; e.g. \code{\link{bins_Clemente2012}},
 #' \code{\link{bins_Hertkorn2013}}, etc., or a similarly-structured data frame
 #'
-#' @return A dataframe with columns describing the group name
-#' (sometimes abbreviated), start and stop boundaries, and a longer, more
-#' complete description of the group.
-#'
-#' @importFrom dplyr mutate filter select %>%
-#' @importFrom utils read.table
+#' @return The input dataframe with a new \code{group} column whose entries
+#' are drawn from the binset. Entries will be \code{NA} if a \code{ppm}
+#' value does not fall into any group.
 #' @export
 assign_compound_classes <- function(dat, binset) {
 
