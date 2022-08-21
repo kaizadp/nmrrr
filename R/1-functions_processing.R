@@ -41,7 +41,7 @@ import_nmr_spectra_data <- function(path, method,
       df
     })
   } else {
-    stop("Appropriate methods are 'mnova' and 'topspin'")
+    stop("Available methods: 'mnova' or 'topspin'")
   }
 
   # clean the spectral data

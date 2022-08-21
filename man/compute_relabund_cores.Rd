@@ -4,18 +4,18 @@
 \alias{compute_relabund_cores}
 \title{Compute relative abundance for each sample}
 \usage{
-compute_relabund_cores(DAT, METHOD)
+compute_relabund_cores(dat, method)
 }
 \arguments{
-\item{DAT}{Processed spectral data, output from (a) `import_nmr_spectra_data`
+\item{dat}{Processed spectral data, output from (a) `import_nmr_spectra_data`
 and `assign_compound_classes`; or (b) process_peaks}
 
-\item{METHOD}{Choose the method for calculating relative abundance.
+\item{method}{Choose the method for calculating relative abundance.
 Options include (a) "AUC", integrating the spectral region within each bin;
 (b) "peaks", adding areas of peaks if a peak-picked file is provided.}
 }
 \value{
-A dataframe with columns describing ...
+A dataframe with columns describing ... KP_TODO
 }
 \description{
 Compute relative abundance of compound classes for each sample.
