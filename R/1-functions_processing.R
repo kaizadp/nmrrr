@@ -87,26 +87,6 @@ assign_compound_classes <- function(dat, binset) {
 }
 
 
-assign_compound_classes_v2 <- function(dat, BINSET) {
-  # Quiet R CMD CHECK notes
-  group <- start <- NULL
-
-  # load binsets
-  bins <- BINSET %>%
-    select(group, start, stop) %>%
-    arrange(start, stop)
-
-  # identify gaps between bins
-  gaps <- c(utils::head(bins$stop, -1) != bins$start[-1], TRUE)
-  # create new gap bins
-  gapbins <- dplyr::tibble(group = NA_character_, start = bins$stop[gaps])
-  newbins <- rbind(bins[c("group", "start")], gapbins) %>% arrange(start)
-  newbins[is.na(newbins)] <- "NANA"
-
-  dat$group <- cut(dat$ppm, newbins$start, labels = head(newbins$group, -1), right = FALSE)
-  dat %>% filter(group != "NANA")
-}
-
 # IV. PROCESS PEAKS -------------------------------------------------------
 
 
