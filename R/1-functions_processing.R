@@ -84,9 +84,6 @@ assign_compound_classes <- function(dat, binset) {
 }
 
 
-# IV. PROCESS PEAKS -------------------------------------------------------
-
-
 #' Process picked peaks data
 #'
 #' @description Process data of peaks picked with NMR software.
@@ -155,10 +152,6 @@ process_peaks <- function(path, method, pattern = "*.csv$", quiet = FALSE) {
         # The files are tab-delimited, so import using read.table
         # There is no header, so create new column names
         df <- read.delim(path,
-          col.names = c(
-            "ppm", "Intensity", "Width", "Area", "Type",
-            "Flags", "Impurity/Compound", "Annotation"
-          )
                          stringsAsFactors = FALSE,
                          col.names = c(
                            "ppm", "Intensity", "Width", "Area", "Type",
@@ -175,7 +168,6 @@ process_peaks <- function(path, method, pattern = "*.csv$", quiet = FALSE) {
           # there is no header. so create new column names
           # then add a new column `source` to denote the file name
           df <- read.csv(path,
-            col.names = c("peak", "ppm", "Intensity", "Annotation")
                          stringsAsFactors = FALSE,
                          col.names = c("peak", "ppm", "Intensity", "Annotation")
           )
