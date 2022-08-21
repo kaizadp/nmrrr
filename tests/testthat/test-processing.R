@@ -29,15 +29,19 @@ test_that("import_nmr_spectra_data works", {
 
 test_that("assign_compound_classes works", {
 
-  spectra_test <- import_nmr_spectra_data(path = "compdata/spectra",
-                                          method = "mnova", quiet = TRUE)
+  bin_midpoints <- rowSums(bins_Clemente2012[c("start", "stop")]) / 2
+
+  spectra_test <- data.frame(ppm = c(bin_midpoints,
+                                     # two out-of-range ppm values
+                                     min(bins_Clemente2012$start) - 1,
+                                     max(bins_Clemente2012$stop) + 1))
   spectra_binsets_new <- assign_compound_classes(dat = spectra_test,
                                                  binset = bins_Clemente2012)
 
   # 'group' character column added
   expect_identical(nrow(spectra_test), nrow(spectra_binsets_new))
   expect_type(spectra_binsets_new$group, "character")
-  # ...and its entries are all from the binset
-  g <- na.omit(spectra_binsets_new$group)
-  expect_true(all(unique(g) %in% bins_Clemente2012$group))
+  # ...and its entries are all from the binset, with NAs for the o-o-b values
+  expect_identical(c(bins_Clemente2012$group, NA_character_, NA_character_),
+                   spectra_binsets_new$group)
 })
