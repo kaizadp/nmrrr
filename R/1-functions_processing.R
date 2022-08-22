@@ -75,7 +75,9 @@ assign_compound_classes <- function(dat, binset) {
   # Helper function that finds which binset row matches a value
   # Specifically, start <= x (ppm) <= stop
   match_bins <- function(x, binset) {
-    y <- which(x >= binset$start & x <= binset$stop)
+    # By definition, bins are open on the left and closed on the right
+    # https://en.wikipedia.org/wiki/Interval_(mathematics)
+    y <- which(x > binset$start & x <= binset$stop)
     if(length(y) == 1) return(y) else return(NA_integer_)
   }
 

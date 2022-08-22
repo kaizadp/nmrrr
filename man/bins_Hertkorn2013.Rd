@@ -28,7 +28,9 @@ NMR grouping bins from  Hertkorn et al. (2013). KP_TODO
 }
 \note{
 The NMR spectrum can be split into several bins, based on
-chemical shift (ppm). Binsets are specific to nuclei and solvents.
+chemical shift (ppm). Binsets are specific to nuclei and solvents and
+by definition are open on the left and closed on the right;
+for example, a bin of (0,1) includes 1 but \emph{not} 0.
 }
 \seealso{
 \code{\link{bins_Clemente2012}} \code{\link{bins_Lynch2019}}
