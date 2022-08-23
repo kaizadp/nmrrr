@@ -19,7 +19,7 @@
 #' sdir <- system.file("extdata", "kfp_hysteresis", "spectra_mnova", package = "nmrrr")
 #' nmr_import_spectra(path = sdir, method = "mnova")
 nmr_import_spectra <- function(path, method,
-                                    pattern = "*.csv$", quiet = FALSE) {
+                               pattern = "*.csv$", quiet = FALSE) {
   # Quiet R CMD CHECK notes
   sampleID <- ppm <- NULL
 
