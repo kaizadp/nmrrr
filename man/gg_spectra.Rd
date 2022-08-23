@@ -7,8 +7,8 @@
 gg_spectra(dat, BINSET, LABEL_POSITION, mapping, STAGGER)
 }
 \arguments{
-\item{dat}{Processed spectral data, output from (a) `import_nmr_spectra_data`
-and `assign_compound_classes`; or (b) process_peaks}
+\item{dat}{Processed spectral data, output from (a) \code{\link{nmr_import_spectra}}
+and \code{\link{nmr_assign_bins}}; or (b) \code{\link{nmr_import_peaks}}}
 
 \item{BINSET}{spectral binning}
 

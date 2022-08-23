@@ -7,8 +7,8 @@
 #' @description Compute relative abundance of compound classes for each sample
 #' and plot NMR spectra, with line-brackets denoting binned regions.
 #'
-#' @param dat Processed spectral data, output from (a) `import_nmr_spectra_data`
-#' and `assign_compound_classes`; or (b) process_peaks
+#' @param dat Processed spectral data, output from (a) \code{\link{nmr_import_spectra}}
+#' and \code{\link{nmr_assign_bins}}; or (b) \code{\link{nmr_import_peaks}}
 #' @param BINSET spectral binning
 #' @param LABEL_POSITION y-axis position for bin labels
 #' @param mapping aes(x = , y = )

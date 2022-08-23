@@ -1,15 +1,12 @@
 
 
-
-# I. Compute relative abundance per sample --------------------------------
-
 #' Compute relative abundance for each sample
 #'
 #' @description Compute relative abundance of compound classes for each sample.
 #'
-#' @param dat Processed spectral data, output from (a) `import_nmr_spectra_data`
-#' and `assign_compound_classes`; or (b) process_peaks
-#' @param method Choose the method for calculating relative abundance.
+#' @param dat Processed spectral data, output from (a) \code{\link{nmr_import_spectra}}
+#' and \code{\link{nmr_assign_bins}}; or (b) \code{\link{nmr_import_peaks}}
+#' @param method The method for calculating relative abundance.
 #' Options include (a) "AUC", integrating the spectral region within each bin;
 #' (b) "peaks", adding areas of peaks if a peak-picked file is provided.
 #'
@@ -19,7 +16,7 @@
 #' @importFrom tidyr complete
 #' @importFrom DescTools AUC
 #' @export
-compute_relabund_cores <- function(dat, method) {
+nmr_relabund <- function(dat, method) {
   # Quiet R CMD CHECK notes
   sampleID <- group <- ppm <- intensity <- total <-
     where <- relabund <- Area <- area <- . <- NULL
