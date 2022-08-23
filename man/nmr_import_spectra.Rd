@@ -22,3 +22,9 @@ data frame and sorted.
 \description{
 Imports multiple spectra files and then combines and cleans the data.
 }
+\examples{
+tdir <- system.file("extdata", "meb_burn", "spectra_topspin", package = "nmrrr")
+nmr_import_spectra(path = tdir, method = "topspin")
+sdir <- system.file("extdata", "kfp_hysteresis", "spectra_mnova", package = "nmrrr")
+nmr_import_spectra(path = sdir, method = "mnova")
+}
