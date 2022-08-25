@@ -13,7 +13,7 @@
 #' @importFrom dplyr mutate filter select arrange %>%
 #' @importFrom utils read.table
 #' @export
-import_nmr_spectra_data <- function(path, method,
+nmr_import_spectra <- function(path, method,
                                     pattern = "*.csv$", quiet = FALSE) {
   # Quiet R CMD CHECK notes
   sampleID <- ppm <- NULL
@@ -66,7 +66,7 @@ import_nmr_spectra_data <- function(path, method,
 #' are drawn from the binset. Entries will be \code{NA} if a \code{ppm}
 #' value does not fall into any group.
 #' @export
-assign_compound_classes <- function(dat, binset) {
+nmr_assign_bins <- function(dat, binset) {
 
   # Assign group (bin name) to each row of the data based on 'ppm'
   # We were previously merging and filtering to do this, which worked,
@@ -88,7 +88,7 @@ assign_compound_classes <- function(dat, binset) {
 }
 
 
-#' Process picked peaks data
+#' Import and process picked peaks data
 #'
 #' @description Process data of peaks picked with NMR software.
 #'
@@ -107,7 +107,7 @@ assign_compound_classes <- function(dat, binset) {
 #' @importFrom utils read.table
 #' @importFrom utils read.csv read.delim
 #' @export
-process_peaks <- function(path, method, pattern = "*.csv$", quiet = FALSE) {
+nmr_import_peaks <- function(path, method, pattern = "*.csv$", quiet = FALSE) {
   # Quiet R CMD CHECK notes
   ppm <- Intensity <- row_number <- sampleID <- NULL
 

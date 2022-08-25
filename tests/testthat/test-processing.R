@@ -1,21 +1,21 @@
 
-test_that("import_nmr_spectra_data works", {
+test_that("nmr_import_spectra works", {
   # Handles empty directory
-  expect_error(import_nmr_spectra_data(path = "./", method = "mnova", quiet = TRUE),
+  expect_error(nmr_import_spectra(path = "./", method = "mnova", quiet = TRUE),
                regexp = "No files found!"
   )
 
   # Handles bad method
   sdir <- "compdata/spectra"
-  expect_error(import_nmr_spectra_data(path = sdir, method = "not_valid", quiet = TRUE),
+  expect_error(nmr_import_spectra(path = sdir, method = "not_valid", quiet = TRUE),
                regexp = "Available methods"
   )
 
   # Respects quiet parameter
-  expect_message(import_nmr_spectra_data(path = sdir, method = "mnova", quiet = FALSE),
+  expect_message(nmr_import_spectra(path = sdir, method = "mnova", quiet = FALSE),
                  regexp = "Found")
   expect_silent({
-    spectra_test <- import_nmr_spectra_data(path = sdir, method = "mnova", quiet = TRUE)
+    spectra_test <- nmr_import_spectra(path = sdir, method = "mnova", quiet = TRUE)
   })
 
   # Imports data in expected format
@@ -28,7 +28,7 @@ test_that("import_nmr_spectra_data works", {
 })
 
 
-test_that("assign_compound_classes works", {
+test_that("nmr_assign_bins works", {
 
   bin_midpoints <- rowSums(bins_Clemente2012[c("start", "stop")]) / 2
 
@@ -36,8 +36,8 @@ test_that("assign_compound_classes works", {
                                      # two out-of-range ppm values
                                      min(bins_Clemente2012$start) - 1,
                                      max(bins_Clemente2012$stop) + 1))
-  spectra_binsets_new <- assign_compound_classes(dat = spectra_test,
-                                                 binset = bins_Clemente2012)
+  spectra_binsets_new <- nmr_assign_bins(dat = spectra_test,
+                                         binset = bins_Clemente2012)
 
   # 'group' character column added
   expect_identical(nrow(spectra_test), nrow(spectra_binsets_new))
@@ -48,23 +48,23 @@ test_that("assign_compound_classes works", {
 })
 
 
-test_that("process_peaks works", {
+test_that("nmr_import_peaks works", {
   # Handles empty directory
-  expect_error(process_peaks(path = "./", method = "topspin", quiet = TRUE),
+  expect_error(nmr_import_peaks(path = "./", method = "topspin", quiet = TRUE),
                regexp = "No files found!"
   )
 
   # Handles bad method
   topspin_dir <- "compdata/peaks_topspin"
-  expect_error(process_peaks(path = topspin_dir, method = "not_valid", quiet = TRUE),
+  expect_error(nmr_import_peaks(path = topspin_dir, method = "not_valid", quiet = TRUE),
                regexp = "Available methods"
   )
 
   # Respects quiet parameter
-  expect_message(process_peaks(path = topspin_dir, method = "topspin", quiet = FALSE),
+  expect_message(nmr_import_peaks(path = topspin_dir, method = "topspin", quiet = FALSE),
                  regexp = "Found")
   expect_silent({
-    topspin_test <- process_peaks(path = topspin_dir, method = "topspin", quiet = TRUE)
+    topspin_test <- nmr_import_peaks(path = topspin_dir, method = "topspin", quiet = TRUE)
   })
 
   # topspin: expected data format
@@ -80,14 +80,14 @@ test_that("process_peaks works", {
                    length(list.files(topspin_dir, pattern = "*.csv")))
 
   # mnova multiple: detects bad format
-  expect_error(process_peaks(path = topspin_dir,
-                             method = "multiple columns", quiet = TRUE),
+  expect_error(nmr_import_peaks(path = topspin_dir,
+                                method = "multiple columns", quiet = TRUE),
                regexp = "Formatting problem"
   )
   # mnova multiple: expected data format
   multiple_dir <- "compdata/peaks_mnova_multiple"
-  multiple_test <- process_peaks(path = multiple_dir,
-                                 method = "multiple columns", quiet = TRUE)
+  multiple_test <- nmr_import_peaks(path = multiple_dir,
+                                    method = "multiple columns", quiet = TRUE)
   expect_identical(sort(names(multiple_test)),
                    sort(c("Obs", "ppm", "Intensity", "Width", "Area", "Type",
                           "Flags", "Impurity/Compound", "Annotation", "sampleID")))
@@ -106,8 +106,8 @@ test_that("process_peaks works", {
 
   # single: expected data format
   single_dir <- "compdata/peaks_mnova_single"
-  single_test <- process_peaks(path = single_dir,
-                                 method = "single column", quiet = TRUE)
+  single_test <- nmr_import_peaks(path = single_dir,
+                                  method = "single column", quiet = TRUE)
   expect_identical(sort(names(single_test)),
                    sort(c("ppm", "Intensity", "Width", "Area",
                           "Impurity/Compound", "Annotation", "sampleID")))
