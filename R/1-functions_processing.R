@@ -13,8 +13,13 @@
 #' @importFrom dplyr mutate filter select arrange %>%
 #' @importFrom utils read.table
 #' @export
+#' @examples
+#' tdir <- system.file("extdata", "meb_burn", "spectra_topspin", package = "nmrrr")
+#' nmr_import_spectra(path = tdir, method = "topspin")
+#' sdir <- system.file("extdata", "kfp_hysteresis", "spectra_mnova", package = "nmrrr")
+#' nmr_import_spectra(path = sdir, method = "mnova")
 nmr_import_spectra <- function(path, method,
-                                    pattern = "*.csv$", quiet = FALSE) {
+                               pattern = "*.csv$", quiet = FALSE) {
   # Quiet R CMD CHECK notes
   sampleID <- ppm <- NULL
 
@@ -66,6 +71,11 @@ nmr_import_spectra <- function(path, method,
 #' are drawn from the binset. Entries will be \code{NA} if a \code{ppm}
 #' value does not fall into any group.
 #' @export
+#' @examples
+#' tdir <- system.file("extdata", "meb_burn", "spectra_topspin", package = "nmrrr")
+#' spec <- nmr_import_spectra(path = tdir, method = "topspin")
+#' nmr_assign_bins(spec, bins_Clemente2012)
+#' nmr_assign_bins(spec, bins_Lynch2019)
 nmr_assign_bins <- function(dat, binset) {
 
   # Assign group (bin name) to each row of the data based on 'ppm'
@@ -107,6 +117,9 @@ nmr_assign_bins <- function(dat, binset) {
 #' @importFrom utils read.table
 #' @importFrom utils read.csv read.delim
 #' @export
+#' @examples
+#' pdir <- system.file("extdata", "meb_burn", "peaks_topspin", package = "nmrrr")
+#' nmr_import_peaks(path = pdir, method = "topspin")
 nmr_import_peaks <- function(path, method, pattern = "*.csv$", quiet = FALSE) {
   # Quiet R CMD CHECK notes
   ppm <- Intensity <- row_number <- sampleID <- NULL
