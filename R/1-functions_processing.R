@@ -53,7 +53,8 @@ nmr_import_spectra <- function(path, method,
   spectra_dat %>%
     bind_rows() %>%
     mutate(sampleID = gsub(".csv", "", sampleID, fixed = TRUE)) %>%
-    arrange(sampleID, ppm)
+    arrange(sampleID, ppm) %>%
+    weak_as_tibble()
 }
 
 
@@ -215,5 +216,6 @@ nmr_import_peaks <- function(path, method, pattern = "*.csv$", quiet = FALSE) {
     filter(Intensity > 0) %>%
     filter(!is.na(ppm)) %>%
     # filter(!Flags == "Weak") %>%
-    mutate(sampleID = gsub(".csv", "", sampleID, fixed = TRUE))
+    mutate(sampleID = gsub(".csv", "", sampleID, fixed = TRUE)) %>%
+    weak_as_tibble()
 }
