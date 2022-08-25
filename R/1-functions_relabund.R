@@ -41,7 +41,7 @@ nmr_relabund <- function(dat, method) {
 
       dat %>%
         group_by(sampleID, group) %>%
-        summarize(area = sum(Area), .groups = "drop_last") %>%
+        summarise(area = sum(Area), .groups = "drop_last") %>%
         mutate(relabund = area / sum(area) * 100) %>%
         select(sampleID, group, relabund) %>%
         # KP_TODO: let user decide about filtering out NA groups?
