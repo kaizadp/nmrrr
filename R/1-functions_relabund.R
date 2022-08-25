@@ -54,35 +54,3 @@ nmr_relabund <- function(dat, method) {
     }
   }
 }
-
-
-# II. Compute relative abundance summary ----------------------------------
-
-#' Compute relative abundance summary by treatment
-#'
-#' @description Compute relative-abundance summaries for each treatment.
-#'
-#' @param RELABUND_CORES Dataframe with relative abundance for each sample (sampleID)
-#' @param COREKEY Dataframe containing sample key
-#' @param TREATMENTS columns being used for grouping to summarize the data
-#'
-#' @return A dataframe with columns describing ... KP_TODO
-#'
-#' @importFrom dplyr group_by mutate summarize left_join mutate_all %>%
-#' @importFrom stats sd
-#' @importFrom utils read.csv
-#' @export
-compute_relabund_treatments <- function(RELABUND_CORES, TREATMENTS, COREKEY) {
-  # Quiet R CMD CHECK notes
-  group <- relabund <- n <- NULL
-
-  corekey <- read.csv(COREKEY) %>% mutate_all(as.character)
-
-  RELABUND_CORES %>%
-    left_join(corekey) %>%
-    group_by(!!!TREATMENTS, group) %>%
-    summarize(
-      relabund_mean = round(mean(relabund), 2),
-      relabund_se = round(sd(relabund, na.rm = TRUE) / sqrt(n()), 2)
-    )
-}
