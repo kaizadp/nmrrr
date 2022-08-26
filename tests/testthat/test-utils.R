@@ -1,6 +1,6 @@
 
 test_that("weak_as_tibble works", {
-  if(requireNamespace("tibble", quietly = TRUE)) {
+  if (requireNamespace("tibble", quietly = TRUE)) {
     crs <- weak_as_tibble(cars)
     expect_s3_class(crs, "tbl")
     crs_df <- weak_as_tibble(cars, .force_df = TRUE)
@@ -18,7 +18,7 @@ test_that("weak_as_tibble works", {
 
 
 test_that("weak_tibble works", {
-  if(requireNamespace("tibble", quietly = TRUE)) {
+  if (requireNamespace("tibble", quietly = TRUE)) {
     x <- weak_tibble(x = 1)
     expect_s3_class(x, "tbl")
     x_df <- weak_tibble(x = 1, .force_df = TRUE)
@@ -33,4 +33,3 @@ test_that("weak_tibble works", {
     expect_identical(x_df, weak_tibble(x = 1, .force_df = TRUE))
   }
 })
-

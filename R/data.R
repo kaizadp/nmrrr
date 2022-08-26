@@ -96,4 +96,3 @@
 #' @seealso \code{\link{bins_Clemente2012}} \code{\link{bins_Lynch2019}}
 #' \code{\link{bins_Mitchell2018}}
 "bins_Hertkorn2013"
-

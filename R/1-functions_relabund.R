@@ -38,14 +38,16 @@ nmr_relabund <- function(dat, method) {
         AUC = AUC(x = ppm, y = intensity, from = min(ppm), to = max(ppm)),
         .groups = "drop_last"
       ) %>%
-      mutate(AUC = replace_na(AUC, 0),
-             relabund = (AUC / sum(AUC)) * 100) %>%
+      mutate(
+        AUC = replace_na(AUC, 0),
+        relabund = (AUC / sum(AUC)) * 100
+      ) %>%
       select(-AUC) %>%
       # Fill in any missing ID x group combinations with zeroes
       complete(sampleID, group, fill = list(relabund = 0))
   } else {
     if (method == "peaks") {
-      if(!"Area" %in% colnames(dat)) {
+      if (!"Area" %in% colnames(dat)) {
         stop("No 'Area' column; peaks data needed")
       }
 
@@ -55,7 +57,7 @@ nmr_relabund <- function(dat, method) {
         mutate(relabund = area / sum(area) * 100) %>%
         select(sampleID, group, relabund) %>%
         # KP_TODO: let user decide about filtering out NA groups?
-        #filter(!is.na(group)) %>%
+        # filter(!is.na(group)) %>%
         replace_na(list(relabund = 0)) %>%
         # Fill in any missing ID x group combinations with zeroes
         complete(sampleID, group, fill = list(relabund = 0))

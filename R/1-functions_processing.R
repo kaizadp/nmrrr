@@ -25,7 +25,7 @@ nmr_import_spectra <- function(path, method,
 
   # import and combine spectra data files
   files <- list.files(path = path, pattern = pattern, full.names = TRUE)
-  if(!quiet) message("Found ", length(files), " files")
+  if (!quiet) message("Found ", length(files), " files")
 
   if (length(files) == 0) {
     stop("No files found!")
@@ -89,7 +89,11 @@ nmr_assign_bins <- function(dat, binset) {
     # By definition, bins are open on the left and closed on the right
     # https://en.wikipedia.org/wiki/Interval_(mathematics)
     y <- which(x > binset$start & x <= binset$stop)
-    if(length(y) == 1) return(y) else return(NA_integer_)
+    if (length(y) == 1) {
+      return(y)
+    } else {
+      return(NA_integer_)
+    }
   }
 
   # For each row, call match_bins above
@@ -128,7 +132,7 @@ nmr_import_peaks <- function(path, method, pattern = "*.csv$", quiet = FALSE) {
   # Import and process picked peaks data; typically saved as multiple files
 
   files <- list.files(path = path, pattern = pattern, full.names = TRUE)
-  if(!quiet) message("Found ", length(files), " files")
+  if (!quiet) message("Found ", length(files), " files")
 
   if (length(files) == 0) {
     stop("No files found!")
@@ -144,9 +148,10 @@ nmr_import_peaks <- function(path, method, pattern = "*.csv$", quiet = FALSE) {
         # Step 1. import file; check.names=FALSE because columns have
         # duplicate names, and we want to leave as is
         df <- read.csv(f,
-                       stringsAsFactors = FALSE,
-                       check.names = FALSE,
-                       colClasses = c(Annotation = "character"))
+          stringsAsFactors = FALSE,
+          check.names = FALSE,
+          colClasses = c(Annotation = "character")
+        )
 
         # Step 2. confirm that the data are in 9-column groups
         noname_cols <- which(names(df) == "")
@@ -164,7 +169,7 @@ nmr_import_peaks <- function(path, method, pattern = "*.csv$", quiet = FALSE) {
 
         # Step 5. Create a new column that includes source sample name
         nmr_dat[["sampleID"]] <- basename(f)
-        nmr_dat[["Impurity/Compound"]] <- as.character( nmr_dat[["Impurity/Compound"]] )
+        nmr_dat[["Impurity/Compound"]] <- as.character(nmr_dat[["Impurity/Compound"]])
         nmr_dat
       }
 
@@ -178,13 +183,13 @@ nmr_import_peaks <- function(path, method, pattern = "*.csv$", quiet = FALSE) {
         # The files are tab-delimited, so import using read.table
         # There is no header, so create new column names
         df <- read.delim(f,
-                         stringsAsFactors = FALSE,
-                         check.names = FALSE,
-                         header = FALSE,
-                         col.names = c(
-                           "ppm", "Intensity", "Width", "Area",
-                           "Impurity/Compound", "Annotation", "junk1", "junk2"
-                         )
+          stringsAsFactors = FALSE,
+          check.names = FALSE,
+          header = FALSE,
+          col.names = c(
+            "ppm", "Intensity", "Width", "Area",
+            "Impurity/Compound", "Annotation", "junk1", "junk2"
+          )
         )
         df[["sampleID"]] <- basename(f)
         df[["junk1"]] <- df[["junk2"]] <- NULL
@@ -195,10 +200,10 @@ nmr_import_peaks <- function(path, method, pattern = "*.csv$", quiet = FALSE) {
         peaks_rawdat <- lapply(files, function(f) {
           # Files are comma-delimited, with a header
           df <- read.csv(f,
-                         stringsAsFactors = FALSE,
-                         header = TRUE,
-                         col.names = c("peak", "ppm", "Intensity", "Annotation"),
-                         colClasses = c(Annotation = "character")
+            stringsAsFactors = FALSE,
+            header = TRUE,
+            col.names = c("peak", "ppm", "Intensity", "Annotation"),
+            colClasses = c(Annotation = "character")
           )
           df[["sampleID"]] <- basename(f)
           df
