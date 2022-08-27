@@ -9,8 +9,8 @@ A data frame with 7 rows and 5 variables:
 \describe{
   \item{number}{Bin number}
   \item{group}{Name of bin group}
-  \item{start}{KP_TODO}
-  \item{stop}{KP_TODO}
+  \item{start}{ppm shift range, lower limit}
+  \item{stop}{ppm shift range, upper limit}
   \item{description}{Description of the bin group}
 }
 }
@@ -24,7 +24,14 @@ on Clay Mineral Surfaces.” Soil Systems
 bins_Mitchell2018
 }
 \description{
-NMR grouping bins from Mitchell et al. (2018). KP_TODO
+NMR grouping bins from Mitchell et al. (2018), using DMSO-D6 as solvent.
+(1) aliphatic polymethylene and methyl groups (0.6–1.3 ppm);
+(2) N- and O-substituted aliphatic (1.3–2.9 ppm);
+(3) O-alkyl (2.9–4.1 ppm);
+(4) α-proton of peptides (4.1–4.8 ppm);
+(5) anomeric proton of carbohydrates (4.8–5.2 ppm);
+(6) aromatic and phenolic (6.2–7.8 ppm);
+(7) amide (7.8–8.4 ppm).
 }
 \note{
 The NMR spectrum can be split into several bins, based on

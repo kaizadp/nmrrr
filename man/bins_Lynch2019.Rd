@@ -9,8 +9,8 @@ A data frame with 4 rows and 5 variables:
 \describe{
   \item{number}{Bin number}
   \item{group}{Name of bin group}
-  \item{start}{KP_TODO}
-  \item{stop}{KP_TODO}
+  \item{start}{ppm shift range, lower limit}
+  \item{stop}{ppm shift range, upper limit}
   \item{description}{Description of the bin group}
 }
 }
@@ -23,7 +23,14 @@ Transport along an Arctic Tundra Hillslope.” Global Biogeochemical Cycles
 bins_Lynch2019
 }
 \description{
-NMR grouping bins from Lynch et al. (2019). KP_TODO
+NMR grouping bins from Lynch et al. (2019), using D2O as solvent.
+(1) methyl, methylene, and methane bearing protons (0.6–1.6 ppm) ;
+(2) unsaturated functional groups (1.6–3.2 ppm),
+including ketone, benzylic, and alicyclic-bearing protons;
+(3) unsaturated, heteroatomic compounds,
+including O-bearing carbohydrates, ethers, and alcohols (3.2–4.5 ppm);
+(4) conjugated, double bond functionalities,
+including aromatic, amide, and phenolic structures (6.5–8.5 ppm).
 }
 \note{
 The NMR spectrum can be split into several bins, based on
