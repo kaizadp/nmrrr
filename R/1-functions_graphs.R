@@ -21,7 +21,7 @@
 #' @importFrom tidyr drop_na replace_na
 #' @importFrom utils head
 #' @export
-gg_spectra <- function(dat, BINSET, LABEL_POSITION, mapping, STAGGER) {
+nmr_plot_spectra <- function(dat, BINSET, LABEL_POSITION, mapping, STAGGER) {
   # Quiet R CMD CHECK notes
   start <- number <- sampleID <- newsource <- y_factor <-
     intensity <- intensity_new <- row_number <- NULL
