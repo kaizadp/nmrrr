@@ -4,7 +4,7 @@
 #' @description Imports multiple spectra files and then combines and cleans the data.
 #'
 #' @param path Directory where the spectra files are saved
-#' @param method KP_TODO
+#' @param method software used for initial processing of NMR spectra (before using this package). Available options include "mnova" and "topspin".
 #' @param pattern Filename pattern to search for (by default "*.csv$")
 #' @param quiet Print diagnostic messages? Logical
 #' @return The data from all files found, concatenated into a single
