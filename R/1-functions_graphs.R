@@ -2,10 +2,10 @@
 # I. Plot NMR spectra -----------------------------------------------------
 
 
-#' Compute relative abundance for each sample
+#' Plot NMR spectra
 #'
-#' @description Compute relative abundance of compound classes for each sample
-#' and plot NMR spectra, with line-brackets denoting binned regions.
+#' @description Plot NMR spectra, with line-brackets denoting binned regions.
+#' Use spectra data processed in MestreNova or TopSpin.
 #'
 #' @param dat Processed spectral data, output from (a) \code{\link{nmr_import_spectra}}
 #' and \code{\link{nmr_assign_bins}}; or (b) \code{\link{nmr_import_peaks}}
@@ -14,7 +14,7 @@
 #' @param mapping aes(x = , y = )
 #' @param STAGGER how much to stagger the labels?
 #'
-#' @return A dataframe with columns describing ... KP_TODO
+#' @return A ggplot object
 #'
 #' @import ggplot2
 #' @importFrom dplyr %>% distinct filter mutate select left_join rename
