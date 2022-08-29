@@ -21,6 +21,15 @@
 #' @importFrom tidyr drop_na replace_na
 #' @importFrom utils head
 #' @export
+#' @examples
+#' sdir <- system.file("extdata", "kfp_hysteresis", "spectra_mnova", package = "nmrrr")
+#' spec <- nmr_import_spectra(path = sdir, method = "mnova")
+#' nmr_plot_spectra(spec, bins_Clemente2012, LABEL_POSITION = 5, aes(x = ppm, y = intensity), STAGGER = 0.5)+ ylim(0, 6)
+#' tdir <- system.file("extdata", "meb_burn", "spectra_topspin", package = "nmrrr")
+#' spec <- nmr_import_spectra(path = tdir, method = "topspin")
+#' nmr_plot_spectra(spec, bins_Hertkorn2013, LABEL_POSITION = 6e+06, aes(x = ppm, y = intensity, color = sampleID), STAGGER = 1e+06)+ ylim(0, 8e+06)
+#'
+
 nmr_plot_spectra <- function(dat, BINSET, LABEL_POSITION, mapping, STAGGER) {
   # Quiet R CMD CHECK notes
   start <- number <- sampleID <- newsource <- y_factor <-
