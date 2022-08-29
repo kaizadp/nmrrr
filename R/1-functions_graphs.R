@@ -53,8 +53,7 @@ gg_spectra <- function(dat, BINSET, LABEL_POSITION, mapping, STAGGER) {
 
     # geom_path(data = dat, aes(x = ppm, y = intensity, color = source))+
     xlab("shift, ppm") +
-    ylab("intensity") +
-    theme_classic()
+    ylab("intensity")
 
   # add staggering factor ----
 
