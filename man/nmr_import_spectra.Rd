@@ -9,7 +9,7 @@ nmr_import_spectra(path, method, pattern = "*.csv$", quiet = FALSE)
 \arguments{
 \item{path}{Directory where the spectra files are saved}
 
-\item{method}{software used for initial processing of NMR spectra (before using this package). Available options include "mnova" and "topspin".}
+\item{method}{Software used for initial processing of NMR spectra (before using this package). Available options include "mnova" and "topspin".}
 
 \item{pattern}{Filename pattern to search for (by default "*.csv$")}
 
