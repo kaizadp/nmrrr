@@ -212,10 +212,6 @@ nmr_import_peaks <- function(path, method, pattern = "*.csv$", quiet = FALSE) {
 
   # Combine, filter, and clean the sampleID column
   pdat <- do.call("rbind", peaks_rawdat)
-  # KP_TODO: keep this? See #28
-  pdat <- subset(pdat, pdat$ppm >= 0 & pdat$ppm <= 10)
-  pdat <- subset(pdat, pdat$Intensity > 0)
-  pdat <- subset(pdat, !is.na(ppm))
-  pdat$sampleID = gsub(".csv", "", pdat$sampleID, fixed = TRUE)
+  pdat$sampleID <- gsub(".csv", "", pdat$sampleID, fixed = TRUE)
   weak_as_tibble(pdat)
 }
