@@ -12,7 +12,6 @@
 #'
 #' @return A dataframe with columns describing ... KP_TODO
 #'
-#' @importFrom dplyr group_by mutate summarise filter select %>%
 #' @importFrom tidyr complete
 #' @importFrom DescTools AUC
 #' @export
@@ -28,39 +27,50 @@
 #' nmr_relabund(peaks, "peaks")
 nmr_relabund <- function(dat, method) {
   # Quiet R CMD CHECK notes
-  sampleID <- group <- ppm <- intensity <- total <-
-    where <- relabund <- Area <- area <- . <- NULL
+  sampleID <- group <- NULL
+
+  # Helper function
+  compute_relabund <- function(x) {
+    x$AUC <- tidyr::replace_na(x$AUC, 0)
+    # Split by sample ID, compute relative abundance, drop AUC
+    x_list <- split(x, list(x$sampleID))
+    x_list <- lapply(x_list, function(x)
+    { x$relabund <- x$AUC / sum(x$AUC) * 100; x })
+    x_relabund <- do.call("rbind", x_list)
+    x_relabund$AUC <- NULL
+    # Fill in any missing ID x group combinations with zeroes
+    complete(x_relabund, sampleID, group, fill = list(relabund = 0))
+  }
 
   if (method == "AUC") {
-    dat %>%
-      group_by(sampleID, group) %>%
-      summarise(
-        AUC = AUC(x = ppm, y = intensity, from = min(ppm), to = max(ppm)),
-        .groups = "drop_last"
-      ) %>%
-      mutate(
-        AUC = replace_na(AUC, 0),
-        relabund = (AUC / sum(AUC)) * 100
-      ) %>%
-      select(-AUC) %>%
-      # Fill in any missing ID x group combinations with zeroes
-      complete(sampleID, group, fill = list(relabund = 0))
+    # Compute AUC
+    dat_list <- split(dat, list(dat$sampleID, dat$group))
+    dat_list <- lapply(dat_list, function(x) {
+      weak_tibble(sampleID = unique(x$sampleID),
+                  group = unique(x$group),
+                  AUC = AUC(x = x$ppm, y = x$intensity,
+                            from = min(x$ppm), to = max(x$ppm)))
+    })
+    dat_auc <- do.call("rbind", dat_list)
+
+    compute_relabund(dat_auc)
+
   } else {
     if (method == "peaks") {
       if (!"Area" %in% colnames(dat)) {
         stop("No 'Area' column; peaks data needed")
       }
 
-      dat %>%
-        group_by(sampleID, group) %>%
-        summarise(area = sum(Area), .groups = "drop_last") %>%
-        mutate(relabund = area / sum(area) * 100) %>%
-        select(sampleID, group, relabund) %>%
-        # KP_TODO: let user decide about filtering out NA groups?
-        # filter(!is.na(group)) %>%
-        replace_na(list(relabund = 0)) %>%
-        # Fill in any missing ID x group combinations with zeroes
-        complete(sampleID, group, fill = list(relabund = 0))
+      # Compute AUC
+      dat_list <- split(dat, list(dat$sampleID, dat$group))
+      dat_list <- lapply(dat_list, function(x) {
+        weak_tibble(sampleID = unique(x$sampleID),
+                    group = unique(x$group),
+                    AUC = sum(x$Area))
+      })
+      dat_auc <- do.call("rbind", dat_list)
+      compute_relabund(dat_auc)
+
     } else {
       stop("Available methods: 'AUC' or 'peaks'")
     }
