@@ -18,9 +18,7 @@ Encoding: UTF-8
 RoxygenNote: 7.2.1
 Imports: 
     DescTools,
-    dplyr (>= 1.0),
     ggplot2,
-    stats,
     tidyr,
     utils
 Suggests: 
