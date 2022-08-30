@@ -16,7 +16,7 @@ and \code{\link{nmr_assign_bins}}; or (b) \code{\link{nmr_import_peaks}}}
 
 \item{mapping}{aes(x = , y = )}
 
-\item{STAGGER}{how much to stagger the labels?}
+\item{STAGGER}{how much to stagger the labels? KP_TO (not clear)}
 }
 \value{
 A dataframe with columns describing ... KP_TODO
