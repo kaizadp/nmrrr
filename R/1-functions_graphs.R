@@ -60,8 +60,7 @@ gg_spectra <- function(dat, BINSET, LABEL_POSITION, mapping, STAGGER) {
   stagger_factor <- 1 / STAGGER
   dat_y_stagger <- weak_tibble(
     sampleID = unique(dat$sampleID),
-    newsource = c(TRUE, sampleID[-1] != head(sampleID, -1)),
-    y_factor = (cumsum(newsource) - 1) / stagger_factor
+    y_factor = (seq_along(sampleID) - 1) / stagger_factor
   )
 
   spectra_new <- merge(dat, dat_y_stagger, by = "sampleID")
