@@ -1,0 +1,16 @@
+
+test_that("gg_spectra works", {
+
+  sdir <- "compdata/spectra"
+  spectra_test <- nmr_import_spectra(path = sdir, method = "mnova", quiet = TRUE)
+
+  p <- gg_spectra(spectra_test, bins_Clemente2012, LABEL_POSITION = 5,
+                  aes(x = ppm, y = intensity), STAGGER = 0.5)
+  expect_s3_class(p, "ggplot")
+
+  # The y values for the last geom should be changed from what was passed in
+  # (because staggered)
+  pg <- ggplot_build(p)
+  lastgeom <- length(pg$data)
+  expect_false(all(pg$data[[lastgeom]]$y == spectra_test$intensity))
+})
