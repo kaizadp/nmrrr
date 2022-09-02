@@ -1,10 +1,10 @@
 
-test_that("gg_spectra works", {
+test_that("nmr_plot_spectra works", {
 
   sdir <- "compdata/spectra"
   spectra_test <- nmr_import_spectra(path = sdir, method = "mnova", quiet = TRUE)
 
-  p <- gg_spectra(spectra_test, bins_Clemente2012, LABEL_POSITION = 5,
+  p <- nmr_plot_spectra(spectra_test, bins_Clemente2012, LABEL_POSITION = 5,
                   aes(x = ppm, y = intensity), STAGGER = 0.5)
   expect_s3_class(p, "ggplot")
 
