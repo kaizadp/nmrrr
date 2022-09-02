@@ -7,10 +7,18 @@ Authors@R:
       email = "kaizad.patel@pnnl.gov", 
       role = c("aut", "cre"),
       comment = c(ORCID = "0000-0001-6437-7809")),
+    person("Allison", "Myers-Pigg",
+      email = "allison.myers-pigg@pnnl.gov", 
+      role = c("aut"),
+      comment = c(ORCID = "0000-0002-6905-6841")),
     person("Ben", "Bond-Lamberty",
       email = "bondlamberty@pnnl.gov", 
       role = c("ctb"),
-      comment = c(ORCID = "0000-0001-9525-4633")))
+      comment = c(ORCID = "0000-0001-9525-4633")),
+    person("Morgan", "Barnes",
+      email = "morgan.barnes@pnnl.gov", 
+      role = c("ctb"),
+      comment = c(ORCID = "https://orcid.org/0000-0001-8722-6552")))
 Description: Batch processing and analysis of nuclear magnetic resonance
     (NMR) data.
 License: MIT + file LICENSE

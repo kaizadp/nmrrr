@@ -9,8 +9,8 @@ A data frame with 5 rows and 5 variables:
 \describe{
   \item{number}{Bin number}
   \item{group}{Name of bin group}
-  \item{start}{KP_TODO}
-  \item{stop}{KP_TODO}
+  \item{start}{ppm shift range, lower limit}
+  \item{stop}{ppm shift range, upper limit}
   \item{description}{Description of the bin group}
 }
 }
@@ -24,7 +24,12 @@ characterization of marine dissolved organic matter" Biogeosciences
 bins_Hertkorn2013
 }
 \description{
-NMR grouping bins from  Hertkorn et al. (2013). KP_TODO
+NMR grouping bins from  Hertkorn et al. (2013), using MeOD as solvent.
+(1) aliphatics, HCCC (0.0-1.9);
+(2) acetate analogs and CRAM (carboxyl-rich alicyclic materials), HCX (1.9-3.1);
+(3) carbohydrate-like and methoxy, HCO (3.1-4.9);
+(4) olefinic HC=C (5.3-7.0);
+(5) aromatic (7.0-10.0).
 }
 \note{
 The NMR spectrum can be split into several bins, based on

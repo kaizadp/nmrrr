@@ -2,10 +2,10 @@
 # I. Plot NMR spectra -----------------------------------------------------
 
 
-#' Compute relative abundance for each sample
+#' Plot NMR spectra
 #'
-#' @description Compute relative abundance of compound classes for each sample
-#' and plot NMR spectra, with line-brackets denoting binned regions.
+#' @description Plot NMR spectra, with line-brackets denoting binned regions.
+#' Use spectra data processed in MestreNova or TopSpin.
 #'
 #' @param dat Processed spectral data, output from (a) \code{\link{nmr_import_spectra}}
 #' and \code{\link{nmr_assign_bins}}; or (b) \code{\link{nmr_import_peaks}}
@@ -14,13 +14,22 @@
 #' @param mapping aes(x = , y = )
 #' @param STAGGER how much to stagger the labels? KP_TO (not clear)
 #'
-#' @return A dataframe with columns describing ... KP_TODO
+#' @return A ggplot object
 #'
 #' @import ggplot2
 #' @importFrom tidyr drop_na replace_na
 #' @importFrom utils head
 #' @export
-gg_spectra <- function(dat, BINSET, LABEL_POSITION, mapping, STAGGER) {
+#' @examples
+#' sdir <- system.file("extdata", "kfp_hysteresis", "spectra_mnova", package = "nmrrr")
+#' spec <- nmr_import_spectra(path = sdir, method = "mnova")
+#' nmr_plot_spectra(spec, bins_Clemente2012, LABEL_POSITION = 5, aes(x = ppm, y = intensity), STAGGER = 0.5)+ ylim(0, 6)
+#' tdir <- system.file("extdata", "meb_burn", "spectra_topspin", package = "nmrrr")
+#' spec <- nmr_import_spectra(path = tdir, method = "topspin")
+#' nmr_plot_spectra(spec, bins_Hertkorn2013, LABEL_POSITION = 6e+06, aes(x = ppm, y = intensity, color = sampleID), STAGGER = 1e+06)+ ylim(0, 8e+06)
+#'
+
+nmr_plot_spectra <- function(dat, BINSET, LABEL_POSITION, mapping, STAGGER) {
   # Quiet R CMD CHECK notes
   start <- number <- sampleID <- newsource <- NULL
 

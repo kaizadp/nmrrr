@@ -10,7 +10,7 @@
 #' Options include (a) "AUC", integrating the spectral region within each bin;
 #' (b) "peaks", adding areas of peaks if a peak-picked file is provided.
 #'
-#' @return A dataframe with columns describing ... KP_TODO
+#' @return A dataframe with columns describing relative contributions of compound classes. Compound classes are determined by selecting the desired bin set.
 #'
 #' @importFrom tidyr complete
 #' @importFrom DescTools AUC

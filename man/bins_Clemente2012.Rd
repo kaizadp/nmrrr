@@ -9,8 +9,8 @@ A data frame with 6 rows and 5 variables:
 \describe{
   \item{number}{Bin number}
   \item{group}{Name of bin group}
-  \item{start}{KP_TODO}
-  \item{stop}{KP_TODO}
+  \item{start}{ppm shift range, lower limit}
+  \item{stop}{ppm shift range, upper limit}
   \item{description}{Description of the bin group}
 }
 }
@@ -24,7 +24,13 @@ Particle Fractions.” Environmental Chemistry
 bins_Clemente2012
 }
 \description{
-NMR grouping bins from Clemente et al. (2012). KP_TODO
+NMR grouping bins from Clemente et al. (2012), using DMSO-D6 as solvent.
+(1) aliphatic polymethylene and methyl groups (0.6–1.3 ppm, “aliphatic1”);
+(2) aliphatic methyl and methylene near O and N (1.3–2.9 ppm, “aliphatic2”);
+(3) O-alkyl, mainly from carbohydrates and lignin (2.9–4.1 ppm);
+(4) α-proton of peptides (4.1–4.8 ppm);
+(5) aromatic and phenolic (6.2–7.8 ppm); and
+(6) amide, from proteins (7.8–8.4 ppm).
 }
 \note{
 The NMR spectrum can be split into several bins, based on

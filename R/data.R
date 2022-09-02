@@ -1,14 +1,20 @@
 
 #' NMR grouping bins from Clemente et al. (2012).
 #'
-#' NMR grouping bins from Clemente et al. (2012). KP_TODO
+#' NMR grouping bins from Clemente et al. (2012), using DMSO-D6 as solvent.
+#' (1) aliphatic polymethylene and methyl groups (0.6–1.3 ppm, “aliphatic1”);
+#' (2) aliphatic methyl and methylene near O and N (1.3–2.9 ppm, “aliphatic2”);
+#' (3) O-alkyl, mainly from carbohydrates and lignin (2.9–4.1 ppm);
+#' (4) α-proton of peptides (4.1–4.8 ppm);
+#' (5) aromatic and phenolic (6.2–7.8 ppm); and
+#' (6) amide, from proteins (7.8–8.4 ppm).
 #'
 #' @format A data frame with 6 rows and 5 variables:
 #' \describe{
 #'   \item{number}{Bin number}
 #'   \item{group}{Name of bin group}
-#'   \item{start}{KP_TODO}
-#'   \item{stop}{KP_TODO}
+#'   \item{start}{ppm shift range, lower limit}
+#'   \item{stop}{ppm shift range, upper limit}
 #'   \item{description}{Description of the bin group}
 #' }
 #' @note The NMR spectrum can be split into several bins, based on
@@ -26,14 +32,21 @@
 
 #' NMR grouping bins from Lynch et al. (2019).
 #'
-#' NMR grouping bins from Lynch et al. (2019). KP_TODO
+#' NMR grouping bins from Lynch et al. (2019), using D2O as solvent.
+#' (1) methyl, methylene, and methane bearing protons (0.6–1.6 ppm) ;
+#' (2) unsaturated functional groups (1.6–3.2 ppm),
+#' including ketone, benzylic, and alicyclic-bearing protons;
+#' (3) unsaturated, heteroatomic compounds,
+#' including O-bearing carbohydrates, ethers, and alcohols (3.2–4.5 ppm);
+#' (4) conjugated, double bond functionalities,
+#' including aromatic, amide, and phenolic structures (6.5–8.5 ppm).
 #'
 #' @format A data frame with 4 rows and 5 variables:
 #' \describe{
 #'   \item{number}{Bin number}
 #'   \item{group}{Name of bin group}
-#'   \item{start}{KP_TODO}
-#'   \item{stop}{KP_TODO}
+#'   \item{start}{ppm shift range, lower limit}
+#'   \item{stop}{ppm shift range, upper limit}
 #'   \item{description}{Description of the bin group}
 #' }
 #' @note The NMR spectrum can be split into several bins, based on
@@ -50,14 +63,21 @@
 
 #' NMR grouping bins from Mitchell et al. (2018).
 #'
-#' NMR grouping bins from Mitchell et al. (2018). KP_TODO
+#' NMR grouping bins from Mitchell et al. (2018), using DMSO-D6 as solvent.
+#' (1) aliphatic polymethylene and methyl groups (0.6–1.3 ppm);
+#' (2) N- and O-substituted aliphatic (1.3–2.9 ppm);
+#' (3) O-alkyl (2.9–4.1 ppm);
+#' (4) α-proton of peptides (4.1–4.8 ppm);
+#' (5) anomeric proton of carbohydrates (4.8–5.2 ppm);
+#' (6) aromatic and phenolic (6.2–7.8 ppm);
+#' (7) amide (7.8–8.4 ppm).
 #'
 #' @format A data frame with 7 rows and 5 variables:
 #' \describe{
 #'   \item{number}{Bin number}
 #'   \item{group}{Name of bin group}
-#'   \item{start}{KP_TODO}
-#'   \item{stop}{KP_TODO}
+#'   \item{start}{ppm shift range, lower limit}
+#'   \item{stop}{ppm shift range, upper limit}
 #'   \item{description}{Description of the bin group}
 #' }
 #' @note The NMR spectrum can be split into several bins, based on
@@ -75,14 +95,18 @@
 
 #' NMR grouping bins from Hertkorn et al. (2013).
 #'
-#' NMR grouping bins from  Hertkorn et al. (2013). KP_TODO
-#'
+#' NMR grouping bins from  Hertkorn et al. (2013), using MeOD as solvent.
+#' (1) aliphatics, HCCC (0.0-1.9);
+#' (2) acetate analogs and CRAM (carboxyl-rich alicyclic materials), HCX (1.9-3.1);
+#' (3) carbohydrate-like and methoxy, HCO (3.1-4.9);
+#' (4) olefinic HC=C (5.3-7.0);
+#' (5) aromatic (7.0-10.0).
 #' @format A data frame with 5 rows and 5 variables:
 #' \describe{
 #'   \item{number}{Bin number}
 #'   \item{group}{Name of bin group}
-#'   \item{start}{KP_TODO}
-#'   \item{stop}{KP_TODO}
+#'   \item{start}{ppm shift range, lower limit}
+#'   \item{stop}{ppm shift range, upper limit}
 #'   \item{description}{Description of the bin group}
 #' }
 #' @note The NMR spectrum can be split into several bins, based on
