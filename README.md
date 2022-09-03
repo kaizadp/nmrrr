@@ -13,5 +13,7 @@ Use this package for:
 * peak assignments
 
 Before using this package, NMR spectra must be processed in
-[MestreNova](https://mestrelab.com/download/mnova/) (phase corrected, baseline 
+[MestreNova](https://mestrelab.com/download/mnova/) or
+[TopSpin](https://www.bruker.com/en/products-and-solutions/mr/nmr-software/topspin.html) 
+(phase corrected, baseline 
 corrected, deconvoluted, peak picked, normalized).
