@@ -10,11 +10,14 @@
 #' Options include (a) "AUC", integrating the spectral region within each bin;
 #' (b) "peaks", adding areas of peaks if a peak-picked file is provided.
 #'
-#' @return A dataframe with columns describing relative contributions of compound classes. Compound classes are determined by selecting the desired bin set.
+#' @return A \code{\link{data.frame}} with columns describing relative contributions of
+#' compound classes. Compound classes are determined by selecting the desired
+#' binset.
 #'
 #' @importFrom tidyr complete
 #' @importFrom DescTools AUC
 #' @export
+#' @author Kaizad Patel
 #' @examples
 #' tdir <- system.file("extdata", "meb_burn", "spectra_topspin", package = "nmrrr")
 #' spec <- nmr_import_spectra(path = tdir, method = "topspin")

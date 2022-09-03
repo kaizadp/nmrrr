@@ -29,3 +29,6 @@ Process data of peaks picked with NMR software.
 pdir <- system.file("extdata", "meb_burn", "peaks_topspin", package = "nmrrr")
 nmr_import_peaks(path = pdir, method = "topspin")
 }
+\author{
+Kaizad Patel
+}

@@ -15,7 +15,9 @@ Options include (a) "AUC", integrating the spectral region within each bin;
 (b) "peaks", adding areas of peaks if a peak-picked file is provided.}
 }
 \value{
-A dataframe with columns describing relative contributions of compound classes. Compound classes are determined by selecting the desired bin set.
+A \code{\link{data.frame}} with columns describing relative contributions of
+compound classes. Compound classes are determined by selecting the desired
+binset.
 }
 \description{
 Compute relative abundance of compound classes for each sample.
@@ -30,4 +32,7 @@ pdir <- system.file("extdata", "amp_tempest", "peaks_mnova_single", package = "n
 peaks <- nmr_import_peaks(path = pdir, method = "single column")
 peaks <- nmr_assign_bins(peaks, bins_Clemente2012)
 nmr_relabund(peaks, "peaks")
+}
+\author{
+Kaizad Patel
 }
