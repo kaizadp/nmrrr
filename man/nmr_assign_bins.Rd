@@ -14,7 +14,7 @@ Must include a `ppm` column for compound class assignment}
 \code{\link{bins_Hertkorn2013}}, etc., or a similarly-structured data frame}
 }
 \value{
-The input dataframe with a new \code{group} column whose entries
+The input data with a new \code{group} column whose entries
 are drawn from the binset. Entries will be \code{NA} if a \code{ppm}
 value does not fall into any group.
 }
@@ -27,4 +27,7 @@ tdir <- system.file("extdata", "meb_burn", "spectra_topspin", package = "nmrrr")
 spec <- nmr_import_spectra(path = tdir, method = "topspin")
 nmr_assign_bins(spec, bins_Clemente2012)
 nmr_assign_bins(spec, bins_Lynch2019)
+}
+\author{
+Kaizad Patel
 }

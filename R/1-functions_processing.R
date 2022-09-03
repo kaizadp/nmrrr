@@ -7,11 +7,12 @@
 #' @param method Software used for initial processing of NMR spectra (before using this package). Available options include "mnova" and "topspin".
 #' @param pattern Filename pattern to search for (by default "*.csv$")
 #' @param quiet Print diagnostic messages? Logical
-#' @return The data from all files found, concatenated into a single
-#' data frame and sorted.
+#' @return A \code{link{data.frame}} with data from all files found,
+#' concatenated and sorted.
 #'
 #' @importFrom utils read.table
 #' @export
+#' @author Kaizad Patel
 #' @examples
 #' tdir <- system.file("extdata", "meb_burn", "spectra_topspin", package = "nmrrr")
 #' nmr_import_spectra(path = tdir, method = "topspin")
@@ -66,10 +67,11 @@ nmr_import_spectra <- function(path, method,
 #' @param binset A binset; e.g. \code{\link{bins_Clemente2012}},
 #' \code{\link{bins_Hertkorn2013}}, etc., or a similarly-structured data frame
 #'
-#' @return The input dataframe with a new \code{group} column whose entries
+#' @return The input data with a new \code{group} column whose entries
 #' are drawn from the binset. Entries will be \code{NA} if a \code{ppm}
 #' value does not fall into any group.
 #' @export
+#' @author Kaizad Patel
 #' @examples
 #' tdir <- system.file("extdata", "meb_burn", "spectra_topspin", package = "nmrrr")
 #' spec <- nmr_import_spectra(path = tdir, method = "topspin")
@@ -119,6 +121,7 @@ nmr_assign_bins <- function(dat, binset) {
 #' @importFrom utils read.table
 #' @importFrom utils read.csv read.delim
 #' @export
+#' @author Kaizad Patel
 #' @examples
 #' pdir <- system.file("extdata", "meb_burn", "peaks_topspin", package = "nmrrr")
 #' nmr_import_peaks(path = pdir, method = "topspin")
