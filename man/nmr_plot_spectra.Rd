@@ -4,19 +4,19 @@
 \alias{nmr_plot_spectra}
 \title{Plot NMR spectra}
 \usage{
-nmr_plot_spectra(dat, BINSET, LABEL_POSITION, mapping, STAGGER)
+nmr_plot_spectra(dat, binset, label_position, mapping, stagger)
 }
 \arguments{
 \item{dat}{Processed spectral data, output from (a) \code{\link{nmr_import_spectra}}
 and \code{\link{nmr_assign_bins}}; or (b) \code{\link{nmr_import_peaks}}}
 
-\item{BINSET}{spectral binning}
+\item{binset}{spectral binning}
 
-\item{LABEL_POSITION}{y-axis position for bin labels}
+\item{label_position}{y-axis position for bin labels}
 
 \item{mapping}{aes(x = , y = )}
 
-\item{STAGGER}{how much to stagger the labels? KP_TO (not clear)}
+\item{stagger}{how much to stagger the labels? KP_TO (not clear)}
 }
 \value{
 A ggplot object
