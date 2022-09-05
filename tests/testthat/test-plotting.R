@@ -5,7 +5,7 @@ test_that("nmr_plot_spectra works", {
   expect_error(nmr_plot_spectra(cars, cars, mapping = 1),
                regexp = "must be a ggplot2::aes")
 
-  sdir <- "compdata/spectra"
+  sdir <- "compdata/spectra_mnova"
   spectra_test <- nmr_import_spectra(path = sdir, method = "mnova", quiet = TRUE)
 
   p <- nmr_plot_spectra(spectra_test, bins_Clemente2012, label_position = 5,
