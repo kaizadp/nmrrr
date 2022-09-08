@@ -9,15 +9,15 @@ nmr_import_spectra(path, method, pattern = "*.csv$", quiet = FALSE)
 \arguments{
 \item{path}{Directory where the spectra files are saved}
 
-\item{method}{software used for initial processing of NMR spectra (before using this package). Available options include "mnova" and "topspin".}
+\item{method}{Software used for initial processing of NMR spectra (before using this package). Available options include "mnova" and "topspin".}
 
 \item{pattern}{Filename pattern to search for (by default "*.csv$")}
 
 \item{quiet}{Print diagnostic messages? Logical}
 }
 \value{
-The data from all files found, concatenated into a single
-data frame and sorted.
+A \code{link{data.frame}} with data from all files found,
+concatenated and sorted.
 }
 \description{
 Imports multiple spectra files and then combines and cleans the data.
@@ -27,4 +27,7 @@ tdir <- system.file("extdata", "meb_burn", "spectra_topspin", package = "nmrrr")
 nmr_import_spectra(path = tdir, method = "topspin")
 sdir <- system.file("extdata", "kfp_hysteresis", "spectra_mnova", package = "nmrrr")
 nmr_import_spectra(path = sdir, method = "mnova")
+}
+\author{
+Kaizad Patel
 }

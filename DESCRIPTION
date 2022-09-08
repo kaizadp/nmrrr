@@ -26,9 +26,7 @@ Encoding: UTF-8
 RoxygenNote: 7.2.1
 Imports: 
     DescTools,
-    dplyr (>= 1.0),
     ggplot2,
-    stats,
     tidyr,
     utils
 Suggests: 
@@ -37,5 +35,5 @@ Suggests:
     tibble
 Config/testthat/edition: 3
 Depends: 
-    R (>= 2.10)
+    R (>= 3.50)
 LazyData: true

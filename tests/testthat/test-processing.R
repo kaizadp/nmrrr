@@ -6,7 +6,7 @@ test_that("nmr_import_spectra works", {
   )
 
   # Handles bad method
-  sdir <- "compdata/spectra"
+  sdir <- "compdata/spectra_mnova"
   expect_error(nmr_import_spectra(path = sdir, method = "not_valid", quiet = TRUE),
     regexp = "Available methods"
   )
@@ -19,7 +19,7 @@ test_that("nmr_import_spectra works", {
     spectra_test <- nmr_import_spectra(path = sdir, method = "mnova", quiet = TRUE)
   })
 
-  # Imports data in expected format
+  # Imports mnova data in expected format
   expect_s3_class(spectra_test, "data.frame")
   expect_identical(
     sort(names(spectra_test)),
@@ -27,6 +27,20 @@ test_that("nmr_import_spectra works", {
   )
   expect_type(spectra_test$ppm, "double")
   expect_type(spectra_test$intensity, "double")
+  expect_type(spectra_test$sampleID, "character")
+
+  # Imports topspin data in expected format
+  spectra_test <- nmr_import_spectra(path = "compdata/spectra_topspin",
+                                     method = "topspin", quiet = TRUE)
+  expect_s3_class(spectra_test, "data.frame")
+  expect_identical(
+    sort(names(spectra_test)),
+    sort(c("x", "intensity", "y", "ppm", "sampleID"))
+  )
+  expect_type(spectra_test$x, "integer")
+  expect_type(spectra_test$intensity, "integer")
+  expect_type(spectra_test$y, "double")
+  expect_type(spectra_test$ppm, "double")
   expect_type(spectra_test$sampleID, "character")
 })
 

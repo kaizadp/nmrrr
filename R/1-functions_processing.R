@@ -4,15 +4,15 @@
 #' @description Imports multiple spectra files and then combines and cleans the data.
 #'
 #' @param path Directory where the spectra files are saved
-#' @param method software used for initial processing of NMR spectra (before using this package). Available options include "mnova" and "topspin".
+#' @param method Software used for initial processing of NMR spectra (before using this package). Available options include "mnova" and "topspin".
 #' @param pattern Filename pattern to search for (by default "*.csv$")
 #' @param quiet Print diagnostic messages? Logical
-#' @return The data from all files found, concatenated into a single
-#' data frame and sorted.
+#' @return A \code{link{data.frame}} with data from all files found,
+#' concatenated and sorted.
 #'
-#' @importFrom dplyr mutate filter select arrange %>%
 #' @importFrom utils read.table
 #' @export
+#' @author Kaizad Patel
 #' @examples
 #' tdir <- system.file("extdata", "meb_burn", "spectra_topspin", package = "nmrrr")
 #' nmr_import_spectra(path = tdir, method = "topspin")
@@ -50,11 +50,10 @@ nmr_import_spectra <- function(path, method,
   }
 
   # clean the spectral data
-  spectra_dat %>%
-    bind_rows() %>%
-    mutate(sampleID = gsub(".csv", "", sampleID, fixed = TRUE)) %>%
-    arrange(sampleID, ppm) %>%
-    weak_as_tibble()
+  sdat <- do.call("rbind", spectra_dat)
+  sdat$sampleID <- gsub(".csv", "", sdat$sampleID, fixed = TRUE)
+  sdat <- sdat[order(sdat$sampleID, sdat$ppm),]
+  weak_as_tibble(sdat)
 }
 
 
@@ -68,10 +67,11 @@ nmr_import_spectra <- function(path, method,
 #' @param binset A binset; e.g. \code{\link{bins_Clemente2012}},
 #' \code{\link{bins_Hertkorn2013}}, etc., or a similarly-structured data frame
 #'
-#' @return The input dataframe with a new \code{group} column whose entries
+#' @return The input data with a new \code{group} column whose entries
 #' are drawn from the binset. Entries will be \code{NA} if a \code{ppm}
 #' value does not fall into any group.
 #' @export
+#' @author Kaizad Patel
 #' @examples
 #' tdir <- system.file("extdata", "meb_burn", "spectra_topspin", package = "nmrrr")
 #' spec <- nmr_import_spectra(path = tdir, method = "topspin")
@@ -118,10 +118,10 @@ nmr_assign_bins <- function(dat, binset) {
 #' @return A dataframe with columns describing
 #'   sample ID, ppm, intensity, area, group name.
 #'
-#' @importFrom dplyr mutate filter select left_join bind_rows rename %>%
 #' @importFrom utils read.table
 #' @importFrom utils read.csv read.delim
 #' @export
+#' @author Kaizad Patel
 #' @examples
 #' pdir <- system.file("extdata", "meb_burn", "peaks_topspin", package = "nmrrr")
 #' nmr_import_peaks(path = pdir, method = "topspin")
@@ -164,8 +164,7 @@ nmr_import_peaks <- function(path, method, pattern = "*.csv$", quiet = FALSE) {
         nmr_list <- lapply(noname_cols, function(x) df[x:(x + 8)])
 
         # Step 4. Finally, bind everything into a single data frame
-        # This uses dplyr but we could also use base R: do.call("rbind", nmr_list)
-        nmr_dat <- bind_rows(nmr_list)
+        nmr_dat <- do.call("rbind", nmr_list)
 
         # Step 5. Create a new column that includes source sample name
         nmr_dat[["sampleID"]] <- basename(f)
@@ -215,12 +214,7 @@ nmr_import_peaks <- function(path, method, pattern = "*.csv$", quiet = FALSE) {
   }
 
   # Combine, filter, and clean the sampleID column
-  peaks_rawdat %>%
-    bind_rows() %>%
-    filter(ppm >= 0 & ppm <= 10) %>%
-    filter(Intensity > 0) %>%
-    filter(!is.na(ppm)) %>%
-    # filter(!Flags == "Weak") %>%
-    mutate(sampleID = gsub(".csv", "", sampleID, fixed = TRUE)) %>%
-    weak_as_tibble()
+  pdat <- do.call("rbind", peaks_rawdat)
+  pdat$sampleID <- gsub(".csv", "", pdat$sampleID, fixed = TRUE)
+  weak_as_tibble(pdat)
 }

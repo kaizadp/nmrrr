@@ -8,7 +8,7 @@ test_that("relabund works", {
 
   # AUC: expected data format
   spectra_test <- nmr_import_spectra(
-    path = "compdata/spectra",
+    path = "compdata/spectra_mnova",
     method = "mnova", quiet = TRUE
   )
   spectra_binset <- nmr_assign_bins(
