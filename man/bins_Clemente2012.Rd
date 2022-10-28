@@ -18,7 +18,7 @@ A data frame with 6 rows and 5 variables:
 JS Clemente et al. 2012. “Comparison of Nuclear Magnetic Resonance
 Methods for the Analysis of Organic Matter Composition from Soil Density and
 Particle Fractions.” Environmental Chemistry
-\url{https://doi.org/10.1071/EN11096}
+\doi 10.1071/EN11096
 }
 \usage{
 bins_Clemente2012
