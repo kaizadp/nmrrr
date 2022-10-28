@@ -18,7 +18,7 @@ A data frame with 7 rows and 5 variables:
 P Mitchell et al. 2018. “Nuclear Magnetic Resonance Analysis of
 Changes in Dissolved Organic Matter Composition with Successive Layering
 on Clay Mineral Surfaces.” Soil Systems
-\doi 10.3390/soils2010008
+\doi{10.3390/soils2010008}
 }
 \usage{
 bins_Mitchell2018

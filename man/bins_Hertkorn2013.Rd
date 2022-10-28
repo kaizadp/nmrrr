@@ -18,7 +18,7 @@ A data frame with 5 rows and 5 variables:
 N. Hertkorn et al. 2013. "High-field NMR spectroscopy and FTICR mass
 spectrometry: powerful discovery tools for the molecular level
 characterization of marine dissolved organic matter" Biogeosciences
-\doi 10.5194/bg-10-1583-2013
+\doi{10.5194/bg-10-1583-2013}
 }
 \usage{
 bins_Hertkorn2013
