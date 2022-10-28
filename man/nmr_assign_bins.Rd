@@ -23,10 +23,9 @@ Assign group (bin name) to each row of the data based on
 the \code{ppm} column.
 }
 \examples{
-tdir <- system.file("extdata", "meb_burn", "spectra_topspin", package = "nmrrr")
-spec <- nmr_import_spectra(path = tdir, method = "topspin")
+sdir <- system.file("extdata", "kfp_hysteresis", "spectra_mnova", package = "nmrrr")
+spec <- nmr_import_spectra(path = sdir, method = "mnova")
 nmr_assign_bins(spec, bins_Clemente2012)
-nmr_assign_bins(spec, bins_Lynch2019)
 }
 \author{
 Kaizad Patel

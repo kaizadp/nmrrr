@@ -36,11 +36,6 @@ p_aes <- aes(x = ppm, y = intensity)
 p <- nmr_plot_spectra(spec, bins_Clemente2012, 5, p_aes, stagger = 0.5)
 p + ylim(0, 6)
 
-tdir <- system.file("extdata", "meb_burn", "spectra_topspin", package = "nmrrr")
-spec <- nmr_import_spectra(path = tdir, method = "topspin")
-p_aes <- aes(x = ppm, y = intensity, color = sampleID)
-p <- nmr_plot_spectra(spec, bins_Hertkorn2013, 6e+06, p_aes, stagger = 1e+06)
-p + ylim(0, 8e+06)
 }
 \author{
 Kaizad Patel

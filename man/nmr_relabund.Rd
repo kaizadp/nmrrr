@@ -23,13 +23,8 @@ binset.
 Compute relative abundance of compound classes for each sample.
 }
 \examples{
-tdir <- system.file("extdata", "meb_burn", "spectra_topspin", package = "nmrrr")
-spec <- nmr_import_spectra(path = tdir, method = "topspin")
-spec <- nmr_assign_bins(spec, bins_Hertkorn2013)
-nmr_relabund(spec, "AUC")
-
-pdir <- system.file("extdata", "amp_tempest", "peaks_mnova_single", package = "nmrrr")
-peaks <- nmr_import_peaks(path = pdir, method = "single column")
+sdir <- system.file("extdata", "kfp_hysteresis", "spectra_mnova", package = "nmrrr")
+peaks <- nmr_import_peaks(path = sdir, method = "multiple columns")
 peaks <- nmr_assign_bins(peaks, bins_Clemente2012)
 nmr_relabund(peaks, "peaks")
 }
