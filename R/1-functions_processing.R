@@ -120,7 +120,7 @@ nmr_assign_bins <- function(dat, binset) {
 #' @export
 #' @author Kaizad Patel
 #' @examples
-#' sdir <- system.file("extdata", "kfp_hysteresis", "spectra_mnova", package = "nmrrr")
+#' sdir <- system.file("extdata", "kfp_hysteresis", "peaks_mnova_multiple", package = "nmrrr")
 #' nmr_import_peaks(path = sdir, method = "multiple columns")
 nmr_import_peaks <- function(path, method, pattern = "*.csv$", quiet = FALSE) {
   # Quiet R CMD CHECK notes
