@@ -23,7 +23,7 @@ binset.
 Compute relative abundance of compound classes for each sample.
 }
 \examples{
-sdir <- system.file("extdata", "kfp_hysteresis", "spectra_mnova", package = "nmrrr")
+sdir <- system.file("extdata", "kfp_hysteresis", "peaks_mnova_multiple", package = "nmrrr")
 peaks <- nmr_import_peaks(path = sdir, method = "multiple columns")
 peaks <- nmr_assign_bins(peaks, bins_Clemente2012)
 nmr_relabund(peaks, "peaks")
