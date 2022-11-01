@@ -80,57 +80,6 @@ hyst_relabund_summary_peaks_mult = compute_relabund_treatments(RELABUND_CORES = 
 #
 #
 
-# testing with `kfp_drydown` data -----------------------------------------
-
-
-## data generated using MNova
-## spectra files and multi-column peaks files
-
-# 1. process spectra
-drydown_spectra_processed = nmr_import_spectra(path = "inst/extdata/kfp_drydown/spectra_mnova/subset",
-                                            method = "mnova") %>%
-  filter(ppm >= 0 & ppm <= 10)
-
-hyst_spectra_processed_bins = nmr_assign_bins(dat = hyst_spectra_processed,
-                                              binset = bins_Clemente2012)
-
-hyst_spectra_processed_bins_noNA =
-  hyst_spectra_processed_bins %>%
-  filter(!is.na(group))
-
-# spectra graphs
-
-corekey = read.csv("inst/extdata/kfp_hysteresis/corekey_hyst_KFP.csv") %>%
-  mutate_all(as.character)
-
-hyst_spectra_processed_bins_corekey = hyst_spectra_processed_bins %>% left_join(corekey)
-
-nmr_plot_spectra(dat = drydown_spectra_processed,
-                 binset = bins_Clemente2012,
-                 label_position = 5,
-                 mapping = aes(x = ppm, y = intensity, group = sampleID, color = sampleID),
-                 stagger = 0.5) +
-  labs(subtitle = "binset: Clemente et al. 2012")+
-  ylim(0, 22)+
-  facet_wrap(~sampleID)
-
-nmr_plot_spectra(dat = hyst_spectra_processed_bins_corekey,
-                 BINSET = bins_Clemente2012,
-                 LABEL_POSITION = 5,
-                 aes(x = ppm, y = intensity, group = sampleID, color = treatment),
-                 STAGGER = 0.5) +
-  labs(subtitle = "binset: Clemente et al. 2012")+
-  ylim(0, 5.5)+
-  # facet_wrap(~treatment)+
-  NULL
-
-
-
-
-
-
-
-
 # testing with `kfp_drydown_d2o` data -----------------------------------------
 
 
@@ -139,47 +88,26 @@ nmr_plot_spectra(dat = hyst_spectra_processed_bins_corekey,
 
 # 1. process spectra
 drydown_d2o_spectra_processed = nmr_import_spectra(path = "inst/extdata/kfp_drydown/spectra_mnova_d2o",
-                                               method = "mnova") %>%
-  filter(ppm >= 0 & ppm <= 10)
-
-
-df <- read.csv("inst/extdata/kfp_drydown/spectra_mnova_d2o/CPCRW-85_spectra.csv",
-                 header = FALSE)
-
-
-
-
-
-hyst_spectra_processed_bins = nmr_assign_bins(dat = hyst_spectra_processed,
-                                              binset = bins_Clemente2012)
-
-hyst_spectra_processed_bins_noNA =
-  hyst_spectra_processed_bins %>%
-  filter(!is.na(group))
+                                               method = "mnova")
 
 # spectra graphs
-
-corekey = read.csv("inst/extdata/kfp_hysteresis/corekey_hyst_KFP.csv") %>%
-  mutate_all(as.character)
-
-hyst_spectra_processed_bins_corekey = hyst_spectra_processed_bins %>% left_join(corekey)
-
-nmr_plot_spectra(dat = drydown_spectra_processed,
-                 binset = bins_Clemente2012,
+nmr_plot_spectra(dat = drydown_d2o_spectra_processed,
+                 binset = bins_Lynch2019,
                  label_position = 5,
                  mapping = aes(x = ppm, y = intensity, group = sampleID, color = sampleID),
                  stagger = 0.5) +
-  labs(subtitle = "binset: Clemente et al. 2012")+
-  ylim(0, 22)+
+  labs(subtitle = "binset: Lynch et al. 2019")+
+  ylim(0, 8)+
   facet_wrap(~sampleID)
 
-nmr_plot_spectra(dat = hyst_spectra_processed_bins_corekey,
-                 BINSET = bins_Clemente2012,
-                 LABEL_POSITION = 5,
-                 aes(x = ppm, y = intensity, group = sampleID, color = treatment),
-                 STAGGER = 0.5) +
-  labs(subtitle = "binset: Clemente et al. 2012")+
+nmr_plot_spectra(dat = drydown_d2o_spectra_processed,
+                 binset = bins_Lynch2019,
+                 label_position = 5,
+                 mapping = aes(x = ppm, y = intensity, group = sampleID, color = sampleID),
+                 stagger = 0.5) +
+  labs(subtitle = "binset: Lynch et al. 2019")+
   ylim(0, 5.5)+
+  xlim(10, -2)
   # facet_wrap(~treatment)+
   NULL
 
