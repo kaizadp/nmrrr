@@ -26,7 +26,7 @@ A dataframe with columns describing
 Process data of peaks picked with NMR software.
 }
 \examples{
-sdir <- system.file("extdata", "kfp_hysteresis", "spectra_mnova", package = "nmrrr")
+sdir <- system.file("extdata", "kfp_hysteresis", "peaks_mnova_multiple", package = "nmrrr")
 nmr_import_peaks(path = sdir, method = "multiple columns")
 }
 \author{
