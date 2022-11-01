@@ -61,7 +61,7 @@ nmr_plot_spectra <- function(dat, binset, label_position, mapping, stagger) {
       data = odds,
       aes(x = (start + stop) / 2, y = label_position - 0.1, label = number)
     ) +
-    scale_x_reverse(limits = c(10, 0)) +
+    scale_x_reverse() +
     xlab("shift, ppm") +
     ylab("intensity")
 
