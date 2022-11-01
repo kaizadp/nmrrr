@@ -14,8 +14,6 @@
 #' @export
 #' @author Kaizad Patel
 #' @examples
-#' tdir <- system.file("extdata", "meb_burn", "spectra_topspin", package = "nmrrr")
-#' nmr_import_spectra(path = tdir, method = "topspin")
 #' sdir <- system.file("extdata", "kfp_hysteresis", "spectra_mnova", package = "nmrrr")
 #' nmr_import_spectra(path = sdir, method = "mnova")
 nmr_import_spectra <- function(path, method,
@@ -34,7 +32,7 @@ nmr_import_spectra <- function(path, method,
   if (method == "mnova") {
     spectra_dat <- lapply(files, function(f) {
       # these files are tab-delimited with no header
-      df <- read.table(f, header = FALSE, col.names = c("ppm", "intensity"))
+      df <- read.table(f, header = FALSE, fill = TRUE, col.names = c("ppm", "intensity"))
       df$sampleID <- basename(f)
       df
     })
@@ -73,10 +71,9 @@ nmr_import_spectra <- function(path, method,
 #' @export
 #' @author Kaizad Patel
 #' @examples
-#' tdir <- system.file("extdata", "meb_burn", "spectra_topspin", package = "nmrrr")
-#' spec <- nmr_import_spectra(path = tdir, method = "topspin")
+#' sdir <- system.file("extdata", "kfp_hysteresis", "spectra_mnova", package = "nmrrr")
+#' spec <- nmr_import_spectra(path = sdir, method = "mnova")
 #' nmr_assign_bins(spec, bins_Clemente2012)
-#' nmr_assign_bins(spec, bins_Lynch2019)
 nmr_assign_bins <- function(dat, binset) {
 
   # Assign group (bin name) to each row of the data based on 'ppm'
@@ -123,8 +120,8 @@ nmr_assign_bins <- function(dat, binset) {
 #' @export
 #' @author Kaizad Patel
 #' @examples
-#' pdir <- system.file("extdata", "meb_burn", "peaks_topspin", package = "nmrrr")
-#' nmr_import_peaks(path = pdir, method = "topspin")
+#' sdir <- system.file("extdata", "kfp_hysteresis", "peaks_mnova_multiple", package = "nmrrr")
+#' nmr_import_peaks(path = sdir, method = "multiple columns")
 nmr_import_peaks <- function(path, method, pattern = "*.csv$", quiet = FALSE) {
   # Quiet R CMD CHECK notes
   ppm <- Intensity <- row_number <- sampleID <- NULL
