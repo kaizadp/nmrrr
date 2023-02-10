@@ -1,8 +1,8 @@
 ---
-title: "example_data"
+title: "Data provided with the nmrrr package"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{nmrrr_data}
+  %\VignetteIndexEntry{Data provided with the nmrrr package}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

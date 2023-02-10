@@ -2,7 +2,7 @@
 title: "Bin sets included with nmrrr"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{nmrrr_binsets}
+  %\VignetteIndexEntry{Bin sets included with nmrrr}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
