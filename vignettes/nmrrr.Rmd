@@ -57,8 +57,12 @@ theme_set(theme_bw()) # set the default ggplot theme
 #### Set input directories
 
 ```{r input-directories}
-SPECTRA_FILES = "inst/extdata/kfp_hysteresis/spectra_mnova"
-PEAKS_FILES = "inst/extdata/kfp_hysteresis/peaks_mnova_multiple"
+#SPECTRA_FILES = "inst/extdata/kfp_hysteresis/spectra_mnova"
+#PEAKS_FILES = "inst/extdata/kfp_hysteresis/peaks_mnova_multiple"
+
+SPECTRA_FILES = system.file("extdata", "kfp_hysteresis", "spectra_mnova", package = "nmrrr")
+PEAKS_FILES = system.file("extdata", "kfp_hysteresis", "peaks_mnova_multiple", package = "nmrrr")
+
 ```
 
 ---
