@@ -1,8 +1,11 @@
 ---
 title: "Introduction to nmrrr"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 3
 vignette: >
-  %\VignetteIndexEntry{importing_data}
+  %\VignetteIndexEntry{nmrrr}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,34 +19,42 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r nmrrr-load, include=FALSE}
+```{r nmrrr-load}
 library(nmrrr)
 ```
 
-This vignette represents the general workflow for processing NMR data using the *nmrrr* package. 
+This vignette describes the general workflow for processing NMR data using the `{nmrrr}` package. 
 
-This package works only on processed data (e.g., phase-corrected, baseline-corrected, peak-picked, etc.). 
-For tips on processing NMR data in MestreNova, check out the [repository wiki](https://github.com/kaizadp/nmrrr/wiki).
+This package can be used for batch processing and analysis of NMR (nuclear magnetic resonance) data, including combining and cleaning spectral data, assigning compound classes to the peaks, and calculating relative contributions of the compound classes.
+
+This package will not perform corrections on raw spectral data (e.g., phase correction, baseline correction, peak picking, etc.). These steps must be done prior to using `{nmrrr}`, using the appropriate software (e.g., MNova, TopSpin).
+
+For tips on processing NMR data in MNova/MestreNova, check out the [repository wiki](https://github.com/kaizadp/nmrrr/wiki).
+
+Currently, this package can handle data generated from MNova and TopSpin software. Because of the different file formats, users must specify the method when using the functions.
 
 ---
 
 > **A note on the data used here**   
 >
-> This vignette uses data from the `kfp_hysteresis` dataset included with the `{nmrrr}` package. This is a subset of the data reported in [Patel et al. 2021](https://doi.org/10.1016/j.soilbio.2021.108165). Samples 27-30 represent Treatment A (flood+dried), and Samples 31-35 represent Treatment B (drought+rewet).  
-These data were processed using MNova.  
-More details can be found in the [repository wiki](https://github.com/kaizadp/nmrrr/wiki).
+> This vignette uses data from the `kfp_hysteresis` dataset included with the `{nmrrr}` package. This is a subset of the data reported in [Patel et al. 2021](https://doi.org/10.1016/j.soilbio.2021.108165). Samples 29 represents Treatment A (flood+dried), and Sample 34 represents Treatment B (drought+rewet).  
+More details on the dataset (and other datasets available with this package) can be found in the relevant vignette (`vignette("nmrrr_data")`).  
+>
+> This dataset contains (a) SPECTRA data and (B) PEAKS data (peak picked in MNova)
 
+
+---
 
 ## Part 0. Setup
 
-### Load additional packages
+#### Load additional packages
 
 ```{r packages}
-library(tidyverse)
-theme_set(theme_bw())
+library(tidyverse) # for additional data processing in this vignette
+theme_set(theme_bw()) # set the default ggplot theme
 ```
 
-### Set input directories
+#### Set input directories
 
 ```{r input-directories}
 SPECTRA_FILES = "inst/extdata/kfp_hysteresis/spectra_mnova"
@@ -52,14 +63,13 @@ PEAKS_FILES = "inst/extdata/kfp_hysteresis/peaks_mnova_multiple"
 
 ---
 
-## PART 1: Importing spectra files
+## Part 1: Importing spectra files
 
-
-`nmr_import_spectra`: 
+`nmr_import_spectra`  
 
 This function will:
 
-- import all the files from the SPECTRA_FILES location, 
+- import all the .csv files from the SPECTRA_FILES location, 
 - combine them into a single dataframe,
 - and generate a dataframe with columns for ppm-shift, intensity, and sample-ID
 
@@ -69,15 +79,15 @@ spectra_df <-
   nmr_import_spectra(path = SPECTRA_FILES,
                      method = "mnova") 
 
-
 str(spectra_df)
 ```
 
-Further cleaning of the dataframe must be done by the user, according to project-specific needs.
 
-For instance, including only points between 0 and 10 ppm.
+Further cleaning of the dataframe may be done by the user, according to specific needs.  
+For instance, including only certain ranges of ppm shift.
 
-We want to keep only points between 0 and 10 ppm (user modification)
+For this dataset, we include only points between 0 and 10 ppm.
+
 ```{r spectra-process}
 spectra_df  <-  
   spectra_df %>%
@@ -87,65 +97,92 @@ str(spectra_df)
 ```
 
 
+
 ---
 
-## PART 2: Plotting the spectra
+## Part 2: Plotting the spectra
 
+`nmr_plot_spectra`  
 
-`nmr_plot_spectra`
-This function will plot all the spectra present in the `spectra_df` file.
+This function will plot all the spectra present in the `spectra_df` file. The spectra will be stacked and offset vertically (can be customized).
 
-This is a basic ggplot format, and users can add additional customizations as needed
+- The compound classes (bins) are labelled in the graph. 
+- Adjust the position of the labels (along the y-axis) using `LABEL_POSITION = ...`.
+- Overlaid spectra can be staggered along the y-axis using `STAGGER = ...`.
+- This function makes use of `ggplot2` capabilities, and the plot can therefore be customized using `ggplot2` nomenclature.
 
-```{r spectra-plot}
+```{r spectra-plot, fig.height=5, fig.width=8}
 nmr_plot_spectra(dat = spectra_df,
                  binset = bins_Clemente2012,
                  label_position = 5,
                  mapping = aes(x = ppm, y = intensity, group = sampleID, color = sampleID),
                  stagger = 0.5) +
   # OPTIONAL PARAMETERS/LAYERS
-  geom_rect(aes(xmin = 2, xmax = 4, ymin = 0, ymax = 5.5), fill = "grey", color = NA, alpha = 0.6)+
+  geom_rect(aes(xmin = 2, xmax = 4, ymin = 0, ymax = 5.5), fill = "white", color = NA, alpha = 0.8)+
   labs(subtitle = "binset: Clemente et al. 2012")+
   ylim(0, 5.5)
 ```
 
+Notes:
 
-The compound classes (bins) are labelled in the graph. Adjust the position (y-axis) using `LABEL_POSITION = ...`.
-
-Overlaid spectra can be staggered along the y-axis using `STAGGER - ...`.
-
-This function makes use of `ggplot2` capabilities, and the plot can therefore be customized using `ggplot2` nomenclature.
+- This example uses the bins from Clemente et al. 2012. For more details, including bin descriptions, see `?binset_Clemente2012` or `vignette("nmrrr_binsets)`.
+- The region 2.0 to 4.0 ppm includes solvent regions (DMSO-d6 and H2O) and is therefore not included in the analyses. [USER CUSTOMIZATION]
 
 ---
 
-## PART 3: Assigning compound classes 
+## Part 3: Assigning compound classes 
+
+`nmr_assign_bins`  
+
+This function will assign bins/compound classes to the peaks based on the preferred bin set. 
+
+This package provides bin sets for DMSO-d6, D2O, and MeOD solvents. 
+Users can choose from the available options, or can import their own preferred bin set. 
+See `vignette("nmrrr_binsets")` for more details.
+
 
 ```{r}
 spectra_bins = nmr_assign_bins(dat = spectra_df,
                                binset = bins_Clemente2012)
 ```
 
+**Note: The user may want to assign additional filtering steps to filter certain flagged data points, e.g. impurities, weak peaks, etc. ** 
+
+For this current dataset, because of the strong influence of water peaks in the o-alkyl region, we exclude that region from our calculations.
+
+```{r}
+spectra_bins = 
+  spectra_bins %>% 
+  filter(group != "oalkyl")
+```
+
+
 ---
 
-## PART 4: Calculate relative abundance of compound classes
+## Part 4: Calculate relative abundance of compound classes
 
-### Method 1: Integrating area under the curve from processed spectra files (`method = "AUC`)
+### `method = "AUC"`
+
+Method 1: Integrating area under the curve from processed spectra files 
 
 ```{r}
 relabund_integration = nmr_relabund(dat = spectra_bins,
                                     method = "AUC")
 ```
 
-### Method 2: Calculating from peaks data (`method = "peaks"`)
+### `method = "peaks"`
+
+Method 2: Calculating from peaks data 
 
 This method is specific to MNova-processed data. Users may pick peaks within MNova and export these as a table. In this case, users can simply add the area counts for each peak to calculate the relative contribution of the peak/bin type to the total area.
 
-The peaks data can be exported one of two ways, giving two different formats of data files. This package can handle both versions. 
+The peaks data can be exported one of two ways, giving two different formats of data files ("single columns" and "multiple columns"). 
+This package can handle both versions. 
 More details can be found in the [repository wiki](https://github.com/kaizadp/nmrrr/wiki).
 
 For both types, however, we first need to import and combine the files, then assign bin classes, and then add the areas.
 
-#### 2.1: Multiple columns
+#### (a) import the peaks
 
 ```{r}
 peaks_df = nmr_import_peaks(path = PEAKS_FILES, method = "multiple columns")
@@ -158,53 +195,54 @@ There are additional columns that provide flags for the peaks identified (e.g. `
 These can be filtered by the user as needed.
 
 ```{r}
+peaks_df = 
+  peaks_df %>% 
+  filter(Type == "Compound")
+```
+
+#### (b) assign compound classes/bins to each peak
+
+```{r}
 peaks_bins = nmr_assign_bins(dat = peaks_df,
                              binset = bins_Clemente2012)
 ```
 
-```{r}
-relabund_bins = nmr_relabund(dat = peaks_bins,
-                             method = "peaks")
-```
-
-
----
-
-## PART 3: Processing peaks data
-
-When exporting peaks data from MestreNova, the data are generally split across multiple columns.
-
-The `import_nmr_peaks()` function will import the files in that format and then collapse all the columns for a single long-form dataframe.
-
-```{r}
-hyst_peaks_processed_mult = nmr_import_peaks(path = PEAKS_FILES, method = "multiple columns")
-
-head(hyst_peaks_processed_mult)
-
-```
-
-```{r}
-hyst_peaks_processed_mult_bins = nmr_assign_bins(dat = hyst_peaks_processed_mult, binset = bins_Clemente2012)
-
-```
-
-
-**Note: The user may want to assign additional filtering steps to filter certain flagged data points, e.g. impurities, weak peaks, etc. ** 
-
 For this current dataset, because of the strong influence of water peaks in the o-alkyl region, we exclude that region from our calculations.
 
 ```{r}
-peaks_processed2 = 
-  hyst_peaks_processed_mult_bins %>% 
+peaks_bins = 
+  peaks_bins %>% 
   filter(group != "oalkyl")
 ```
 
+#### (c) calculate relative abundance
+
+```{r}
+relabund_peaks = nmr_relabund(dat = peaks_bins,
+                             method = "peaks")
+```
 
 ---
 
-## PART V: Exporting the processed data
+## Part 5: Exporting the processed data
 
 The processed dataframes generated here can be exported using the usual R export functions, e.g. `write.csv()`, `write.table()`, etc.  
+
+---
+
+## Part 6: Visualizing the processed relative abundance data
+
+Users may then plot the relative abundance data using stacked bar plots, example given below:
+
+```{r, fig.height=5, fig.width=8}
+
+relabund_integration %>% 
+  ggplot(aes(x = sampleID, y = relabund, fill = group))+
+  geom_bar(stat = "identity")+
+  labs(title = "Relative abundance by AUC",
+       subtitle = "binset: Clemente et al. 2012")
+
+```
 
 
 ---
