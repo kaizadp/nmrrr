@@ -24,7 +24,7 @@
 #' @source JS Clemente et al. 2012. “Comparison of Nuclear Magnetic Resonance
 #' Methods for the Analysis of Organic Matter Composition from Soil Density and
 #' Particle Fractions.” Environmental Chemistry
-#' \url{https://doi.org/10.1071/EN11096}
+#' \doi{10.1071/EN11096}
 #' @seealso \code{\link{bins_Lynch2019}}
 #' \code{\link{bins_Mitchell2018}} \code{\link{bins_Hertkorn2013}}
 "bins_Clemente2012"
@@ -55,7 +55,7 @@
 #' for example, a bin of (0,1) includes 1 but \emph{not} 0.
 #' @source LM Lynch et al. 2019. “Dissolved Organic Matter Chemistry and
 #' Transport along an Arctic Tundra Hillslope.” Global Biogeochemical Cycles
-#' \url{https://doi.org/10.1029/2018GB006030}.
+#' \doi{10.1029/2018GB006030}
 #' @seealso \code{\link{bins_Clemente2012}}
 #' \code{\link{bins_Mitchell2018}} \code{\link{bins_Hertkorn2013}}
 "bins_Lynch2019"
@@ -87,7 +87,7 @@
 #' @source P Mitchell et al. 2018. “Nuclear Magnetic Resonance Analysis of
 #' Changes in Dissolved Organic Matter Composition with Successive Layering
 #' on Clay Mineral Surfaces.” Soil Systems
-#' \url{https://doi.org/10.3390/soils2010008}.
+#' \doi{10.3390/soils2010008}
 #' @seealso \code{\link{bins_Clemente2012}} \code{\link{bins_Lynch2019}}
 #' \code{\link{bins_Hertkorn2013}}
 "bins_Mitchell2018"
@@ -116,7 +116,7 @@
 #' @source N. Hertkorn et al. 2013. "High-field NMR spectroscopy and FTICR mass
 #' spectrometry: powerful discovery tools for the molecular level
 #' characterization of marine dissolved organic matter" Biogeosciences
-#' \url{https://doi.org/10.5194/bg-10-1583-2013}
+#' \doi{10.5194/bg-10-1583-2013}
 #' @seealso \code{\link{bins_Clemente2012}} \code{\link{bins_Lynch2019}}
 #' \code{\link{bins_Mitchell2018}}
 "bins_Hertkorn2013"

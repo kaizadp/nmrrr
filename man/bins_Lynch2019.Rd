@@ -17,7 +17,7 @@ A data frame with 4 rows and 5 variables:
 \source{
 LM Lynch et al. 2019. “Dissolved Organic Matter Chemistry and
 Transport along an Arctic Tundra Hillslope.” Global Biogeochemical Cycles
-\url{https://doi.org/10.1029/2018GB006030}.
+\doi{10.1029/2018GB006030}
 }
 \usage{
 bins_Lynch2019

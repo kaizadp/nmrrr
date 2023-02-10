@@ -7,6 +7,8 @@ roxygen2::roxygenise()
 library(tidyverse)
 source("R/1-functions_processing.R")
 source("R/1-functions_relabund.R")
+source("R/1-functions_graphs.R")
+source("R/utils.R")
 
 # testing with `kfp_hysteresis` data --------------------------------------
 
@@ -14,38 +16,46 @@ source("R/1-functions_relabund.R")
 ## spectra files and multi-column peaks files
 
 # 1. process spectra
-#spectra_processed = import_nmr_spectra_data(SPECTRA_FILES = "inst/extdata/spectra") #old code
-hyst_spectra_processed = import_nmr_spectra_data(SPECTRA_FILES = "inst/extdata/kfp_hysteresis/spectra_mnova", METHOD = "mnova") %>% filter(ppm >= 0 & ppm <= 10)
+hyst_spectra_processed = nmr_import_spectra(path = "inst/extdata/kfp_hysteresis/spectra_mnova",
+                                            method = "mnova") %>%
+  filter(ppm >= 0 & ppm <= 10)
 
-hyst_spectra_processed_bins = assign_compound_classes_v2(hyst_spectra_processed, BINSET = "Clemente") %>% filter(!is.na(group))
-# hyst_spectra_processed_bins2 = assign_compound_classes(spectra_processed, BINSET = "Clemente")
+
+
+x = utils::read.table("inst/extdata/kfp_hysteresis/spectra_mnova/29.csv",
+           header = FALSE, fill = TRUE, col.names = c("ppm", "intensity"))
+
+hyst_spectra_processed_bins = nmr_assign_bins(dat = hyst_spectra_processed,
+                                              binset = bins_Clemente2012)
+
+hyst_spectra_processed_bins_noNA =
+  hyst_spectra_processed_bins %>%
+  filter(!is.na(group))
 
 # spectra graphs
 
-## hyst_spectra_processed_bins %>%
-##   filter(!is.na(group)) %>% filter(group != "NA") %>%
-##   ggplot(aes(x = ppm, y = intensity, color = group))+ geom_line()+ facet_wrap(~sampleID) + ylim(0, 5)+
-##   scale_x_reverse()
+corekey = read.csv("inst/extdata/kfp_hysteresis/corekey_hyst_KFP.csv") %>%
+  mutate_all(as.character)
 
-corekey = read.csv(COREKEY) %>% mutate_all(as.character)
 hyst_spectra_processed_bins_corekey = hyst_spectra_processed_bins %>% left_join(corekey)
 
-gg_spectra(dat = hyst_spectra_processed_bins_corekey,
-           BINSET = "Clemente",
-           LABEL_POSITION = 5,
-           aes(x = ppm, y = intensity, group = sampleID, color = sampleID),
-           STAGGER = 0.5) +
+nmr_plot_spectra(dat = hyst_spectra_processed,
+                 binset = bins_Clemente2012,
+                 label_position = 5,
+                 mapping = aes(x = ppm, y = intensity, group = sampleID, color = sampleID),
+                 stagger = 0.5) +
   labs(subtitle = "binset: Clemente et al. 2012")+
   ylim(0, 5.5)
 
-gg_spectra(dat = hyst_spectra_processed_bins_corekey,
-           BINSET = "Clemente",
+nmr_plot_spectra(dat = hyst_spectra_processed_bins_corekey,
+           BINSET = bins_Clemente2012,
            LABEL_POSITION = 5,
-           aes(x = ppm, y = intensity, group = sampleID, color = sampleID),
+           aes(x = ppm, y = intensity, group = sampleID, color = treatment),
            STAGGER = 0.5) +
   labs(subtitle = "binset: Clemente et al. 2012")+
   ylim(0, 5.5)+
-  facet_wrap(~treatment)
+ # facet_wrap(~treatment)+
+  NULL
 
 
 
@@ -68,6 +78,47 @@ hyst_relabund_summary_peaks_mult = compute_relabund_treatments(RELABUND_CORES = 
 
 
 #
+#
+
+# testing with `kfp_drydown_d2o` data -----------------------------------------
+
+
+## data generated using MNova
+## spectra files and multi-column peaks files
+
+# 1. process spectra
+drydown_d2o_spectra_processed = nmr_import_spectra(path = "inst/extdata/kfp_drydown/spectra_mnova_d2o",
+                                               method = "mnova")
+
+# spectra graphs
+nmr_plot_spectra(dat = drydown_d2o_spectra_processed,
+                 binset = bins_Lynch2019,
+                 label_position = 5,
+                 mapping = aes(x = ppm, y = intensity, group = sampleID, color = sampleID),
+                 stagger = 0.5) +
+  labs(subtitle = "binset: Lynch et al. 2019")+
+  ylim(0, 8)+
+  facet_wrap(~sampleID)
+
+nmr_plot_spectra(dat = drydown_d2o_spectra_processed,
+                 binset = bins_Lynch2019,
+                 label_position = 5,
+                 mapping = aes(x = ppm, y = intensity, group = sampleID, color = sampleID),
+                 stagger = 0.5) +
+  labs(subtitle = "binset: Lynch et al. 2019")+
+  ylim(0, 5.5)+
+  xlim(10, -2)
+  # facet_wrap(~treatment)+
+  NULL
+
+
+
+
+
+
+
+
+
 # testing with `amp_tempest` data -----------------------------------------
 
 ## data generated using MNova
@@ -139,7 +190,7 @@ relabund_summary_peaks_mult %>%
 # misc testing ----
 # a. joining bins
 spectra1 = read.csv("inst/extdata/spectra_topspin/ascii-spec_W300_HB2_Topspin_Spectra.csv",
-             header=FALSE, col.names = c("x", "intensity", "y", "ppm"))
+                    header=FALSE, col.names = c("x", "intensity", "y", "ppm"))
 spectra1_bins = assign_compound_classes(spectra1, BINSET = "Clemente")
 spectra1_bins %>% ggplot(aes(x = ppm, y = intensity))+ geom_point()
 ## this keeps only a subset of the data, we need even the non-matches!!!
@@ -163,3 +214,12 @@ setkey(y, chr, start, end)
 foverlaps(x, y, by.x=c("seq", "start", "end"),
           type="any", which=TRUE)
 
+
+
+
+
+#dat_y_stagger <-
+dat %>%
+  distinct(sampleID) %>%
+  mutate(y_factor = row_number() / stagger_factor) %>%
+  select(sampleID, y_factor)

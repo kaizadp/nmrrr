@@ -26,8 +26,8 @@ A dataframe with columns describing
 Process data of peaks picked with NMR software.
 }
 \examples{
-pdir <- system.file("extdata", "meb_burn", "peaks_topspin", package = "nmrrr")
-nmr_import_peaks(path = pdir, method = "topspin")
+sdir <- system.file("extdata", "kfp_hysteresis", "peaks_mnova_multiple", package = "nmrrr")
+nmr_import_peaks(path = sdir, method = "multiple columns")
 }
 \author{
 Kaizad Patel
