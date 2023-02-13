@@ -23,7 +23,7 @@ Description: Batch processing and analysis of nuclear magnetic resonance
     (NMR) data.
 License: MIT + file LICENSE
 Encoding: UTF-8
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Imports: 
     DescTools,
     ggplot2,
