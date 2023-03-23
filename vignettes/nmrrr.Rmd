@@ -27,17 +27,19 @@ This package will not perform corrections on raw spectral data (e.g., phase corr
 
 For tips on processing NMR data in MNova/MestreNova, check out the [repository wiki](https://github.com/kaizadp/nmrrr/wiki).
 
-Currently, this package can handle data generated from MNova and TopSpin software. Because of the different file formats, users must specify the method when using the functions.
+Currently, this package can handle data generated from MNova and TopSpin software. Because of the different file formats, users must specify the method when using the functions.  
+
+\
+
+# Example 1
 
 ---
 
 > **A note on the data used here**   
 >
-> This vignette uses data from the `kfp_hysteresis` dataset included with the `{nmrrr}` package. This is a subset of the data reported in [Patel et al. 2021](https://doi.org/10.1016/j.soilbio.2021.108165). Samples 29 represents Treatment A (flood+dried), and Sample 34 represents Treatment B (drought+rewet).  
-More details on the dataset (and other datasets available with this package) can be found in the relevant vignette (`vignette("nmrrr_data")`).  
+> This example uses data from the `kfp_hysteresis` dataset included with the `{nmrrr}` package. This is a subset of the data reported in [Patel et al. 2021](https://doi.org/10.1016/j.soilbio.2021.108165), representing samples subjected to drought and flood treatments. 1H solution-state NMR was performed on extracts reconstituted in DMSO-D6. The raw spectra were processed and cleaned using MNova, and the spectra and peaks were exported as .csv files. We use the bin set from [Clemente et al. 2012](https://doi.org/10.1071/EN11096) for compound classification.
 >
 > This dataset contains (a) SPECTRA data and (B) PEAKS data (peak picked in MNova)
-
 
 ---
 
@@ -53,8 +55,6 @@ theme_set(theme_bw()) # set the default ggplot theme
 #### Set input directories
 
 ```{r input-directories}
-#SPECTRA_FILES = "inst/extdata/kfp_hysteresis/spectra_mnova"
-#PEAKS_FILES = "inst/extdata/kfp_hysteresis/peaks_mnova_multiple"
 
 SPECTRA_FILES <- system.file("extdata", "kfp_hysteresis", "spectra_mnova", package = "nmrrr")
 PEAKS_FILES <- system.file("extdata", "kfp_hysteresis", "peaks_mnova_multiple", package = "nmrrr")
@@ -63,9 +63,7 @@ PEAKS_FILES <- system.file("extdata", "kfp_hysteresis", "peaks_mnova_multiple", 
 
 ---
 
-## Part 1: Importing spectra files
-
-`nmr_import_spectra`  
+## Part 1: Importing spectra files: `nmr_import_spectra()` 
 
 This function will:
 
@@ -82,7 +80,6 @@ str(spectra_df)
 ```
 
 Further cleaning of the dataframe may be done by the user, according to specific needs. For instance, including only certain ranges of ppm shift.
-
 For this dataset, we include only points between 0 and 10 ppm.
 
 ```{r spectra-process}
@@ -93,9 +90,7 @@ str(spectra_df)
 
 ---
 
-## Part 2: Plotting the spectra
-
-`nmr_plot_spectra`  
+## Part 2: Plotting the spectra: `nmr_plot_spectra()`  
 
 This function will plot all the spectra present in the `spectra_df` file. The spectra will be stacked and offset vertically (this can be customized).
 
@@ -108,10 +103,14 @@ This function will plot all the spectra present in the `spectra_df` file. The sp
 nmr_plot_spectra(dat = spectra_df,
                  binset = bins_Clemente2012,
                  label_position = 5,
-                 mapping = aes(x = ppm, y = intensity, group = sampleID, color = sampleID),
+                 mapping = aes(x = ppm, 
+                               y = intensity, 
+                               group = sampleID, 
+                               color = sampleID),
                  stagger = 0.5) +
   # OPTIONAL PARAMETERS/LAYERS
-  geom_rect(aes(xmin = 2, xmax = 4, ymin = 0, ymax = 5.5), fill = "white", color = NA, alpha = 0.8)+
+  geom_rect(aes(xmin = 2, xmax = 4, ymin = 0, ymax = 5.5), 
+            fill = "white", color = NA, alpha = 0.8)+
   labs(subtitle = "binset: Clemente et al. 2012")+
   ylim(0, 5.5)
 ```
@@ -123,9 +122,7 @@ Notes:
 
 ---
 
-## Part 3: Assigning compound classes 
-
-`nmr_assign_bins`  
+## Part 3: Assigning compound classes: `nmr_assign_bins()`  
 
 This function will assign bins/compound classes to the peaks based on the preferred bin set. 
 
@@ -150,7 +147,7 @@ spectra_bins <- subset(spectra_bins, group != "oalkyl")
 
 ---
 
-## Part 4: Calculate relative abundance of compound classes
+## Part 4: Calculating relative abundance of compound classes: `nmr_relabund()`
 
 Method 1: Integrating area under the curve from processed spectra files 
 
