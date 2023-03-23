@@ -233,3 +233,72 @@ sessionInfo()
 </details>
 
 ---
+
+# Example 2
+
+---
+
+> **A note on the data used here**   
+>
+> This example uses data from the `amp_XXYYZZ` dataset included with the `{nmrrr}` package. This is a subset of the data reported in ... , representing samples that ... . 13C solid-state NMR was performed on soil samples. The raw spectra were processed and cleaned using XYZ Software, and the spectra were batch-exported as a single .csv files. We use the SS bin set from [Clemente et al. 2012](https://doi.org/10.1071/EN11096) for compound classification.
+>
+> This dataset contains one .csv file with all the samples. This file cannot be processed with {nmrrr} in its current form, but we can import it and convert to long-form, after which it is compatible with the {nmrrr} functions.
+
+---
+
+```{r}
+SS_FILE <- system.file("extdata", "amp_ss", "spectra_wide.csv", package = "nmrrr")
+ss_data <- read.csv(SS_FILE)
+```
+
+Make long form and do additional cleaning if needed.
+
+```{r}
+data_long =
+  data_wide %>%
+  pivot_longer(-ppm,
+               names_to = "sampleID",
+               values_to = "intensity") %>%
+  filter(ppm >= 0 & ppm <= 250)
+```
+
+
+Assign bins
+
+```{r}
+data_long_bins = nmr_assign_bins(dat = data_long,
+                                 binset = bins_ss_clemente)
+```
+
+Plot spectra
+
+```{r}
+nmr_plot_spectra(dat = data_long_bins %>% arrange(sampleID, ppm),
+                 binset = bin_ss_clemente,
+                 mapping = aes(x = ppm, y = intensity/20,
+                               group = sampleID,
+                               color = sampleID),
+                 stagger = 20,
+                 label_position = 3.5)+
+  theme(axis.text.y = element_blank())+
+  xlim(210, 0)
+```
+
+
+Calculate relative abundance
+
+```{r}
+data_relabund = nmr_relabund(dat = data_long_bins %>%
+                               filter(intensity >= 0),
+                             method = "AUC")
+
+data_relabund %>%
+  ggplot(aes(x =  sampleID,
+             y = relabund,
+             fill = group))+
+  geom_bar(stat = "identity")
+
+```
+
+
+
