@@ -291,6 +291,7 @@ Users may import their own binsets, if they do not wish to use the binsets provi
 Binsets are simply dataframes, and therefore can be imported from any .csv, .txt, Excel file, or similar. 
 
 The binset dataframe must have columns:
+
 1. `number` - Serial number of the group
 1. `group` - Shortened name of the group. This column is used to label the groups, and will be seen in legends, tables, etc.
 1. `start` - Lower limit (ppm shift) of the bin 
