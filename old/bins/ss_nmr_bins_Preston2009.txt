@@ -1,0 +1,8 @@
+number,group,start,stop,description
+1,Alkyl C,0,50
+2,Methoxyl C,50,60
+3,O-alkyl C,60,93
+4,di-O-alkyl C,93,112
+5,Aromatic C,112,140
+6,Phenolic C,140,165
+7,Carboxyl C,165,190
