@@ -218,21 +218,7 @@ ggplot(relabund_integration,
 ```
 
 
----
-
-<details>
-<summary>Session Info - click to open</summary>
-
-Date run: `r Sys.Date()`
-
-
-```{r, echo=FALSE}
-sessionInfo()
-```
-
-</details>
-
----
+--- 
 
 # Example 2
 
@@ -246,59 +232,90 @@ sessionInfo()
 
 ---
 
-```{r}
+Here, we provide the workflow to demonstrate how to use additional formats with the {nmrrr} package. 
+The first step is to bring the data into a format that is compatible with {nmrrr} functions,
+i.e., long-form data, with one column each for `ppm`, `intensity`, and `sampleID`.
+
+This workflow makes use of {tidyverse} functions, but users may use other preferred packages and functions to get the same results.
+
+```{r example_2, eval=FALSE}
+library(tidyverse)
+
+# SS_FILE = "inst/extdata/amp_ss/spectra_wide.csv"
 SS_FILE <- system.file("extdata", "amp_ss", "spectra_wide.csv", package = "nmrrr")
 ss_data <- read.csv(SS_FILE)
-```
 
-Make long form and do additional cleaning if needed.
-
-```{r}
-data_long =
-  data_wide %>%
+## Make long form and do additional cleaning if needed.
+ss_data_long =
+  ss_data %>%
   pivot_longer(-ppm,
                names_to = "sampleID",
-               values_to = "intensity") %>%
-  filter(ppm >= 0 & ppm <= 250)
-```
+               values_to = "intensity") %>% 
+  arrange(sampleID, ppm)
+  
+ss_data_long = subset(ss_data_long, ppm >= 0 & ppm <= 250)
+ss_data_long = subset(ss_data_long, intensity >= 0)
 
+## Assign bins
+data_long_bins = nmr_assign_bins(dat = ss_data_long,
+                                 binset = bins_ss_Clemente2012)
 
-Assign bins
-
-```{r}
-data_long_bins = nmr_assign_bins(dat = data_long,
-                                 binset = bins_ss_clemente)
-```
-
-Plot spectra
-
-```{r}
-nmr_plot_spectra(dat = data_long_bins %>% arrange(sampleID, ppm),
-                 binset = bin_ss_clemente,
-                 mapping = aes(x = ppm, y = intensity/20,
+## Plot spectra
+nmr_plot_spectra(dat = data_long_bins,
+                 binset = bins_ss_Clemente2012,
+                 mapping = aes(x = ppm, y = intensity,
                                group = sampleID,
                                color = sampleID),
-                 stagger = 20,
-                 label_position = 3.5)+
+                 stagger = 15,
+                 label_position = 70)+
   theme(axis.text.y = element_blank())+
   xlim(210, 0)
-```
 
-
-Calculate relative abundance
-
-```{r}
-data_relabund = nmr_relabund(dat = data_long_bins %>%
-                               filter(intensity >= 0),
+## Calculate relative abundance
+data_relabund = nmr_relabund(dat = data_long_bins,
                              method = "AUC")
 
-data_relabund %>%
-  ggplot(aes(x =  sampleID,
-             y = relabund,
-             fill = group))+
+ggplot(data = data_relabund,
+       aes(x =  sampleID,
+           y = relabund,
+           fill = group))+
   geom_bar(stat = "identity")
 
 ```
 
+---
+
+# Importing your own preferred bin sets
+
+Users may import their own binsets, if they do not wish to use the binsets provided with the {nmrrr} package. 
+Binsets are simply dataframes, and therefore can be imported from any .csv, .txt, Excel file, or similar. 
+
+The binset dataframe must have columns:
+1. `number` - Serial number of the group
+1. `group` - Shortened name of the group. This column is used to label the groups, and will be seen in legends, tables, etc.
+1. `start` - Lower limit (ppm shift) of the bin 
+1. `stop` - Upper limit (ppm shift) of the bin
+1. `description` - Optional column, with full-length description of the `group`
+
+Below is an example of the binset format required.
+
+```{r}
+
+bins_Clemente2012
+
+```
 
 
+---
+
+<details>
+<summary>Session Info - click to open</summary>
+
+Date run: `r Sys.Date()`
+
+
+```{r, echo=FALSE}
+sessionInfo()
+```
+
+</details>
