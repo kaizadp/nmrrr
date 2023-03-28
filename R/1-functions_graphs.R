@@ -39,6 +39,8 @@ nmr_plot_spectra <- function(dat, binset, label_position, mapping, stagger) {
   # create spectra-base plot ----
   odds <- binset[seq(1, nrow(binset), by = 2),]
   evens <- binset[seq(2, nrow(binset), by = 2),]
+
+  label_stagger = label_position/50
   spectra_base <-
     ggplot() +
     # stagger bracketing lines for odd vs. even rows
@@ -49,17 +51,17 @@ nmr_plot_spectra <- function(dat, binset, label_position, mapping, stagger) {
     ) +
     geom_segment(
       data = odds,
-      aes(x = start, xend = stop, y = label_position - 0.2, yend = label_position - 0.2),
+      aes(x = start, xend = stop, y = label_position - (2 * label_stagger), yend = label_position - (2 * label_stagger)),
       color = "black"
     ) +
     # stagger numbering like the lines
     geom_text(
       data = evens,
-      aes(x = (start + stop) / 2, y = label_position + 0.1, label = number)
+      aes(x = (start + stop) / 2, y = label_position + label_stagger, label = number)
     ) +
     geom_text(
       data = odds,
-      aes(x = (start + stop) / 2, y = label_position - 0.1, label = number)
+      aes(x = (start + stop) / 2, y = label_position - label_stagger, label = number)
     ) +
     scale_x_reverse() +
     xlab("shift, ppm") +

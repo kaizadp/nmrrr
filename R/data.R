@@ -120,3 +120,117 @@
 #' @seealso \code{\link{bins_Clemente2012}} \code{\link{bins_Lynch2019}}
 #' \code{\link{bins_Mitchell2018}}
 "bins_Hertkorn2013"
+
+#' NMR grouping bins from Preston et al. (2009).
+#'
+#' NMR grouping bins from  Preston et al. (2009), for solid-state NMR.
+#' (1) alkyl C (0-50);
+#' (2) methoxyl C (50-60);
+#' (3) O-alkyl C (60-93);
+#' (4) di-O-alkyl C (93-112);
+#' (5) aromatic C (112-140);
+#' (6) phenolic C (140-165);
+#' (7) carboxyl C (165-190)
+#' @format A data frame with 5 rows and 5 variables:
+#' \describe{
+#'   \item{number}{Bin number}
+#'   \item{group}{Name of bin group}
+#'   \item{start}{ppm shift range, lower limit}
+#'   \item{stop}{ppm shift range, upper limit}
+#'   \item{description}{Description of the bin group}
+#' }
+#' @note The NMR spectrum can be split into several bins, based on
+#' chemical shift (ppm). Binsets are specific to nuclei and solvents and
+#' by definition are open on the left and closed on the right;
+#' for example, a bin of (0,1) includes 1 but \emph{not} 0.
+#' @source C. Preston et al. 2009. "Chemical Changes During
+#' 6 Years of Decomposition of 11 Litters in Some Canadian Forest Sites.
+#' Part 1. Elemental Composition, Tannins, Phenolics, and Proximate Fractions". Ecosystems.
+#' \doi{10.1007/s10021-009-9266-0}
+#' @seealso \code{\link{bins_Clemente2012}} \code{\link{bins_Lynch2019}}
+#' \code{\link{bins_Mitchell2018}}
+"bins_ss_Preston2009"
+
+#' NMR grouping bins from Baldock et al. (2004).
+#'
+#' NMR grouping bins from  Baldock et al. (2004), for solid-state NMR.
+#' (1) alkyl C (0-50);
+#' (2) methoxyl C (50-60);
+#' (3) O-alkyl C (60-93);
+#' (4) di-O-alkyl C (93-112);
+#' (5) aromatic C (112-140);
+#' (6) phenolic C (140-165);
+#' (7) carboxyl C (165-190)
+#' @format A data frame with 5 rows and 5 variables:
+#' \describe{
+#'   \item{number}{Bin number}
+#'   \item{group}{Name of bin group}
+#'   \item{start}{ppm shift range, lower limit}
+#'   \item{stop}{ppm shift range, upper limit}
+#'   \item{description}{Description of the bin group}
+#' }
+#' @note The NMR spectrum can be split into several bins, based on
+#' chemical shift (ppm). Binsets are specific to nuclei and solvents and
+#' by definition are open on the left and closed on the right;
+#' for example, a bin of (0,1) includes 1 but \emph{not} 0.
+#' @source J. Baldock et al. "Cycling and composition of organic matter in terrestrial and marine ecosystems". Marine Chemistry.
+#' \doi{10.1016/j.marchem.2004.06.016}
+#' @seealso \code{\link{bins_Clemente2012}} \code{\link{bins_Lynch2019}}
+#' \code{\link{bins_Mitchell2018}}
+"bins_ss_Baldock2004"
+
+#' NMR grouping bins from Clemente et al. (2012) - ss.
+#'
+#' NMR grouping bins from  Clemente et al. (2012), for solid-state NMR.
+#' (1) alkyl C (0-50);
+#' (2) O-alkyl C (60-93);
+#' (3) anomeric C (95-110);
+#' (4) aromatic C (110-160);
+#' (5) carboxyl-carbonyl C (160-200)
+#' @format A data frame with 5 rows and 5 variables:
+#' \describe{
+#'   \item{number}{Bin number}
+#'   \item{group}{Name of bin group}
+#'   \item{start}{ppm shift range, lower limit}
+#'   \item{stop}{ppm shift range, upper limit}
+#'   \item{description}{Description of the bin group}
+#' }
+#' @note The NMR spectrum can be split into several bins, based on
+#' chemical shift (ppm). Binsets are specific to nuclei and solvents and
+#' by definition are open on the left and closed on the right;
+#' for example, a bin of (0,1) includes 1 but \emph{not} 0.
+#' @source JS Clemente et al. 2012. “Comparison of Nuclear Magnetic Resonance
+#' Methods for the Analysis of Organic Matter Composition from Soil Density and
+#' Particle Fractions.” Environmental Chemistry
+#' \doi{10.1071/EN11096}
+#' #' @seealso \code{\link{bins_Clemente2012}} \code{\link{bins_ss_Preston2009}}
+#' \code{\link{bins_Mitchell2018}}
+"bins_ss_Clemente2012"
+
+
+#' NMR grouping bins from Cade-Menun (2015).
+#'
+#' NMR grouping bins from  Cade-Menun (2015), for 31P, using D2O as a solvent.
+#' (1) polyphosphate (-20 to -4);
+#' (2) diester (-1.5 to 2.0);
+#' (3) monoester (3.0 to 5.5);
+#' (4) orthophosphate (5.5 to 9.0);
+#' (5) phosphate (9.0 to 40.0)
+#' @format A data frame with 5 rows and 5 variables:
+#' \describe{
+#'   \item{number}{Bin number}
+#'   \item{group}{Name of bin group}
+#'   \item{start}{ppm shift range, lower limit}
+#'   \item{stop}{ppm shift range, upper limit}
+#'   \item{description}{Description of the bin group}
+#' }
+#' @note The NMR spectrum can be split into several bins, based on
+#' chemical shift (ppm). Binsets are specific to nuclei and solvents and
+#' by definition are open on the left and closed on the right;
+#' for example, a bin of (0,1) includes 1 but \emph{not} 0.
+#' @source B. Cade-Menun. "Improved peak identification in 31P-NMR spectra of environmental samples
+#' with a standardized method and peak library". Geoderma.
+#' \doi{10.1016/j.geoderma.2014.12.016}
+#' @seealso \code{\link{bins_Clemente2012}} \code{\link{bins_Lynch2019}}
+#' \code{\link{bins_Mitchell2018}}
+"bins_CadeMenun2015"
