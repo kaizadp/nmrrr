@@ -223,3 +223,288 @@ dat %>%
   distinct(sampleID) %>%
   mutate(y_factor = row_number() / stagger_factor) %>%
   select(sampleID, y_factor)
+
+
+# testing Andy SS-NMR data ----
+library(tidyverse)
+library(nmrrr)
+
+data_wide = read.csv("old/buildmatrix.csv")
+data_long =
+  data_wide %>%
+  pivot_longer(-ppm,
+               names_to = "sampleID",
+               values_to = "intensity") %>%
+  filter(ppm >= 0 & ppm <= 250)
+
+
+bin_ss_clemente = read.csv("old/ss_nmr_bins_clemente2012.csv")
+
+data_long_bins = nmr_assign_bins(dat = data_long,
+                                 binset = bin_ss_clemente)
+
+
+
+nmr_plot_spectra(dat = data_long_bins %>% arrange(sampleID, ppm),
+                 binset = bin_ss_clemente,
+                 mapping = aes(x = ppm, y = intensity/20,
+                               group = sampleID,
+                               color = sampleID),
+                 stagger = 20,
+                 label_position = 3.5)+
+  theme(axis.text.y = element_blank())+
+  xlim(210, 0)
+
+data_long_bins %>%
+  filter(sampleID == "BSLE004") %>%
+  ggplot(aes(x = ppm, y = intensity))+
+  geom_line()
+
+
+data_long_bins %>%
+  filter(sampleID == "BSLE034") %>%
+  ggplot(aes(x = ppm, y = intensity))+
+  geom_line()
+
+data_relabund = nmr_relabund(dat = data_long_bins %>%
+                               filter(intensity >= 0),
+                             method = "AUC")
+
+data_relabund %>%
+  ggplot(aes(x =  sampleID,
+             y = relabund,
+             fill = group))+
+  geom_bar(stat = "identity")
+
+
+
+
+devtools::install_github("bpbond/nmrrr")
+
+# testing Andy SS-NMR data ----
+library(tidyverse)
+library(nmrrr)
+
+data_wide = readxl::read_excel("old/plot_scaled_012023.xlsx", sheet = "Sheet1")
+data_long =
+  data_wide %>%
+  pivot_longer(-ppm, names_to = "sampleID", values_to = "intensity")
+
+bin_ss_clemente = read.csv("old/ss_nmr_bins_clemente2012.csv")
+bin_ss_emsl = read.csv("old/ss_nmr_bins_emsl.csv")
+bin_ss_dummy = read.csv("old/ss_nmr_bins_dummy.csv")
+
+data_long_bins = nmr_assign_bins(dat = data_long,
+                                 binset = bin_ss_clemente)
+
+
+
+nmr_plot_spectra(dat = data_long_bins %>% arrange(sampleID, ppm),
+                 binset = bin_ss_clemente,
+                 mapping = aes(x = ppm, y = intensity, group = sampleID),
+                 stagger = 5,
+                 label_position = 2500)
+
+data_long_bins %>%
+  filter(sampleID == "BSLE004") %>%
+  ggplot(aes(x = ppm, y = intensity))+
+  geom_line()
+
+
+data_long_bins %>%
+  filter(sampleID == "BSLE034") %>%
+  ggplot(aes(x = ppm, y = intensity))+
+  geom_line()
+
+data_relabund = nmr_relabund(dat = data_long_bins %>% filter(intensity >= 0),
+                             method = "AUC")
+
+data_relabund_wide =
+  data_relabund %>%
+  pivot_wider(names_from = "sampleID", values_from = "relabund")
+
+data_relabund %>%
+  ggplot(aes(x =  sampleID, y = relabund, fill = group))+
+  geom_bar(stat = "identity")
+
+
+# test MEB diss files ----
+library(nmrrr)
+library(tidyverse)
+spectra = nmr_import_spectra("old/extdata_large_files/meb_dissertation/spectra", method = "mnova")
+spr = read_tsv("old/extdata_large_files/meb_dissertation/spectra/SPR_1_0to5.txt")
+
+
+spectra %>% ggplot(aes(x = ppm, y = intensity, group = sampleID))+geom_line()
+spectra %>%
+  nmr_plot_spectra(binset = bins_CadeMenum2015, label_position = 5, aes(x = ppm, y = intensity), stagger = 5)+
+  ylim(0, 500)
+
+library(scales)
+nmr_plot_spectra(dat = spectra,
+                 binset = bins_CadeMenum2015,
+                 label_position = 6,
+                 mapping = aes(x = ppm,
+                               y = intensity/5e9,
+                               group = sampleID,
+                               color = sampleID),
+                 stagger = 3e9) +
+  # OPTIONAL PARAMETERS/LAYERS``
+  labs(subtitle = "binset: CadeMenum2015")+
+  scale_y_continuous(limits=c(-0.1, 8))+
+  xlim(45,-30)
+  ylim(0, 5.5)
+
+
+peaks = nmr_import_peaks("old/extdata_large_files/meb_dissertation/peaks", method = "single column")
+spectra_scaled <-
+  spectra %>%
+  group_by(sampleID) %>%
+  dplyr::mutate(intensity = (intensity/max(intensity))*100)
+
+nmr_plot_spectra(dat = spectra_scaled,
+                 binset = bins_CadeMenum2015,
+                 label_position = 8,
+                 mapping = aes(x = ppm,
+                               y = intensity,
+                               group = sampleID,
+                               color = sampleID),
+                 stagger = 0.5) +
+  # OPTIONAL PARAMETERS/LAYERS``
+  labs(subtitle = "binset: CadeMenum2015")+
+  scale_y_continuous(limits=c(-0.1, 10))+
+  xlim(45,-30)
+
+
+nmr_plot_spectra_2(dat = spectra,
+                 binset = bins_CadeMenum2015,
+                 label_position = 40e9,
+                 mapping = aes(x = ppm,
+                               y = intensity,
+                               group = sampleID,
+                               color = sampleID),
+                 stagger = 3e9) +
+  # OPTIONAL PARAMETERS/LAYERS``
+  labs(subtitle = "binset: CadeMenum2015")+
+  scale_y_continuous(limits=c(-5e8, 50e9))+
+  xlim(45,-30)
+
+
+
+
+spectra %>%
+  filter(sampleID == "SPR_1_0to5") %>%
+  ggplot(aes(x = ppm, y = intensity, group = sampleID))+geom_line()
+
+
+
+
+
+nmr_plot_spectra_2 <- function(dat, binset, label_position, mapping, stagger) {
+
+  if(!class(mapping) == "uneval") {
+    stop("'mapping' must be a ggplot2::aes() output")
+  }
+
+  # Quiet R CMD CHECK notes
+  start <- number <- sampleID <- newsource <- NULL
+
+  # create spectra-base plot ----
+  odds <- binset[seq(1, nrow(binset), by = 2),]
+  evens <- binset[seq(2, nrow(binset), by = 2),]
+
+  label_stagger = label_position/50
+  spectra_base <-
+    ggplot() +
+    # stagger bracketing lines for odd vs. even rows
+    geom_segment(
+      data = evens,
+      aes(x = start, xend = stop, y = label_position, yend = label_position),
+      color = "black"
+    ) +
+    geom_segment(
+      data = odds,
+      aes(x = start, xend = stop, y = label_position - (2*label_stagger), yend = label_position - (2*label_stagger)),
+      color = "black"
+    ) +
+    # stagger numbering like the lines
+    geom_text(
+      data = evens,
+      aes(x = (start + stop) / 2, y = label_position + label_stagger, label = number)
+    ) +
+    geom_text(
+      data = odds,
+      aes(x = (start + stop) / 2, y = label_position - label_stagger, label = number)
+    ) +
+    scale_x_reverse() +
+    xlab("shift, ppm") +
+    ylab("intensity")
+
+  # add staggering factor ----
+
+  stagger_factor <- 1 / stagger
+  dat_y_stagger <- weak_tibble(
+    sampleID = unique(dat$sampleID),
+    y_factor = (seq_along(sampleID) - 1) / stagger_factor
+  )
+
+  spectra_new <- merge(dat, dat_y_stagger, by = "sampleID")
+  spectra_new$intensity <- spectra_new$intensity + spectra_new$y_factor
+
+  # combined plot ----
+
+  spectra_base +
+    geom_path(data = spectra_new, mapping)
+}
+
+
+
+nmr_plot_spectra_2(dat = data_long_bins,
+                   binset = bins_ss_Clemente2012,
+                   label_position = 65,
+                   mapping = aes(x = ppm,
+                                 y = intensity,
+                                 group = sampleID,
+                                 color = sampleID),
+                   stagger = 15) +
+  # OPTIONAL PARAMETERS/LAYERS``
+  labs(subtitle = "binset: Clemente2012")+
+  scale_y_continuous(limits=c(-5e8, 60e9))+
+  xlim(45,-30)
+
+
+#
+# notes from meeting with NMR folks ----
+
+# plug in to NMR analysis
+# bins: capture. type of sample for the bins. caveats: these are all putative shifts
+# but some of the groups did multi-dimensional tests for these bins
+# 2019-EMSL NMR group had a lot of discussion about it
+# strength of this tool: it is a standardized
+#
+# strength of this tool: you're not constrained by the conventional bins.
+# krnel based binning. instead of rectangular, do gaussian binning
+#
+# give context to the different bins. give disclaimer to users.
+#
+# DSS binds to DOM, so peak widening of the DSS peak.
+# concentration-normalized spectra --> put in the manuscript.
+#
+# tutorial-style manuscript.
+# the decisions you make at the beginning affect everything you do.
+
+#
+# load and save bins ----
+bins_ss_Baldock2004 = read.csv("old/bins/ss_nmr_bins_Baldock2004.txt")
+save(bins_ss_Baldock2004, file = "data/bins_ss_Baldock2004.rda")
+load("data/bins_ss_Baldock2004.rda")
+
+bins_ss_Preston2009 = read.csv("old/bins/ss_nmr_bins_Preston2009.txt")
+save(bins_ss_Preston2009, file = "data/bins_ss_Preston2009.rda")
+
+bins_ss_Clemente2012 = read.csv("old/bins/ss_nmr_bins_clemente2012.csv")
+save(bins_ss_Clemente2012, file = "data/bins_ss_Clemente2012.rda")
+
+bins_CadeMenun2015 = read.csv("old/bins/bins_CadeMenun2015_p.csv")
+save(bins_CadeMenun2015, file = "data/bins_CadeMenun2015.rda")
+
