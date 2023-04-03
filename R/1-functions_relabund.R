@@ -32,8 +32,10 @@ nmr_relabund <- function(dat, method) {
     x$AUC <- tidyr::replace_na(x$AUC, 0)
     # Split by sample ID, compute relative abundance, drop AUC
     x_list <- split(x, list(x$sampleID))
-    x_list <- lapply(x_list, function(x)
-    { x$relabund <- x$AUC / sum(x$AUC) * 100; x })
+    x_list <- lapply(x_list, function(x) {
+      x$relabund <- x$AUC / sum(x$AUC) * 100
+      x
+    })
     x_relabund <- do.call("rbind", x_list)
     x_relabund$AUC <- NULL
     # Fill in any missing ID x group combinations with zeroes
@@ -44,15 +46,18 @@ nmr_relabund <- function(dat, method) {
     # Compute AUC
     dat_list <- split(dat, list(dat$sampleID, dat$group))
     dat_list <- lapply(dat_list, function(x) {
-      weak_tibble(sampleID = unique(x$sampleID),
-                  group = unique(x$group),
-                  AUC = AUC(x = x$ppm, y = x$intensity,
-                            from = min(x$ppm), to = max(x$ppm)))
+      weak_tibble(
+        sampleID = unique(x$sampleID),
+        group = unique(x$group),
+        AUC = AUC(
+          x = x$ppm, y = x$intensity,
+          from = min(x$ppm), to = max(x$ppm)
+        )
+      )
     })
     dat_auc <- do.call("rbind", dat_list)
 
     compute_relabund(dat_auc)
-
   } else {
     if (method == "peaks") {
       if (!"Area" %in% colnames(dat)) {
@@ -62,13 +67,14 @@ nmr_relabund <- function(dat, method) {
       # Compute AUC
       dat_list <- split(dat, list(dat$sampleID, dat$group))
       dat_list <- lapply(dat_list, function(x) {
-        weak_tibble(sampleID = unique(x$sampleID),
-                    group = unique(x$group),
-                    AUC = sum(x$Area))
+        weak_tibble(
+          sampleID = unique(x$sampleID),
+          group = unique(x$group),
+          AUC = sum(x$Area)
+        )
       })
       dat_auc <- do.call("rbind", dat_list)
       compute_relabund(dat_auc)
-
     } else {
       stop("Available methods: 'AUC' or 'peaks'")
     }

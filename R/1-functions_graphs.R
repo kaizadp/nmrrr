@@ -28,8 +28,7 @@
 #' p + ylim(0, 6)
 #'
 nmr_plot_spectra <- function(dat, binset, label_position, mapping, stagger) {
-
-  if(!class(mapping) == "uneval") {
+  if (!class(mapping) == "uneval") {
     stop("'mapping' must be a ggplot2::aes() output")
   }
 
@@ -37,10 +36,10 @@ nmr_plot_spectra <- function(dat, binset, label_position, mapping, stagger) {
   start <- number <- sampleID <- newsource <- NULL
 
   # create spectra-base plot ----
-  odds <- binset[seq(1, nrow(binset), by = 2),]
-  evens <- binset[seq(2, nrow(binset), by = 2),]
+  odds <- binset[seq(1, nrow(binset), by = 2), ]
+  evens <- binset[seq(2, nrow(binset), by = 2), ]
 
-  label_stagger = label_position/50
+  label_stagger <- label_position / 50
   spectra_base <-
     ggplot() +
     # stagger bracketing lines for odd vs. even rows

@@ -30,8 +30,10 @@ test_that("nmr_import_spectra works", {
   expect_type(spectra_test$sampleID, "character")
 
   # Imports topspin data in expected format
-  spectra_test <- nmr_import_spectra(path = "compdata/spectra_topspin",
-                                     method = "topspin", quiet = TRUE)
+  spectra_test <- nmr_import_spectra(
+    path = "compdata/spectra_topspin",
+    method = "topspin", quiet = TRUE
+  )
   expect_s3_class(spectra_test, "data.frame")
   expect_identical(
     sort(names(spectra_test)),

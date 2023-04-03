@@ -50,7 +50,7 @@ nmr_import_spectra <- function(path, method,
   # clean the spectral data
   sdat <- do.call("rbind", spectra_dat)
   sdat$sampleID <- gsub(".csv", "", sdat$sampleID, fixed = TRUE)
-  sdat <- sdat[order(sdat$sampleID, sdat$ppm),]
+  sdat <- sdat[order(sdat$sampleID, sdat$ppm), ]
   weak_as_tibble(sdat)
 }
 
