@@ -23,13 +23,13 @@ bins_ss_Baldock2004
 }
 \description{
 NMR grouping bins from  Baldock et al. (2004), for solid-state NMR.
-(1) alkyl C (0-50);
-(2) methoxyl C (50-60);
-(3) O-alkyl C (60-93);
-(4) di-O-alkyl C (93-112);
-(5) aromatic C (112-140);
-(6) phenolic C (140-165);
-(7) carboxyl C (165-190)
+(1) alkyl C (0-45);
+(2) methoxyl C and N-alkyl C (45-60);
+(3) O-alkyl C (60-95);
+(4) di-O-alkyl C (95-110);
+(5) aromatic C (110-145);
+(6) phenolic C (145-165);
+(7) amide and carboxyl C (165-215)
 }
 \note{
 The NMR spectrum can be split into several bins, based on

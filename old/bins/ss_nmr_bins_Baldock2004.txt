@@ -1,8 +1,8 @@
 number,group,start,stop,description
-1,Alkyl C,0,50,Alkyl C
-2,Methoxyl C,50,60,Methoxyl C 
-3,O-alkyl C,60,93,O-alkyl C
-4,di-O-alkyl C,93,112,di-O-alkyl C
-5,Aromatic C,112,140,Aromatic C
-6,Phenolic C,140,165,Phenolic C
-7,Carboxyl C,165,190,Carboxyl C
+1,Alkyl C,0,45,Alkyl C
+2,Methoxyl C and N-alkyl C,45,60,Methoxyl C and N-alkyl C
+3,O-alkyl C,60,95,O-alkyl C
+4,di-O-alkyl C,95,110,di-O-alkyl C
+5,Aromatic C,110,145,Aromatic C
+6,Phenolic C,145,165,Phenolic C
+7,Amide and Carboxyl C,165,215,Amide and Carboxyl C
