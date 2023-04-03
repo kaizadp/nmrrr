@@ -226,7 +226,7 @@ ggplot(relabund_integration,
 
 > **A note on the data used here**   
 >
-> This example uses data from the `amp_XXYYZZ` dataset included with the `{nmrrr}` package. This is a subset of the data reported in ... , representing samples that ... . 13C solid-state NMR was performed on soil samples. The raw spectra were processed and cleaned using XYZ Software, and the spectra were batch-exported as a single .csv files. We use the SS bin set from [Clemente et al. 2012](https://doi.org/10.1071/EN11096) for compound classification.
+> This example uses data from the `amp_burnseverity` dataset included with the `{nmrrr}` package. This is a subset of the data reported in [Greiger et al. 2022]() , representing vegetation samples that were experimentally burnt in an open air burn table. Solid-state cross-polarization (CP) 13C NMR was performed on these samples. The raw spectra were processed and cleaned by scaling to mass using SIMPSON, and the spectra were batch-exported as a single .csv files. We use the SS bin set from [Clemente et al. 2012](https://doi.org/10.1071/EN11096) for compound classification.
 >
 > This dataset contains one .csv file with all the samples. This file cannot be processed with {nmrrr} in its current form, but we can import it and convert to long-form, after which it is compatible with the {nmrrr} functions.
 
@@ -241,8 +241,7 @@ This workflow makes use of {tidyverse} functions, but users may use other prefer
 ```{r example_2, eval=FALSE}
 library(tidyverse)
 
-# SS_FILE = "inst/extdata/amp_ss/spectra_wide.csv"
-SS_FILE <- system.file("extdata", "amp_ss", "spectra_wide.csv", package = "nmrrr")
+SS_FILE <- system.file("extdata", "amp_burnseverity", "spectra_wide.csv", package = "nmrrr")
 ss_data <- read.csv(SS_FILE)
 
 ## Make long form and do additional cleaning if needed.
