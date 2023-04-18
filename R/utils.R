@@ -19,3 +19,11 @@ weak_tibble <- function(..., .force_df = FALSE) {
     tibble::tibble(...)
   }
 }
+
+# Global vars
+utils::globalVariables(
+  c(
+    "ppm",
+    "intensity"
+  )
+)
