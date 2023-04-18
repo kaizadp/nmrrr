@@ -27,7 +27,7 @@
 #' p <- nmr_plot_spectra(spec, bins_Clemente2012, 5, p_aes, stagger = 0.5)
 #' p + ylim(0, 6)
 #'
-nmr_plot_spectra <- function(dat, binset, label_position, mapping, stagger) {
+nmr_plot_spectra <- function(dat, binset, label_position = 100, mapping = aes(x = ppm, y = intensity), stagger = 10) {
   if (!class(mapping) == "uneval") {
     stop("'mapping' must be a ggplot2::aes() output")
   }

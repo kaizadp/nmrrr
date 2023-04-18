@@ -4,7 +4,13 @@
 \alias{nmr_plot_spectra}
 \title{Plot NMR spectra}
 \usage{
-nmr_plot_spectra(dat, binset, label_position, mapping, stagger)
+nmr_plot_spectra(
+  dat,
+  binset,
+  label_position = 100,
+  mapping = aes(x = ppm, y = intensity),
+  stagger = 10
+)
 }
 \arguments{
 \item{dat}{Processed spectral data, output from (a) \code{\link{nmr_import_spectra}}
