@@ -1,6 +1,6 @@
 Package: nmrrr
 Type: Package
-Title: Process and Analyze NMR Data
+Title: Binning and Visualizing NMR Spectra in Environmental Samples 
 Version: 1.0.0
 Authors@R: 
     c(person("Kaizad", "Patel",
@@ -19,11 +19,13 @@ Authors@R:
       email = "morgan.barnes@pnnl.gov", 
       role = c("ctb"),
       comment = c(ORCID = "https://orcid.org/0000-0001-8722-6552")))
-Description: Batch processing and analysis of nuclear magnetic resonance
-    (NMR) data. The nmrrr package is intended for post-processing of the NMR data, 
+Description: A reproducible workflow for binning and visualizing NMR (nuclear magnetic resonance) spectra 
+    from environmental samples. The nmrrr package is intended for post-processing of NMR data, 
     including importing, merging and, cleaning data from multiple files, 
     visualizing NMR spectra, performing binning/integrations for compound classes, 
     and relative abundance calculations. 
+    This package can be easily inserted into existing analysis workflows by users 
+    to help with analyzing and interpreting NMR data. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 RoxygenNote: 7.2.3
