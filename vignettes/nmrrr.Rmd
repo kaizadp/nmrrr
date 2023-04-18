@@ -307,15 +307,3 @@ bins_Clemente2012
 
 
 ---
-
-<details>
-<summary>Session Info - click to open</summary>
-
-Date run: `r Sys.Date()`
-
-
-```{r, echo=FALSE}
-sessionInfo()
-```
-
-</details>
