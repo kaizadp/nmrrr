@@ -26,6 +26,8 @@ Description: A reproducible workflow for binning and visualizing NMR (nuclear ma
     and relative abundance calculations. 
     This package can be easily inserted into existing analysis workflows by users 
     to help with analyzing and interpreting NMR data. 
+URL: https://github.com/kaizadp/nmrrr
+BugReports: https://github.com/kaizadp/nmrrr/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 RoxygenNote: 7.2.3
