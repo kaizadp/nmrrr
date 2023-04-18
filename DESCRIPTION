@@ -1,7 +1,7 @@
 Package: nmrrr
 Type: Package
 Title: Process and Analyze NMR Data
-Version: 0.1.0
+Version: 1.0.0
 Authors@R: 
     c(person("Kaizad", "Patel",
       email = "kaizad.patel@pnnl.gov", 
@@ -20,7 +20,10 @@ Authors@R:
       role = c("ctb"),
       comment = c(ORCID = "https://orcid.org/0000-0001-8722-6552")))
 Description: Batch processing and analysis of nuclear magnetic resonance
-    (NMR) data.
+    (NMR) data. The nmrrr package is intended for post-processing of the NMR data, 
+    including importing, merging and, cleaning data from multiple files, 
+    visualizing NMR spectra, performing binning/integrations for compound classes, 
+    and relative abundance calculations. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 RoxygenNote: 7.2.3
