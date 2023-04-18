@@ -1,6 +1,0 @@
-﻿number,group,start,stop,description
-1,Alkyl,0,50,Alkyl
-2,O-alkyl,50,95,O-alkyl
-3,Anomeric,95,110,Anomeric
-4,Aromatic,110,160,Aromatic
-5,Carboxy_Carbonyl,160,200,Carboxy_Carbonyl

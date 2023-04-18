@@ -1,9 +1,0 @@
-﻿number,group,start,stop,EMSL_region_breaks
-1,Alkyl 1,0,25,0
-2,Alkyl 2,25,45,25
-3,Methoxyl Nalkyl,45,60,45
-4,Oalkyl,60,90,60
-5,DiOAlkyl,90,110,90
-6,Aromatic,110,140,110
-7,Phenolic,140,160,140
-8,Amide Carboxyl,160,220,160

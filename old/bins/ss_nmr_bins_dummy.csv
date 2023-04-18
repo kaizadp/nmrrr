@@ -1,5 +1,0 @@
-﻿number,group,start,stop,EMSL_region_breaks
-1,grpA,0,1000,0
-2,grpB,1000,2000,25
-3,grpC,2000,3000,45
-4,grpD,3000,4000,60
