@@ -8,3 +8,4 @@ old/
 ^images/
 ^doc$
 ^Meta$
+^larger_datasets/
