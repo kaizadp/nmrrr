@@ -3,7 +3,7 @@ test_that("nmr_plot_spectra works", {
 
   # Errors on bad input
   expect_error(nmr_plot_spectra(cars, cars, mapping = 1),
-    regexp = "must be a ggplot2::aes"
+    regexp = "must specify a uniquely valid column"
   )
 
   sdir <- "compdata/spectra_mnova"
