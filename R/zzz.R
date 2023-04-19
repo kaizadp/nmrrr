@@ -7,8 +7,9 @@ random_tip <- function() {
   # Idea from https://github.com/bpbond/cosore/blob/master/R/zzz.R
   # and https://github.com/tidyverse/ggplot2/blob/master/R/zzz.r
   tips <- c(
-    "Willkommen, Bienvenue, Welcome!"
+    "Willkommen, Bienvenue, Welcome!",
+    "Use `citation('nmrrr') to cite this package"
   )
 
-  sample(tips, 1)
+  sample(tips, 2)
 }
