@@ -2,7 +2,7 @@
 #' Plot NMR spectra
 #'
 #' @description Plot NMR spectra, with line-brackets denoting binned regions.
-#' Uses spectra data processed in MestreNovah or TopSpin.
+#' Uses spectra data processed in MestreNova or TopSpin.
 #' @param dat Processed spectral data, output from (a) \code{\link{nmr_import_spectra}}
 #' and \code{\link{nmr_assign_bins}}; or (b) \code{\link{nmr_import_peaks}}
 #' @param binset A binset; e.g. \code{\link{bins_Clemente2012}},

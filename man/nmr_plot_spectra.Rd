@@ -32,7 +32,7 @@ A \code{\link[ggplot2]{ggplot}} object.
 }
 \description{
 Plot NMR spectra, with line-brackets denoting binned regions.
-Uses spectra data processed in MestreNovah or TopSpin.
+Uses spectra data processed in MestreNova or TopSpin.
 }
 \examples{
 sdir <- system.file("extdata", "kfp_hysteresis", "spectra_mnova", package = "nmrrr")
