@@ -5,7 +5,7 @@
 #' (1) aliphatic polymethylene and methyl groups (0.6–1.3 ppm, “aliphatic1”);
 #' (2) aliphatic methyl and methylene near O and N (1.3–2.9 ppm, “aliphatic2”);
 #' (3) O-alkyl, mainly from carbohydrates and lignin (2.9–4.1 ppm);
-#' (4) α-proton of peptides (4.1–4.8 ppm);
+#' (4) alpha-proton of peptides (4.1–4.8 ppm);
 #' (5) aromatic and phenolic (6.2–7.8 ppm); and
 #' (6) amide, from proteins (7.8–8.4 ppm).
 #'
@@ -67,7 +67,7 @@
 #' (1) aliphatic polymethylene and methyl groups (0.6–1.3 ppm);
 #' (2) N- and O-substituted aliphatic (1.3–2.9 ppm);
 #' (3) O-alkyl (2.9–4.1 ppm);
-#' (4) α-proton of peptides (4.1–4.8 ppm);
+#' (4) alpha-proton of peptides (4.1–4.8 ppm);
 #' (5) anomeric proton of carbohydrates (4.8–5.2 ppm);
 #' (6) aromatic and phenolic (6.2–7.8 ppm);
 #' (7) amide (7.8–8.4 ppm).

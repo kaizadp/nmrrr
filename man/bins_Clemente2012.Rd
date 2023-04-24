@@ -28,7 +28,7 @@ NMR grouping bins from Clemente et al. (2012), using DMSO-D6 as solvent.
 (1) aliphatic polymethylene and methyl groups (0.6–1.3 ppm, “aliphatic1”);
 (2) aliphatic methyl and methylene near O and N (1.3–2.9 ppm, “aliphatic2”);
 (3) O-alkyl, mainly from carbohydrates and lignin (2.9–4.1 ppm);
-(4) α-proton of peptides (4.1–4.8 ppm);
+(4) alpha-proton of peptides (4.1–4.8 ppm);
 (5) aromatic and phenolic (6.2–7.8 ppm); and
 (6) amide, from proteins (7.8–8.4 ppm).
 }
