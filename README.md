@@ -1,7 +1,7 @@
 # nmrrr <a href='https://github.com/kaizadp/nmrrr'><img src='images/nmr_hex.png' align="right" height="300" /></a>
 
 <!-- badges: start -->
-  [![R-CMD-check](https://github.com/kaizadp/nmrrr/workflows/R-CMD-check/badge.svg)](https://github.com/bpbond/nmrrr/actions)
+  [![R-CMD-check](https://github.com/kaizadp/nmrrr/workflows/R-CMD-check/badge.svg)](https://github.com/kaizadp/nmrrr/actions)
 [![Codecov test coverage](https://codecov.io/gh/kaizadp/nmrrr/branch/master/graph/badge.svg)](https://app.codecov.io/gh/kaizadp/nmrrr?branch=master)
 <!-- badges: end -->
 
