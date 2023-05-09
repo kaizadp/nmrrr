@@ -18,14 +18,9 @@ Authors@R:
     person("Morgan", "Barnes",
       email = "morgan.barnes@pnnl.gov", 
       role = c("ctb"),
-      comment = c(ORCID = "https://orcid.org/0000-0001-8722-6552")))
-Description: A reproducible workflow for binning and visualizing NMR (nuclear magnetic resonance) spectra 
-    from environmental samples. The nmrrr package is intended for post-processing of NMR data, 
-    including importing, merging and, cleaning data from multiple files, 
-    visualizing NMR spectra, performing binning/integrations for compound classes, 
-    and relative abundance calculations. 
-    This package can be easily inserted into existing analysis workflows by users 
-    to help with analyzing and interpreting NMR data. 
+      comment = c(ORCID = "0000-0001-8722-6552")))
+Description: A reproducible workflow for binning and visualizing NMR (nuclear magnetic resonance) spectra from environmental samples. The 'nmrrr' package is intended for post-processing of NMR data, including importing, merging and, cleaning data from multiple files, visualizing NMR spectra, performing binning/integrations for compound classes, and relative abundance calculations. 
+    This package can be easily inserted into existing analysis workflows by users to help with analyzing and interpreting NMR data. 
 URL: https://github.com/kaizadp/nmrrr
 BugReports: https://github.com/kaizadp/nmrrr/issues
 License: MIT + file LICENSE
