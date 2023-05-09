@@ -203,7 +203,7 @@
 #' Methods for the Analysis of Organic Matter Composition from Soil Density and
 #' Particle Fractions.” Environmental Chemistry
 #' \doi{10.1071/EN11096}
-#' #' @seealso \code{\link{bins_Clemente2012}} \code{\link{bins_ss_Preston2009}}
+#' @seealso \code{\link{bins_Clemente2012}} \code{\link{bins_ss_Preston2009}}
 #' \code{\link{bins_Mitchell2018}}
 "bins_ss_Clemente2012"
 

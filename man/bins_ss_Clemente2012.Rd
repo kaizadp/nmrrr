@@ -19,8 +19,6 @@ JS Clemente et al. 2012. “Comparison of Nuclear Magnetic Resonance
 Methods for the Analysis of Organic Matter Composition from Soil Density and
 Particle Fractions.” Environmental Chemistry
 \doi{10.1071/EN11096}
-#' @seealso \code{\link{bins_Clemente2012}} \code{\link{bins_ss_Preston2009}}
-\code{\link{bins_Mitchell2018}}
 }
 \usage{
 bins_ss_Clemente2012
@@ -38,5 +36,9 @@ The NMR spectrum can be split into several bins, based on
 chemical shift (ppm). Binsets are specific to nuclei and solvents and
 by definition are open on the left and closed on the right;
 for example, a bin of (0,1) includes 1 but \emph{not} 0.
+}
+\seealso{
+\code{\link{bins_Clemente2012}} \code{\link{bins_ss_Preston2009}}
+\code{\link{bins_Mitchell2018}}
 }
 \keyword{datasets}
