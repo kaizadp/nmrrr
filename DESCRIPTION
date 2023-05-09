@@ -24,6 +24,7 @@ Description: A reproducible workflow for binning and visualizing NMR (nuclear ma
 URL: https://github.com/kaizadp/nmrrr
 BugReports: https://github.com/kaizadp/nmrrr/issues
 License: MIT + file LICENSE
+Copyright: Battelle Memorial Institute
 Encoding: UTF-8
 RoxygenNote: 7.2.3
 Imports: 
