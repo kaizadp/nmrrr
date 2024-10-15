@@ -40,6 +40,6 @@ Suggests:
     tibble
 Config/testthat/edition: 3
 Depends: 
-    R (>= 3.50)
+    R (>= 3.5.0)
 LazyData: true
 VignetteBuilder: knitr
